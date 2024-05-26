@@ -8,10 +8,10 @@
    
   </tr>
   <tr>
-    <td><img src="![image](https://github.com/Tea-Bliss/BE_Tea_Bliss/assets/127959482/9f22b07a-c273-4f4b-b74a-8cd72c12ab55)
-" alt="서제호" width="100" height="100"></td>
-    <td><img src="![image](https://github.com/Tea-Bliss/BE_Tea_Bliss/assets/127959482/462eb147-d4fe-42af-8368-f0ab9c9ef09b)
-" alt="문경민" width="100" height="100"></td>
+    <td><img src=![image](https://github.com/Tea-Bliss/BE_Tea_Bliss/assets/127959482/22abacc6-2d29-4be9-a259-c1721a8d68b8)
+ alt="서제호" width="100" height="100"></td>
+    <td><img src=![image](https://github.com/Tea-Bliss/BE_Tea_Bliss/assets/127959482/8f4f33ae-1e00-4b22-b298-1ac9f147a285)
+ alt="문경민" width="100" height="100"></td>
    
   </tr>
   <tr>
