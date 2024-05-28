@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper>
+<mapper namespace="store.teabliss.member.mapper.MemberMapper">
+
+    <insert id="createMember" parameterType="Member" useGeneratedKeys="true" keyColumn="memId">
+        INSERT INTO MEMBER (email, password, name, nickname, profile)
+        VALUES(#{email}, #{password}, #{name}, #{nickname}, #{profile})
+    </insert>
 
 </mapper>

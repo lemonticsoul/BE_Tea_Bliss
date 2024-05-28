@@ -1,9 +1,15 @@
 package store.teabliss.member.entity;
 
 
+import lombok.Builder;
+import lombok.Getter;
+
+@Builder
+@Getter
 public class Member {
 
-    private int id;
+
+    private int memId;
 
     private String email;
 
