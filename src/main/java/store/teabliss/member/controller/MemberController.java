@@ -21,13 +21,13 @@ public class MemberController {
     }
 
     @PostMapping("/sign-up")
-    public ResponseEntity<String> signUp(@RequestBody MemberSignUpDto memberSignUpDto) {
+    public ResponseEntity<Integer> signUp(@RequestBody MemberSignUpDto memberSignUpDto) {
 
         log.info("memberSignUpDto : {}", memberSignUpDto);
 
-        memberService.createMember(memberSignUpDto.toEntity());
+        int memId = memberService.createMember(memberSignUpDto.toEntity());
 
-        return ResponseEntity.ok("");
+        return ResponseEntity.ok(memId);
     }
 
     @GetMapping("/sign-in")
