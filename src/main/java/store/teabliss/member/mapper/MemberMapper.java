@@ -11,10 +11,11 @@ public interface MemberMapper {
 
     int createMember(Member member);
 
+    Optional<Member> findByEmail(Member member);
+
     // List<Member> findByMembers();
 
     // Member save(Member member);
 
-    // Optional<Member> findByEmail(String email);
 
 }
