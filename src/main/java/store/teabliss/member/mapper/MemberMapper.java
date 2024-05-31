@@ -11,7 +11,9 @@ public interface MemberMapper {
 
     int createMember(Member member);
 
-    Optional<Member> findByEmail(Member member);
+    Optional<Member> findByEmail(String member);
+
+    Optional<Member> findByRefreshToken(String refreshToken);
 
     // List<Member> findByMembers();
 

@@ -10,7 +10,7 @@ import store.teabliss.member.service.MemberService;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/member")
+@RequestMapping("/api/member")
 public class MemberController {
 
     private final MemberService memberService;
