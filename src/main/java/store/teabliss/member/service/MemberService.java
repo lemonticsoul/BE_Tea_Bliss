@@ -1,7 +1,9 @@
 package store.teabliss.member.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import store.teabliss.member.dto.MemberSignUpDto;
 import store.teabliss.member.entity.Member;
 import store.teabliss.member.exception.DuplicationMemberEmailException;
 import store.teabliss.member.mapper.MemberMapper;
@@ -11,12 +13,16 @@ import store.teabliss.member.mapper.MemberMapper;
 public class MemberService {
 
     private final MemberMapper memberMapper;
+    private final PasswordEncoder encoder;
 
-    public int createMember(Member member) {
+    public int createMember(MemberSignUpDto memberSignUpDto) {
 
-        if(memberMapper.findByEmail(member.getEmail()).isEmpty()) {
-            throw new DuplicationMemberEmailException(member.getEmail());
+        if(memberMapper.existsByEmail(memberSignUpDto.getEmail())) {
+            throw new DuplicationMemberEmailException(memberSignUpDto.getEmail());
         }
+
+        Member member = memberSignUpDto.toEntity();
+        member.passwordEncode(encoder);
 
         return memberMapper.createMember(member);
     }

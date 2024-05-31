@@ -13,7 +13,27 @@
             *
         FROM MEMBER
         WHERE 1=1
-        AND email = #{email}
+        AND email = #{value}
+    </select>
+
+    <select id="existsByEmail" parameterType="String">
+        SELECT EXISTS
+        (
+        SELECT 1
+        FROM MEMBER
+        WHERE 1=1
+        AND email = #{value}
+        )
+    </select>
+
+    <select id="existsByNickname" parameterType="String">
+        SELECT EXISTS
+        (
+        SELECT 1
+        FROM MEMBER
+        WHERE 1=1
+        AND nickname = #{value}
+        )
     </select>
 
     <select id="findByRefreshToken" parameterType="String">
@@ -21,7 +41,7 @@
         *
         FROM MEMBER
         WHERE 1=1
-        AND refreshToken = #{refreshToken}
+        AND refreshToken = #{value}
     </select>
 
 </mapper>

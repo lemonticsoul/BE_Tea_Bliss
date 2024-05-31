@@ -11,7 +11,11 @@ public interface MemberMapper {
 
     int createMember(Member member);
 
-    Optional<Member> findByEmail(String member);
+    Optional<Member> findByEmail(String email);
+
+    boolean existsByEmail(String email);
+
+    boolean existsByNickname(String nickname);
 
     Optional<Member> findByRefreshToken(String refreshToken);
 

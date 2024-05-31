@@ -1,6 +1,7 @@
 package store.teabliss.member.entity;
 
 import lombok.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Builder
 @Data
@@ -24,6 +25,10 @@ public class Member {
     private MemberRole role;
 
     private String refreshToken;
+
+    public void passwordEncode(PasswordEncoder encoder) {
+        this.password = encoder.encode(this.password);
+    }
 
     public void updateRefreshToken(String updateRefreshToken) {
         this.refreshToken = updateRefreshToken;

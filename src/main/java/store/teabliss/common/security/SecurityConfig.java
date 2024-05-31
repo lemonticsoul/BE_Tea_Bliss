@@ -54,8 +54,7 @@ public class SecurityConfig {
                         HeadersConfigurer.FrameOptionsConfig::disable).disable())
                 .sessionManagement(c -> c.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests((request) -> {
-                        request.requestMatchers(new AntPathRequestMatcher("/api/v1/**","/api/login/**")).permitAll();
-                        request.requestMatchers(PathRequest.toH2Console()).permitAll();
+                        request.requestMatchers(new AntPathRequestMatcher("/api/**")).permitAll();
                     }
                 );
         http
@@ -70,7 +69,6 @@ public class SecurityConfig {
     public static PasswordEncoder passwordEncoder(){
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
-
 
     @Bean
     public SignInSuccessHandler loginSuccessJWTProvideHandler(){

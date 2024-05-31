@@ -3,6 +3,7 @@ package store.teabliss.member.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import store.teabliss.member.dto.MemberSignUpDto;
 import store.teabliss.member.service.MemberService;
@@ -23,7 +24,7 @@ public class MemberController {
     @PostMapping("/sign-up")
     public ResponseEntity<Integer> signUp(@RequestBody MemberSignUpDto memberSignUpDto) {
 
-        int memId = memberService.createMember(memberSignUpDto.toEntity());
+        int memId = memberService.createMember(memberSignUpDto);
 
         return ResponseEntity.ok(memId);
     }
