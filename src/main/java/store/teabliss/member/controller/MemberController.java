@@ -23,8 +23,6 @@ public class MemberController {
     @PostMapping("/sign-up")
     public ResponseEntity<Integer> signUp(@RequestBody MemberSignUpDto memberSignUpDto) {
 
-        log.info("memberSignUpDto : {}", memberSignUpDto);
-
         int memId = memberService.createMember(memberSignUpDto.toEntity());
 
         return ResponseEntity.ok(memId);
