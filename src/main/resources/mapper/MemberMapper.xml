@@ -8,4 +8,12 @@
         VALUES(#{email}, #{password}, #{name}, #{nickname}, #{profile})
     </insert>
 
+    <select id="findByEmail" parameterType="Member">
+        SELECT
+            *
+        FROM MEMBER
+        WHERE 1=1
+        AND email = #{email}
+    </select>
+
 </mapper>
