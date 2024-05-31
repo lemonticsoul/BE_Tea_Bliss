@@ -16,4 +16,12 @@
         AND email = #{email}
     </select>
 
+    <select id="findByRefreshToken" parameterType="String">
+        SELECT
+        *
+        FROM MEMBER
+        WHERE 1=1
+        AND refreshToken = #{refreshToken}
+    </select>
+
 </mapper>
