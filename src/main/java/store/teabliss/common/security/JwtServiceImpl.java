@@ -3,6 +3,9 @@ package store.teabliss.common.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nimbusds.jose.Algorithm;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AccessLevel;
@@ -12,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import store.teabliss.member.mapper.MemberMapper;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -47,7 +51,7 @@ public class JwtServiceImpl implements JwtService {
     private static final String USERNAME_CLAIM = "email";
     private static final String BEARER = "Bearer";
 
-    private final UserRepository usersRepository;
+    private final MemberMapper memberMapper;
     private final ObjectMapper objectMapper;
 
     @Override
@@ -71,18 +75,18 @@ public class JwtServiceImpl implements JwtService {
 
     @Override
     public void updateRefreshToken(String email, String refreshToken) {
-        usersRepository.findByEmail(email)
+        memberMapper.findByEmail(email)
                 .ifPresentOrElse(
-                        users -> users.updateRefreshToken(refreshToken),
+                        member -> member.updateRefreshToken(refreshToken),
                         () -> { throw new RuntimeException("회원 조회 실패"); }
                 );
     }
 
     @Override
     public void destroyRefreshToken(String email) {
-        usersRepository.findByEmail(email)
+        memberMapper.findByEmail(email)
                 .ifPresentOrElse(
-                        users -> users.destroyRefreshToken(),
+                        member -> member.destroyRefreshToken(),
                         () -> { throw new RuntimeException("회원 조회 실패"); }
                 );
     }

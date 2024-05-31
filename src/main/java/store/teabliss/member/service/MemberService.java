@@ -14,7 +14,7 @@ public class MemberService {
 
     public int createMember(Member member) {
 
-        if(memberMapper.findByEmail(member).isEmpty()) {
+        if(memberMapper.findByEmail(member.getEmail()).isEmpty()) {
             throw new DuplicationMemberEmailException(member.getEmail());
         }
 

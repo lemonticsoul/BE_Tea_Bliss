@@ -1,15 +1,15 @@
 package store.teabliss.member.entity;
 
-
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 @Builder
-@Getter
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Member {
 
 
-    private int memId;
+    private Long memId;
 
     private String email;
 
@@ -20,5 +20,17 @@ public class Member {
     private String nickname;
 
     private String profile;
+
+    private MemberRole role;
+
+    private String refreshToken;
+
+    public void updateRefreshToken(String updateRefreshToken) {
+        this.refreshToken = updateRefreshToken;
+    }
+
+    public void destroyRefreshToken() {
+        this.refreshToken = null;
+    }
 
 }

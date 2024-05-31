@@ -1,7 +1,6 @@
 package store.teabliss.common.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nimbusds.oauth2.sdk.auth.JWTAuthentication;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -21,6 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import store.teabliss.member.mapper.MemberMapper;
 
 @Configuration
 @EnableWebSecurity
@@ -30,6 +30,10 @@ public class SecurityConfig {
 
     // private final CustomOAuth2UserService oAuth2UserService;
     // private final OAuth2SuccessHandler oAuth2SuccessHandler;
+    private final MemberMapper memberMapper;
+    private final JwtService jwtService;
+    private final UserDetailsServiceImpl userDetailService;
+    private final ObjectMapper objectMapper;
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() { // security를 적용하지 않을 리소스
@@ -55,24 +59,13 @@ public class SecurityConfig {
                     }
                 );
         http
-                .addFilterAfter(jsonUsernamePasswordAuthenticationFilter(),LogoutFilter.class)
-                .addFilterBefore(jwtAuthenticationProcessingFilter(), JsonUsernamePasswordAuthenticationFilter.class);
+                .addFilterAfter(usernamePasswordAuthenticationFilter(),LogoutFilter.class)
+                .addFilterBefore(jwtAuthenticationProcessingFilter(), UsernamePasswordAuthenticationFilter.class);
 
 
         return http.build();
     }
 
-
-
-    @Bean
-    public DaoAuthenticationProvider daoAuthenticationProvider() throws Exception{
-        DaoAuthenticationProvider daoAuthenticationProvider=new DaoAuthenticationProvider();
-
-        daoAuthenticationProvider.setUserDetailsService(userDetailService);
-        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
-
-        return daoAuthenticationProvider;
-    }
     @Bean
     public static PasswordEncoder passwordEncoder(){
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
@@ -80,34 +73,37 @@ public class SecurityConfig {
 
 
     @Bean
-    public LoginSuccessJWTProvideHandler loginSuccessJWTProvideHandler(){
-        return new LoginSuccessJWTProvideHandler();
+    public SignInSuccessHandler loginSuccessJWTProvideHandler(){
+        return new SignInSuccessHandler(memberMapper, jwtService);
     }
 
     @Bean
-    public LoginFailureHandler loginFailureHandler(){
-        return new LoginFailureHandler();
+    public SignInFailureHandler loginFailureHandler(){
+        return new SignInFailureHandler();
     }
 
     @Bean
     public AuthenticationManager authenticationManager() throws Exception{
-        DaoAuthenticationProvider provider=daoAuthenticationProvider();
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+
+        provider.setUserDetailsService(userDetailService);
         provider.setPasswordEncoder(passwordEncoder());
+
         return new ProviderManager(provider);
     }
 
-    @Bean JsonUsernamePasswordAuthenticationFilter jsonUsernamePasswordAuthenticationFilter() throws Exception{
-        JsonUsernamePasswordAuthenticationFilter jsonUsernamePasswordAuthenticationFilter=new JsonUsernamePasswordAuthenticationFilter(objectMapper);
-        jsonUsernamePasswordAuthenticationFilter.setAuthenticationManager(authenticationManager());
-        jsonUsernamePasswordAuthenticationFilter.setAuthenticationSuccessHandler(loginSuccessJWTProvideHandler());
-        jsonUsernamePasswordAuthenticationFilter.setAuthenticationFailureHandler(loginFailureHandler());
-        return jsonUsernamePasswordAuthenticationFilter;
+    @Bean
+    UsernamePasswordAuthenticationFilter usernamePasswordAuthenticationFilter() throws Exception{
+        UsernamePasswordAuthenticationFilter usernamePasswordAuthenticationFilter = new UsernamePasswordAuthenticationFilter(objectMapper);
+        usernamePasswordAuthenticationFilter.setAuthenticationManager(authenticationManager());
+        usernamePasswordAuthenticationFilter.setAuthenticationSuccessHandler(loginSuccessJWTProvideHandler());
+        usernamePasswordAuthenticationFilter.setAuthenticationFailureHandler(loginFailureHandler());
+        return usernamePasswordAuthenticationFilter;
     }
 
-    public JWTAuthenticationProcessingFilter jwtAuthenticationProcessingFilter(){
-        JwtAuthenticationProcessingFilter jsonUsernamePasswordLoginFilter = new JwtAuthenticationProcessingFilter(jwtService, usersRepository);
-
-        return jsonUsernamePasswordLoginFilter;
+    @Bean
+    public JwtAuthorizationFilter jwtAuthenticationProcessingFilter(){
+        return new JwtAuthorizationFilter(memberMapper, jwtService);
     }
 
 }

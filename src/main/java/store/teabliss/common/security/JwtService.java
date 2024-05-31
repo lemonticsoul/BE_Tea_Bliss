@@ -17,15 +17,17 @@ public interface JwtService {
 
     void sendAccessAndRefreshToken(HttpServletResponse response,String accessToken,String refreshToken);
 
+    void sendAccessToken(HttpServletResponse response, String accessToken);
+
     Optional<String> extractAccessToken(HttpServletRequest request);
 
-    Optional<String> extractRefrshToken(HttpServletRequest request);
+    Optional<String> extractRefreshToken(HttpServletRequest request);
 
     Optional<String> extractEmail(String accessToken);
 
     void setAccessTokenHeader(HttpServletResponse response,String accessToken);
 
-    void setRefreshTokenHandler(HttpServletResponse response,String refreshToken);
+    void setRefreshTokenHeader(HttpServletResponse response,String refreshToken);
 
     boolean isTokenValid(String token);
 
