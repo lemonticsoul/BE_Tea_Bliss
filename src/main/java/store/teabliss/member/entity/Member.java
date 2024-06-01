@@ -16,11 +16,7 @@ public class Member {
 
     private String password;
 
-    private String name;
-
     private String nickname;
-
-    private String profile;
 
     private MemberRole role;
 
