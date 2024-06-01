@@ -21,6 +21,6 @@ jobs:
         key: ${{ secrets.WAS_SSH_PRIVATE_KEY }}
         script: |
           cd /home/ec2-user/temp
-          git pull https://github.com/Tea-Bliss/BE_Tea_Bliss
+          git pull https://github.com/Tea-Bliss/BE_Tea_Bliss.git
           
            
