@@ -1,4 +1,4 @@
-package store.teabliss.common.security;
+package store.teabliss.common.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import store.teabliss.common.security.*;
 import store.teabliss.member.mapper.MemberMapper;
 
 @Configuration
@@ -34,6 +35,11 @@ public class SecurityConfig {
     private final JwtService jwtService;
     private final UserDetailsServiceImpl userDetailService;
     private final ObjectMapper objectMapper;
+
+    // Swagger URL
+    private final String[] permitUrl = new String[]{"/swagger", "/swagger-ui.html", "/swagger-ui/**"
+            , "/api-docs", "/api-docs/**", "/v3/api-docs/**", "/uploadImage/**"
+    };
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() { // security를 적용하지 않을 리소스
@@ -55,6 +61,7 @@ public class SecurityConfig {
                 .sessionManagement(c -> c.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests((request) -> {
                         request.requestMatchers(new AntPathRequestMatcher("/api/**")).permitAll();
+                        request.requestMatchers(permitUrl).permitAll();
                     }
                 );
         http
@@ -71,12 +78,12 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SignInSuccessHandler loginSuccessJWTProvideHandler(){
+    public SignInSuccessHandler signInSuccessHandler(){
         return new SignInSuccessHandler(memberMapper, jwtService);
     }
 
     @Bean
-    public SignInFailureHandler loginFailureHandler(){
+    public SignInFailureHandler signInFailureHandler(){
         return new SignInFailureHandler();
     }
 
@@ -94,8 +101,8 @@ public class SecurityConfig {
     UsernamePasswordAuthenticationFilter usernamePasswordAuthenticationFilter() throws Exception{
         UsernamePasswordAuthenticationFilter usernamePasswordAuthenticationFilter = new UsernamePasswordAuthenticationFilter(objectMapper);
         usernamePasswordAuthenticationFilter.setAuthenticationManager(authenticationManager());
-        usernamePasswordAuthenticationFilter.setAuthenticationSuccessHandler(loginSuccessJWTProvideHandler());
-        usernamePasswordAuthenticationFilter.setAuthenticationFailureHandler(loginFailureHandler());
+        usernamePasswordAuthenticationFilter.setAuthenticationSuccessHandler(signInSuccessHandler());
+        usernamePasswordAuthenticationFilter.setAuthenticationFailureHandler(signInFailureHandler());
         return usernamePasswordAuthenticationFilter;
     }
 

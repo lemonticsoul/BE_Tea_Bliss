@@ -1,5 +1,6 @@
 package store.teabliss.member.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,7 @@ public class MemberController {
     }
 
     @PostMapping("/sign-up")
+    @Operation(summary = "회원 가입", description = "회원 등록 API")
     public ResponseEntity<Integer> signUp(@RequestBody MemberSignUpDto memberSignUpDto) {
 
         int memId = memberService.createMember(memberSignUpDto);
@@ -30,6 +32,7 @@ public class MemberController {
     }
 
     @GetMapping("/sign-in")
+    @Operation(summary = "로그인", description = "회원 로그인 API")
     public ResponseEntity<String> signIn() {
         return ResponseEntity.ok("");
     }
