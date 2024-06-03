@@ -11,6 +11,10 @@ spring:
 
 mybatis:
   type-aliases-package: store.teabliss.**.entity
+  type-handlers-package: store.taebliss.**.entity.typehandler
   mapper-locations: classpath:mapper/*.xml
   configuration:
     mapUnderscoreToCamelCase: true
+
+jwt:
+  secret: teabliss_backend

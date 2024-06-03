@@ -4,16 +4,44 @@
 <mapper namespace="store.teabliss.member.mapper.MemberMapper">
 
     <insert id="createMember" parameterType="Member" useGeneratedKeys="true" keyColumn="memId">
-        INSERT INTO MEMBER (email, password, name, nickname, profile)
-        VALUES(#{email}, #{password}, #{name}, #{nickname}, #{profile})
+        INSERT INTO MEMBER (email, password,nickname)
+        VALUES(#{email}, #{password}, #{nickname},)
     </insert>
 
-    <select id="findByEmail" parameterType="Member">
+    <select id="findByEmail" parameterType="String">
         SELECT
             *
         FROM MEMBER
         WHERE 1=1
-        AND email = #{email}
+        AND email = #{value}
+    </select>
+
+    <select id="existsByEmail" parameterType="String">
+        SELECT EXISTS
+        (
+        SELECT 1
+        FROM MEMBER
+        WHERE 1=1
+        AND email = #{value}
+        )
+    </select>
+
+    <select id="existsByNickname" parameterType="String">
+        SELECT EXISTS
+        (
+        SELECT 1
+        FROM MEMBER
+        WHERE 1=1
+        AND nickname = #{value}
+        )
+    </select>
+
+    <select id="findByRefreshToken" parameterType="String">
+        SELECT
+        *
+        FROM MEMBER
+        WHERE 1=1
+        AND refreshToken = #{value}
     </select>
 
 </mapper>

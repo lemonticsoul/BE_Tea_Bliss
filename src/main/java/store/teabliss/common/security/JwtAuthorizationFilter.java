@@ -1,24 +1,33 @@
 package store.teabliss.common.security;
 
 
+import com.nimbusds.jose.proc.SecurityContext;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.authority.GrantedAuthoritiesContainer;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMapper;
 import org.springframework.security.core.authority.mapping.NullAuthoritiesMapper;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
+import store.teabliss.member.entity.Member;
+import store.teabliss.member.entity.MemberDetails;
+import store.teabliss.member.mapper.MemberMapper;
+
+import java.io.IOException;
 
 @RequiredArgsConstructor
-//refresh토큰을 가지고 authtoken 재발급
-public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
+public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
+    private final MemberMapper memberMapper;
     private final JwtService jwtService;
-    private final UsersRepository usersRepository;
 
     private GrantedAuthoritiesMapper authoritiesMapper = new NullAuthoritiesMapper();
 
-    private static final String NO_CHECK_URL = "/login";
+    private static final String NO_CHECK_URL = "/api/member/sign-up";
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -43,27 +52,30 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
     private void checkAccessTokenAndAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         jwtService.extractAccessToken(request)
                 .filter(jwtService::isTokenValid)
-                .ifPresent(accessToken -> jwtService.extractEmail(accessToken)
-                        .ifPresent(email -> usersRepository.findByEmail(email)
-                                .ifPresent(users -> saveAuthentication(users))
+                    .ifPresent(accessToken -> jwtService.extractEmail(accessToken)
+                        .ifPresent(email -> memberMapper.findByEmail(email)
+                                .ifPresent(this::saveAuthentication)
                         )
                 );
 
         filterChain.doFilter(request, response);
     }
 
-    private void saveAuthentication(Users users) {
-        UserDetailsImpl userDetails = new UserDetailsImpl(users);
+    private void saveAuthentication(Member member) {
+        MemberDetails memberDetails = MemberDetails.builder()
+                .member(member)
+                .build();
 
-        Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, authoritiesMapper.mapAuthorities(userDetails.getAuthorities()));
+        Authentication authentication = new UsernamePasswordAuthenticationToken(memberDetails, null, authoritiesMapper.mapAuthorities(memberDetails.getAuthorities()));
 
-        SecurityContext context = SecurityContextHolder.createEmptyContext();
-        context.setAuthentication(authentication);
-        SecurityContextHolder.setContext(context);
+        // SecurityContext context = SecurityContextHolder.createEmptyContext();
+        // context.setAuthentication(authentication);
+        // SecurityContextHolder.setContext(context);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
     private void checkRefreshTokenAndReIssueAccessToken(HttpServletResponse response, String refreshToken) {
-        usersRepository.findByRefreshToken(refreshToken).ifPresent(
+        memberMapper.findByRefreshToken(refreshToken).ifPresent(
                 users -> jwtService.sendAccessToken(response, jwtService.createAccessToken(users.getEmail()))
         );
     }

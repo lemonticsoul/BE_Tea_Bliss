@@ -1,19 +1,22 @@
 package store.teabliss.common.security;
 
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
+import store.teabliss.member.mapper.MemberMapper;
 
 import java.io.IOException;
 
 @Slf4j
-public class LoginSuccessJWTProvideHandler extends SimpleUrlAuthenticationSuccessHandler {
+@RequiredArgsConstructor
+public class SignInSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
+    private final MemberMapper memberMapper;
     private final JwtService jwtService;
 
     @Override
@@ -24,8 +27,8 @@ public class LoginSuccessJWTProvideHandler extends SimpleUrlAuthenticationSucces
         String refreshToken=jwtService.createRefreshToken();
 
         jwtService.sendAccessAndRefreshToken(response,accessToken,refreshToken);
-        userRepository.findByEmail(email).ifPresent(
-                users->users.updateRefreshToken(refreshToken)
+        memberMapper.findByEmail(email).ifPresent(
+                member -> member.updateRefreshToken(refreshToken)
         );
 
         log.info("로그인에 성공합니다. email:{}",email);
