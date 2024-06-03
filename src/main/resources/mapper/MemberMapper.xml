@@ -50,7 +50,7 @@
             nickname = #{nickname}
     </update>
     
-    <delete id="deleteMemeber" parameterType="String">
+    <delete id="deleteMember" parameterType="String">
         DELETE FROM MEMBER
         WHERE 1=1
         AND email = #{value}
