@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import store.teabliss.member.dto.MemberSignUpDto;
 import store.teabliss.member.entity.Member;
 import store.teabliss.member.exception.DuplicationMemberEmailException;
+import store.teabliss.member.exception.DuplicationNicknameException;
 import store.teabliss.member.mapper.MemberMapper;
 
 @Service
@@ -17,9 +18,14 @@ public class MemberService {
 
     public int createMember(MemberSignUpDto memberSignUpDto) {
 
-        if(memberMapper.existsByEmail(memberSignUpDto.getEmail())) {
+        // 이메일 중복
+        if(memberMapper.existsByEmail(memberSignUpDto.getEmail()))
             throw new DuplicationMemberEmailException(memberSignUpDto.getEmail());
-        }
+        
+        // 닉네임 중복
+        if(memberMapper.existsByNickname(memberSignUpDto.getNickname()))
+            throw new DuplicationNicknameException(memberSignUpDto.getNickname());
+        
 
         Member member = memberSignUpDto.toEntity();
         member.passwordEncode(encoder);

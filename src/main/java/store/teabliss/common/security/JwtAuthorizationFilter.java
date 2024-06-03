@@ -27,7 +27,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
     private GrantedAuthoritiesMapper authoritiesMapper = new NullAuthoritiesMapper();
 
-    private static final String NO_CHECK_URL = "/login";
+    private static final String NO_CHECK_URL = "/api/member/sign-up";
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -52,9 +52,9 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     private void checkAccessTokenAndAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         jwtService.extractAccessToken(request)
                 .filter(jwtService::isTokenValid)
-                .ifPresent(accessToken -> jwtService.extractEmail(accessToken)
+                    .ifPresent(accessToken -> jwtService.extractEmail(accessToken)
                         .ifPresent(email -> memberMapper.findByEmail(email)
-                                .ifPresent(member -> saveAuthentication(member))
+                                .ifPresent(this::saveAuthentication)
                         )
                 );
 
