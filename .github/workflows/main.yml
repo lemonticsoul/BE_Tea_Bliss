@@ -23,7 +23,7 @@ jobs:
           cd /home/ec2-user/BE_Tea_Bliss
           git pull https://github.com/Tea-Bliss/BE_Tea_Bliss.git
           cd ..
-          docker compose down
-          docker compose up -d
+          docker-compose down
+          docker-compose up -d
           
            
