@@ -5,7 +5,7 @@
 
     <insert id="createMember" parameterType="Member" useGeneratedKeys="true" keyColumn="memId">
         INSERT INTO MEMBER (email, password,nickname)
-        VALUES(#{email}, #{password}, #{nickname},)
+        VALUES(#{email}, #{password}, #{nickname})
     </insert>
 
     <select id="findByEmail" parameterType="String">
