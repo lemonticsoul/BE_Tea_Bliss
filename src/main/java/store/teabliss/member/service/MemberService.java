@@ -16,7 +16,7 @@ public class MemberService {
     private final MemberMapper memberMapper;
     private final PasswordEncoder encoder;
 
-    public int createMember(MemberSignUpDto memberSignUpDto) {
+    public long createMember(MemberSignUpDto memberSignUpDto) {
 
         // 이메일 중복
         if(memberMapper.existsByEmail(memberSignUpDto.getEmail()))

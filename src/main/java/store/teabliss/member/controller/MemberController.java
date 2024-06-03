@@ -24,9 +24,9 @@ public class MemberController {
 
     @PostMapping("/sign-up")
     @Operation(summary = "회원 가입", description = "회원 등록 API")
-    public ResponseEntity<Integer> signUp(@RequestBody MemberSignUpDto memberSignUpDto) {
+    public ResponseEntity<Long> signUp(@RequestBody MemberSignUpDto memberSignUpDto) {
 
-        int memId = memberService.createMember(memberSignUpDto);
+        long memId = memberService.createMember(memberSignUpDto);
 
         return ResponseEntity.ok(memId);
     }

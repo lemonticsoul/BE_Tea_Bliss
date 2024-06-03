@@ -9,7 +9,7 @@ import java.util.Optional;
 @Mapper
 public interface MemberMapper {
 
-    int createMember(Member member);
+    long createMember(Member member);
 
     Optional<Member> findByEmail(String email);
 
@@ -19,9 +19,11 @@ public interface MemberMapper {
 
     Optional<Member> findByRefreshToken(String refreshToken);
 
-    // List<Member> findByMembers();
+    List<Member> findByMembers();
 
-    // Member save(Member member);
+    long updateMember(Member member);
+
+    void deleteMember(String email);
 
 
 }

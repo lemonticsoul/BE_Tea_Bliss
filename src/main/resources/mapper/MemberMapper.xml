@@ -43,5 +43,17 @@
         WHERE 1=1
         AND refreshToken = #{value}
     </select>
+    
+    <update id="updateMember" parameterType="Member">
+        UPDATE MEMBER
+        SET
+            nickname = #{nickname}
+    </update>
+    
+    <delete id="deleteMemeber" parameterType="String">
+        DELETE FROM MEMBER
+        WHERE 1=1
+        AND email = #{value}
+    </delete>
 
 </mapper>
