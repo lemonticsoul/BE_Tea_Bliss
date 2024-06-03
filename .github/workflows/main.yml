@@ -20,7 +20,10 @@ jobs:
         username: ${{ secrets.WAS_USER }}
         key: ${{ secrets.WAS_SSH_PRIVATE_KEY }}
         script: |
-          cd /home/ec2-user/temp
+          cd /home/ec2-user/BE_Tea_Bliss
           git pull https://github.com/Tea-Bliss/BE_Tea_Bliss.git
+          cd ..
+          docker compose down
+          docker compose up -d
           
            
