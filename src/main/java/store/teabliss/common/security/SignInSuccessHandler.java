@@ -1,5 +1,6 @@
 package store.teabliss.common.security;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -22,20 +23,20 @@ public class SignInSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
 
-        String email=extractEmail(authentication);
-        String accessToken= jwtService.createAccessToken(email);
-        String refreshToken=jwtService.createRefreshToken();
+        String email = extractEmail(authentication);
+        String accessToken = jwtService.createAccessToken(email);
+        String refreshToken = jwtService.createRefreshToken();
 
         jwtService.sendAccessAndRefreshToken(response,accessToken,refreshToken);
         memberMapper.findByEmail(email).ifPresent(
                 member -> member.updateRefreshToken(refreshToken)
         );
 
-        log.info("로그인에 성공합니다. email:{}",email);
-        log.info("AccessToken을 발급합니다. AccessToken:{}",accessToken);
-        log.info("RefreshToken을 발급합니다. RefreshToken:{}",refreshToken);
+        log.info("로그인에 성공합니다. email:{}", email);
+        log.info("AccessToken을 발급합니다. AccessToken:{}", accessToken);
+        log.info("RefreshToken을 발급합니다. RefreshToken:{}", refreshToken);
 
-        response.getWriter().write("success");
+        response.getWriter().write("Sign-in Success!");
 
     }
 
