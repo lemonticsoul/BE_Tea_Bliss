@@ -17,4 +17,4 @@ mybatis:
     mapUnderscoreToCamelCase: true
 
 jwt:
-  secret: teabliss_backend
+  secret: ${JWT_SECRET}
