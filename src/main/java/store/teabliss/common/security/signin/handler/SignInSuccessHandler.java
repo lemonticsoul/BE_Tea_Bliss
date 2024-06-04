@@ -1,6 +1,5 @@
-package store.teabliss.common.security;
+package store.teabliss.common.security.signin.handler;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -9,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
+import store.teabliss.common.security.signin.service.JwtService;
 import store.teabliss.member.mapper.MemberMapper;
 
 import java.io.IOException;
