@@ -1,7 +1,6 @@
-package store.teabliss.common.security;
+package store.teabliss.common.security.signin;
 
 
-import com.nimbusds.jose.proc.SecurityContext;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,6 +12,7 @@ import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMap
 import org.springframework.security.core.authority.mapping.NullAuthoritiesMapper;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
+import store.teabliss.common.security.signin.service.JwtService;
 import store.teabliss.member.entity.Member;
 import store.teabliss.member.entity.MemberDetails;
 import store.teabliss.member.mapper.MemberMapper;

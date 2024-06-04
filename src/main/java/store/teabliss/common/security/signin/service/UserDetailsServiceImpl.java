@@ -1,4 +1,4 @@
-package store.teabliss.common.security;
+package store.teabliss.common.security.signin.service;
 
 
 import lombok.RequiredArgsConstructor;
