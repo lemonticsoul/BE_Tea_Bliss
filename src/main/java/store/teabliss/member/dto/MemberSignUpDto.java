@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 import store.teabliss.member.entity.Member;
+import store.teabliss.member.entity.MemberRole;
 
 @Getter
 @ToString
@@ -30,6 +31,7 @@ public class MemberSignUpDto {
                 .email(email)
                 .password(password)
                 .nickname(nickname)
+                .role(MemberRole.USER)
                 .build();
     }
 

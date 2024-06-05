@@ -44,8 +44,8 @@ public class MemberRoleTypeHandler implements TypeHandler<MemberRole> {
             case "ROLE_USER":
                 memberRole = MemberRole.USER;
                 break;
-            case "ROLE_SELLER":
-                memberRole = MemberRole.SELLER;
+            case "ROLE_ADMIN":
+                memberRole = MemberRole.ADMIN;
                 break;
         }
 
