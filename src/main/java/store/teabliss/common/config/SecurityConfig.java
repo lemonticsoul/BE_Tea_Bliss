@@ -2,7 +2,6 @@ package store.teabliss.common.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,7 +19,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import store.teabliss.common.security.*;
+// import store.teabliss.common.security.oauth2.handler.OAuth2AuthenticationFailureHandler;
+// import store.teabliss.common.security.oauth2.handler.OAuth2AuthenticationSuccessHandler;
+import store.teabliss.common.security.signin.UsernamePasswordAuthenticationFilter;
+import store.teabliss.common.security.signin.handler.SignInFailureHandler;
+import store.teabliss.common.security.signin.handler.SignInSuccessHandler;
+import store.teabliss.common.security.signin.JwtAuthorizationFilter;
+import store.teabliss.common.security.signin.service.JwtService;
+import store.teabliss.common.security.signin.service.UserDetailsServiceImpl;
+// import store.teabliss.common.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository;
+// import store.teabliss.common.security.oauth2.service.CustomOAuth2UserService;
 import store.teabliss.member.mapper.MemberMapper;
 
 @Configuration
@@ -35,6 +43,11 @@ public class SecurityConfig {
     private final JwtService jwtService;
     private final UserDetailsServiceImpl userDetailService;
     private final ObjectMapper objectMapper;
+
+    // private final CustomOAuth2UserService customOAuth2UserService;
+    // private final OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
+    // private final OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler;
+    // private final HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
 
     // Swagger URL
     private final String[] permitUrl = new String[]{"/swagger", "/swagger-ui.html", "/swagger-ui/**"
@@ -64,6 +77,15 @@ public class SecurityConfig {
                         request.requestMatchers(permitUrl).permitAll();
                     }
                 );
+
+        // http.
+        //         oauth2Login(configure ->
+        //                 configure.authorizationEndpoint(config -> config.authorizationRequestRepository(httpCookieOAuth2AuthorizationRequestRepository))
+        //                         .userInfoEndpoint(config -> config.userService(customOAuth2UserService))
+        //                         .successHandler(oAuth2AuthenticationSuccessHandler)
+        //                         .failureHandler(oAuth2AuthenticationFailureHandler)
+        //         );
+
         http
                 .addFilterAfter(usernamePasswordAuthenticationFilter(),LogoutFilter.class)
                 .addFilterBefore(jwtAuthenticationProcessingFilter(), UsernamePasswordAuthenticationFilter.class);

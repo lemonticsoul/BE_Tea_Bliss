@@ -1,4 +1,4 @@
-package store.teabliss.common.security;
+package store.teabliss.common.security.signin;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;
@@ -18,7 +18,7 @@ import java.util.Map;
 
 public class UsernamePasswordAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
-    private static final String DEFAULT_LOGIN_REQUEST_URL = "/api/sign-in";
+    private static final String DEFAULT_LOGIN_REQUEST_URL = "/api/member/sign-in";
     private static final String HTTP_METHOD = "POST";
     private static final String CONTENT_TYPE = "application/json";
     private final ObjectMapper objectMapper;
@@ -44,10 +44,10 @@ public class UsernamePasswordAuthenticationFilter extends AbstractAuthentication
 
         String messageBody = StreamUtils.copyToString(request.getInputStream(), StandardCharsets.UTF_8);
 
-        Map<String, String> usernamePasswordMap = objectMapper.readValue(messageBody, Map.class);
+        Map<String, String> map = objectMapper.readValue(messageBody, Map.class);
 
-        String username = usernamePasswordMap.get(USERNAME_KEY);
-        String password = usernamePasswordMap.get(PASSWORD_KEY);
+        String username = map.get(USERNAME_KEY);
+        String password = map.get(PASSWORD_KEY);
 
         UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(username, password);
 

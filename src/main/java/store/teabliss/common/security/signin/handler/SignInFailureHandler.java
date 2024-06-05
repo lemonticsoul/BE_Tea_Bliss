@@ -1,4 +1,4 @@
-package store.teabliss.common.security;
+package store.teabliss.common.security.signin.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
