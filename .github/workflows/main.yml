@@ -24,6 +24,6 @@ jobs:
           git pull https://github.com/Tea-Bliss/BE_Tea_Bliss.git
           cd ..
           docker-compose down
-          docker-compose up -d
+          docker-compose up --build -d
           
            
