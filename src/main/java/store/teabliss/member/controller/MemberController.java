@@ -4,8 +4,9 @@ import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import store.teabliss.member.dto.MemberResponse;
+import store.teabliss.member.dto.MemberSignInDto;
 import store.teabliss.member.dto.MemberSignUpDto;
 import store.teabliss.member.service.MemberService;
 
@@ -31,10 +32,10 @@ public class MemberController {
         return ResponseEntity.ok(memId);
     }
 
-    @GetMapping("/sign-in")
+    @PostMapping("/sign-in")
     @Operation(summary = "로그인", description = "회원 로그인 API")
-    public ResponseEntity<String> signIn() {
-        return ResponseEntity.ok("");
+    public ResponseEntity<MemberResponse> signIn(@RequestBody MemberSignInDto memberSignInDto) {
+        return ResponseEntity.ok(MemberResponse.ok(""));
     }
 
 }

@@ -1,5 +1,6 @@
 package store.teabliss.common.security.signin.handler;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -9,9 +10,14 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import store.teabliss.common.security.signin.service.JwtService;
+import store.teabliss.member.dto.MemberResponse;
+import store.teabliss.member.entity.Member;
+import store.teabliss.member.exception.NotFoundMemberByEmailException;
 import store.teabliss.member.mapper.MemberMapper;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -27,16 +33,27 @@ public class SignInSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         String accessToken = jwtService.createAccessToken(email);
         String refreshToken = jwtService.createRefreshToken();
 
-        jwtService.sendAccessAndRefreshToken(response,accessToken,refreshToken);
-        memberMapper.findByEmail(email).ifPresent(
-                member -> member.updateRefreshToken(refreshToken)
+        jwtService.sendAccessAndRefreshToken(response, accessToken, refreshToken);
+        Member member =  memberMapper.findByEmail(email).orElseThrow(
+                () -> new NotFoundMemberByEmailException(email)
         );
 
-        log.info("로그인에 성공합니다. email:{}", email);
-        log.info("AccessToken을 발급합니다. AccessToken:{}", accessToken);
-        log.info("RefreshToken을 발급합니다. RefreshToken:{}", refreshToken);
+        member.updateRefreshToken(refreshToken);
 
-        response.getWriter().write("Sign-in Success!");
+        memberMapper.updateMember(member);
+
+        // log.info("로그인에 성공합니다. email:{}", email);
+        // log.info("AccessToken을 발급합니다. AccessToken:{}", accessToken);
+        // log.info("RefreshToken을 발급합니다. RefreshToken:{}", refreshToken);
+
+        Map<String, Object> mem = new HashMap<>();
+        mem.put("memId", member.getMemId());
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("application/json");
+        objectMapper.writeValue(response.getWriter(), MemberResponse.ok(mem));
 
     }
 
