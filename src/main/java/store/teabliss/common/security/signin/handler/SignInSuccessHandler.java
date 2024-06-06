@@ -2,6 +2,7 @@ package store.teabliss.common.security.signin.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -50,6 +51,22 @@ public class SignInSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         mem.put("memId", member.getMemId());
 
         ObjectMapper objectMapper = new ObjectMapper();
+
+        Cookie accessTokenCookie = new Cookie("accessToken",accessToken);
+        accessTokenCookie.setHttpOnly(true);
+        accessTokenCookie.setSecure(true);
+        accessTokenCookie.setPath("/");
+        accessTokenCookie.setMaxAge(24*60*60);
+
+        Cookie refreshTokenCookie=new Cookie("refreshToken",refreshToken);
+        refreshTokenCookie.setHttpOnly(true);
+        refreshTokenCookie.setSecure(true);
+        refreshTokenCookie.setPath("/");
+        refreshTokenCookie.setMaxAge(7*24*60*60);
+
+
+        response.addCookie(accessTokenCookie);
+        response.addCookie(refreshTokenCookie);
 
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json");
