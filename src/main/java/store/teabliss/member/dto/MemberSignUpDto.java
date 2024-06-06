@@ -11,6 +11,7 @@ import store.teabliss.member.entity.MemberRole;
 @ToString
 public class MemberSignUpDto {
 
+    @Email
     @NotEmpty(message = "회원 이메일은 필수 입니다.")
     @Schema(description = "이메일 주소입니다.", example = "이메일 주소")
     private String email;
@@ -19,8 +20,6 @@ public class MemberSignUpDto {
     @Schema(description = "비밀번호 입니다.", example = "비밀번호 입니다.")
     private String password;
 
-
-    @Email
     @Schema(description = "회원의 닉네임 입니다", example = "닉네임1")
     private String nickname;
 
