@@ -1,6 +1,4 @@
 spring:
-#  profiles:
-#    active: oauth
   application:
     name: teabliss
   datasource:
@@ -8,6 +6,16 @@ spring:
     url: ${SPRING_DATASOURCE_URL}
     username: ${SPRING_DATASOURCE_USERNAME}
     password: ${SPRING_DATASOURCE_PASSWORD}
+  security:
+      oauth2:
+        client:
+          registration:
+            google:
+              client_id: ${GOOGLE_CLIENT_ID}
+              client_secret: ${GOOGLE_CLIENT_SECRET}
+              scope: # 기본 값 openid,profile,email => profile, email 로 설정 변경
+                - profile
+                - email
 
 mybatis:
   type-aliases-package: store.teabliss.**.entity
@@ -18,3 +26,15 @@ mybatis:
 
 jwt:
   secret: ${JWT_SECRET}
+
+#spring:
+#  security:
+#    oauth2:
+#      client:
+#        registration:
+#          google:
+#            client_id: ${GOOGLE_CLIENT_ID}
+#            client_secret: ${GOOGLE_CLIENT_SECRET}
+#            scope: # 기본 값 openid,profile,email => profile, email 로 설정 변경
+#              - profile
+#              - email
