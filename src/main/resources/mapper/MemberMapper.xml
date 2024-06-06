@@ -3,9 +3,9 @@
 
 <mapper namespace="store.teabliss.member.mapper.MemberMapper">
 
-    <insert id="createMember" parameterType="Member" useGeneratedKeys="true" keyColumn="memId">
-        INSERT INTO MEMBER (email, password, nickname)
-        VALUES(#{email}, #{password}, #{nickname})
+    <insert id="createMember" parameterType="Member" useGeneratedKeys="true" keyProperty="memId" keyColumn="mem_id">
+        INSERT INTO MEMBER (email, password, nickname, role)
+        VALUES(#{email}, #{password}, #{nickname}, #{role})
     </insert>
 
     <select id="findByEmail" parameterType="String">
@@ -47,7 +47,14 @@
     <update id="updateMember" parameterType="Member">
         UPDATE MEMBER
         SET
+        <if test="refreshToken != null and refreshToken != ''">
+            refresh_token = #{refreshToken},
+        </if>
+        <if test="nickname != null and nickname != ''">
             nickname = #{nickname}
+        </if>
+        WHERE 1=1
+        AND mem_id = #{memId}
     </update>
     
     <delete id="deleteMember" parameterType="String">

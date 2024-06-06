@@ -9,7 +9,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @AllArgsConstructor
 public class Member {
 
-
     private Long memId;
 
     private String email;
