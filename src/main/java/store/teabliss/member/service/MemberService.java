@@ -30,7 +30,9 @@ public class MemberService {
         Member member = memberSignUpDto.toEntity();
         member.passwordEncode(encoder);
 
-        return memberMapper.createMember(member);
+        memberMapper.createMember(member);
+
+        return member.getMemId();
     }
 
 }

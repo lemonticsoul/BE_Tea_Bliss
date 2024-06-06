@@ -9,7 +9,7 @@ import java.util.Optional;
 @Mapper
 public interface MemberMapper {
 
-    long createMember(Member member);
+    void createMember(Member member);
 
     Optional<Member> findByEmail(String email);
 
