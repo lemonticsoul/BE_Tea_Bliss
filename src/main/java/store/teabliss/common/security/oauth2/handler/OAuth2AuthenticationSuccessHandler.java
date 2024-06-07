@@ -15,6 +15,8 @@ import store.teabliss.common.security.oauth2.user.OAuth2Provider;
 import store.teabliss.common.security.oauth2.user.OAuth2UserUnlinkManager;
 import store.teabliss.common.security.signin.service.JwtService;
 import store.teabliss.common.security.utils.CookieUtils;
+import store.teabliss.member.entity.Member;
+import store.teabliss.member.exception.NotFoundMemberByEmailException;
 import store.teabliss.member.mapper.MemberMapper;
 
 import java.io.IOException;
@@ -37,9 +39,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws IOException {
 
-        String targetUrl;
-
-        targetUrl = determineTargetUrl(request, response, authentication);
+        String targetUrl = determineTargetUrl(request, response, authentication);
 
         if (response.isCommitted()) {
             logger.debug("Response has already been committed. Unable to redirect to " + targetUrl);
@@ -71,17 +71,18 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         }
 
         if ("signIn".equalsIgnoreCase(mode)) {
-            // TODO: DB 저장
             // TODO: 액세스 토큰, 리프레시 토큰 발급
-            // TODO: 리프레시 토큰 DB 저장
-            log.info("email={}, name={}, nickname={}, accessToken={}", principal.getUserInfo().getEmail(),
-                    principal.getUserInfo().getName(),
-                    principal.getUserInfo().getNickname(),
-                    principal.getUserInfo().getAccessToken()
-            );
-
             String accessToken = jwtService.createAccessToken(principal.getUserInfo().getEmail());
             String refreshToken = jwtService.createRefreshToken();
+
+            String email = principal.getName();
+
+            // TODO: 리프레시 토큰 DB 저장
+            Member member = memberMapper.findByEmail(email).orElseThrow(
+                    () -> new NotFoundMemberByEmailException(email)
+            );
+            member.updateRefreshToken(refreshToken);
+            memberMapper.updateMember(member);
 
             return UriComponentsBuilder.fromUriString(targetUrl)
                     .queryParam("access_token", accessToken)
@@ -93,8 +94,16 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
             String accessToken = principal.getUserInfo().getAccessToken();
             OAuth2Provider provider = principal.getUserInfo().getProvider();
 
-            // TODO: DB 삭제
+            String email = principal.getName();
+
+            Member member = memberMapper.findByEmail(email).orElseThrow(
+                    () -> new NotFoundMemberByEmailException(email)
+            );
+
             // TODO: 리프레시 토큰 삭제
+            member.destroyRefreshToken();
+            memberMapper.updateMember(member);
+
             oAuth2UserUnlinkManager.unlink(provider, accessToken);
 
             return UriComponentsBuilder.fromUriString(targetUrl)

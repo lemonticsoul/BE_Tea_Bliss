@@ -39,16 +39,11 @@ public class MemberRoleTypeHandler implements TypeHandler<MemberRole> {
     }
 
     private MemberRole getRole(String roleKey) {
-        MemberRole memberRole = null;
-        switch (roleKey) {
-            case "ROLE_USER":
-                memberRole = MemberRole.USER;
-                break;
-            case "ROLE_ADMIN":
-                memberRole = MemberRole.ADMIN;
-                break;
-        }
 
-        return memberRole;
+        return switch (roleKey) {
+            case "ROLE_USER" -> MemberRole.USER;
+            case "ROLE_ADMIN" -> MemberRole.ADMIN;
+            default -> null;
+        };
     }
 }

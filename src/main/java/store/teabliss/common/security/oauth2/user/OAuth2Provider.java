@@ -3,6 +3,9 @@ package store.teabliss.common.security.oauth2.user;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+import static java.util.Locale.ENGLISH;
+
+
 @Getter
 @RequiredArgsConstructor
 public enum OAuth2Provider {
@@ -12,5 +15,7 @@ public enum OAuth2Provider {
     NAVER("naver"),
     KAKAO("kakao");
 
-    private final String registrationId;
+    public static OAuth2Provider fromName(String type) { return OAuth2Provider.valueOf(type.toUpperCase(ENGLISH)); }
+
+    public final String registrationId;
 }
