@@ -71,22 +71,22 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         }
 
         if ("signIn".equalsIgnoreCase(mode)) {
-            // TODO: 액세스 토큰, 리프레시 토큰 발급
+            // 액세스 토큰, 리프레시 토큰 발급
             String accessToken = jwtService.createAccessToken(principal.getUserInfo().getEmail());
             String refreshToken = jwtService.createRefreshToken();
 
             String email = principal.getName();
 
-            // TODO: 리프레시 토큰 DB 저장
+            // 리프레시 토큰 DB 저장
             Member member = memberMapper.findByEmail(email).orElseThrow(
                     () -> new NotFoundMemberByEmailException(email)
             );
             member.updateRefreshToken(refreshToken);
             memberMapper.updateMember(member);
 
+            jwtService.sendAccessAndRefreshToken(response, accessToken, refreshToken);
+
             return UriComponentsBuilder.fromUriString(targetUrl)
-                    .queryParam("access_token", accessToken)
-                    .queryParam("refresh_token", refreshToken)
                     .build().toUriString();
 
         } else if ("signOut".equalsIgnoreCase(mode)) {
@@ -96,11 +96,10 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
             String email = principal.getName();
 
+            // 리프레시 토큰 삭제
             Member member = memberMapper.findByEmail(email).orElseThrow(
                     () -> new NotFoundMemberByEmailException(email)
             );
-
-            // TODO: 리프레시 토큰 삭제
             member.destroyRefreshToken();
             memberMapper.updateMember(member);
 
