@@ -4,6 +4,7 @@ package store.teabliss.common.security.signin.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -134,11 +135,23 @@ public class JwtService {
     }
 
     public void setAccessTokenHeader(HttpServletResponse response, String accessToken) {
-        response.setHeader("Access_Token", BEARER + accessToken);
+        Cookie accessTokenCookie = new Cookie("accessToken", accessToken);
+        accessTokenCookie.setHttpOnly(true);
+        accessTokenCookie.setSecure(true);
+        accessTokenCookie.setPath("/");
+        accessTokenCookie.setMaxAge(24 * 60 * 60);
+
+        response.addCookie(accessTokenCookie);
     }
 
     public void setRefreshTokenHeader(HttpServletResponse response, String refreshToken) {
-        response.setHeader("Refresh_Token", refreshToken);
+        Cookie refreshTokenCookie=new Cookie("refreshToken", refreshToken);
+        refreshTokenCookie.setHttpOnly(true);
+        refreshTokenCookie.setSecure(true);
+        refreshTokenCookie.setPath("/");
+        refreshTokenCookie.setMaxAge(7 * 24 * 60 * 60);
+
+        response.addCookie(refreshTokenCookie);
     }
 
     public boolean isTokenValid(String token) {
