@@ -22,7 +22,8 @@ public class SwaggerConfig {
     public GroupedOpenApi pageApi() {
         String[] paths = {
                 "/api/member/**",
-                "/api/tea/**"
+                "/api/tea/**",
+                "/api/ingredient/**"
         };
 
         return GroupedOpenApi.builder()
@@ -35,7 +36,8 @@ public class SwaggerConfig {
     public OpenAPI openAPI() {
         List<Tag> tagList = List.of(
                 createTag("회원 API", "회원 관련 API"),
-                createTag("차 완제품 API", "차 완제품 관련 API")
+                createTag("차 완제품 API", "차 완제품 관련 API"),
+                createTag("차 재료 API", "차 재료 관련 API")
         );
 
         String key = "Access Token (Bearer)";
