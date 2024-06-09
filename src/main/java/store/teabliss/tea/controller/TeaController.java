@@ -75,6 +75,14 @@ public class TeaController {
 
     }
 
+    @GetMapping("all")
+    @Operation(summary = "모두 조회", description = "모든 차를 조회하는 로직입니다.")
+    public ResponseEntity<?> all(){
+
+        List<Tea> all=teaService.all();
+        return ResponseEntity.ok(all);
+    }
+
 
 
 
