@@ -20,6 +20,8 @@ public interface TeaMapper {
 
     List<Tea> lowcost();
 
+    List<Tea> all();
+
 //    List<Tea> category();
 
 
