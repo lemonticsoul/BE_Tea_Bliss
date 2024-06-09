@@ -1,7 +1,6 @@
 package store.teabliss.ingredient.dto;
 
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import store.teabliss.ingredient.entity.Flavor;
 
