@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="store.teabliss.ingredient.mapper.IngredientMapper">
+
+    <select id="findByIngredients" resultType="Ingredient">
+        SELECT
+            ingredient_id as id,
+            category,
+            name,
+            name_eng,
+            flavor,
+            explanation
+        FROM INGREDIENT
+        WHERE 1=1
+    </select>
+
+</mapper>
