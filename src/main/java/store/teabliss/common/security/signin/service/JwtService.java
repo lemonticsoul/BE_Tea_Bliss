@@ -4,12 +4,14 @@ package store.teabliss.common.security.signin.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import store.teabliss.common.security.utils.CookieUtils;
 import store.teabliss.member.entity.Member;
 import store.teabliss.member.mapper.MemberMapper;
 
@@ -100,14 +102,14 @@ public class JwtService {
     public void sendAccessAndRefreshToken(HttpServletResponse response, String accessToken, String refreshToken) {
         response.setStatus(HttpServletResponse.SC_OK);
 
-        setAccessTokenHeader(response, accessToken);
-        setRefreshTokenHeader(response, refreshToken);
+        CookieUtils.addCookie(response, "accessToken", accessToken, 24 * 60 * 60);
+        CookieUtils.addCookie(response, "refreshToken", refreshToken, 7 * 24 * 60 * 60);
     }
 
     public void sendAccessToken(HttpServletResponse response, String accessToken) {
         response.setStatus(HttpServletResponse.SC_OK);
 
-        setAccessTokenHeader(response, accessToken);
+        CookieUtils.addCookie(response, "accessToken", accessToken, 24 * 60 * 60);
     }
 
     public Optional<String> extractAccessToken(HttpServletRequest request) {
@@ -131,14 +133,6 @@ public class JwtService {
             log.error("유효하지 않은 AccessToken입니다", e);
             return Optional.empty();
         }
-    }
-
-    public void setAccessTokenHeader(HttpServletResponse response, String accessToken) {
-        response.setHeader("Access_Token", BEARER + accessToken);
-    }
-
-    public void setRefreshTokenHeader(HttpServletResponse response, String refreshToken) {
-        response.setHeader("Refresh_Token", refreshToken);
     }
 
     public boolean isTokenValid(String token) {

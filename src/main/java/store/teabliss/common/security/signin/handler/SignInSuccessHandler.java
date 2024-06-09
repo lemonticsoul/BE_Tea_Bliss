@@ -34,7 +34,6 @@ public class SignInSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         String accessToken = jwtService.createAccessToken(email);
         String refreshToken = jwtService.createRefreshToken();
 
-        jwtService.sendAccessAndRefreshToken(response, accessToken, refreshToken);
         Member member =  memberMapper.findByEmail(email).orElseThrow(
                 () -> new NotFoundMemberByEmailException(email)
         );
@@ -43,30 +42,12 @@ public class SignInSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
         memberMapper.updateMember(member);
 
-        // log.info("로그인에 성공합니다. email:{}", email);
-        // log.info("AccessToken을 발급합니다. AccessToken:{}", accessToken);
-        // log.info("RefreshToken을 발급합니다. RefreshToken:{}", refreshToken);
+        jwtService.sendAccessAndRefreshToken(response, accessToken, refreshToken);
 
         Map<String, Object> mem = new HashMap<>();
         mem.put("memId", member.getMemId());
 
         ObjectMapper objectMapper = new ObjectMapper();
-
-        Cookie accessTokenCookie = new Cookie("accessToken",accessToken);
-        accessTokenCookie.setHttpOnly(true);
-        accessTokenCookie.setSecure(true);
-        accessTokenCookie.setPath("/");
-        accessTokenCookie.setMaxAge(24*60*60);
-
-        Cookie refreshTokenCookie=new Cookie("refreshToken",refreshToken);
-        refreshTokenCookie.setHttpOnly(true);
-        refreshTokenCookie.setSecure(true);
-        refreshTokenCookie.setPath("/");
-        refreshTokenCookie.setMaxAge(7*24*60*60);
-
-
-        response.addCookie(accessTokenCookie);
-        response.addCookie(refreshTokenCookie);
 
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json");
