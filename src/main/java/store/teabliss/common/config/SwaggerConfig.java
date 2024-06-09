@@ -21,7 +21,8 @@ public class SwaggerConfig {
     @Bean
     public GroupedOpenApi pageApi() {
         String[] paths = {
-                "/api/member/**"
+                "/api/member/**",
+                "/api/tea/**"
         };
 
         return GroupedOpenApi.builder()
@@ -33,7 +34,8 @@ public class SwaggerConfig {
     @Bean
     public OpenAPI openAPI() {
         List<Tag> tagList = List.of(
-                createTag("회원 API", "회원 관련 API")
+                createTag("회원 API", "회원 관련 API"),
+                createTag("차 완제품 API", "차 완제품 관련 API")
         );
 
         String key = "Access Token (Bearer)";

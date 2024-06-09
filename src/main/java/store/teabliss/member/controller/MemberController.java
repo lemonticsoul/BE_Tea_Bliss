@@ -1,6 +1,7 @@
 package store.teabliss.member.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import store.teabliss.member.service.MemberService;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
+@Tag(name = "회원 API")
 @RequestMapping("/api/member")
 public class MemberController {
 
