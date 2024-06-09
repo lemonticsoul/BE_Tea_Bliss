@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="store.teabliss.tea.mapper.TeaMapper">
+
+
+<!--    <insert id="createTea" parameterType="Tea" useGeneratedKeys="true" keyColumn="TeaId">-->
+<!--        INSERT INTO TEA ()-->
+<!--        VALUES(#{email}, #{password}, #{nickname})-->
+<!--    </insert>-->
+
+    <insert id="save" parameterType="Tea">
+        INSERT INTO Tea (title, category, cost, review, sale, rating, rate, season, createat, IsLastPage)
+        VALUES (#{title}, #{category}, #{cost}, #{review}, #{sale}, #{rating}, #{rate}, #{season}, #{createat}, #{IsLastPage})
+    </insert>
+
+    <select id="recommend">
+        SELECT *
+        FROM tea
+        ORDER BY rate DESC ,createat
+    </select>
+
+    <select id="sale">
+        select *
+        from tea
+        order by sale desc ,createat
+    </select>
+
+    <select id="topcost">
+        select *
+        from tea
+        order by cost desc ,createat
+
+    </select>
+
+    <select id="lowcost">
+        select *
+        from tea
+        order by cost ,createat
+
+    </select>
+
+
+
+
+
+
+
+</mapper>
