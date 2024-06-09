@@ -12,6 +12,7 @@ import java.util.Date;
 @AllArgsConstructor
 public class Tea {
 
+    private Long id;
 
     private String title;
 
