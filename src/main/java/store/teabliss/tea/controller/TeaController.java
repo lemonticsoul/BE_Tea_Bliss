@@ -79,9 +79,9 @@ public class TeaController {
 
     @GetMapping("all")
     @Operation(summary = "모두 조회", description = "모든 차를 조회하는 로직입니다.")
-    public ResponseEntity<?> all(){
+    public ResponseEntity<?> all(@RequestParam("page") int page,@RequestParam("limit") int limit ){
 
-        List<Tea> all=teaService.all();
+        List<Tea> all=teaService.all(page,limit);
 
         Map<String,Object> response=new HashMap<>();
         response.put("size",all.size());
