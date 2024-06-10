@@ -43,7 +43,12 @@ public class TeaController {
         List<Tea> sort=teaService.sort(page,limit);
 
 
-        return ResponseEntity.ok(sort);
+        Long teacount=teaService.count();
+
+        Map<String,Object> response=new HashMap<>();
+        response.put("size",teacount);
+        response.put("tea",sort);
+        return ResponseEntity.ok(response);
     }
 
     @Operation(summary = "판매순", description = "페이지네이션 완료")
@@ -52,7 +57,12 @@ public class TeaController {
 
         List<Tea> sort=teaService.salesort(page,limit);
 
-        return ResponseEntity.ok(sort);
+        Long teacount=teaService.count();
+
+        Map<String,Object> response=new HashMap<>();
+        response.put("size",teacount);
+        response.put("tea",sort);
+        return ResponseEntity.ok(response);
 
 
     }
@@ -65,7 +75,12 @@ public class TeaController {
 
         List<Tea> topcost=teaService.topcostsort(page,limit);
 
-        return ResponseEntity.ok(topcost);
+        Long teacount=teaService.count();
+
+        Map<String,Object> response=new HashMap<>();
+        response.put("size",teacount);
+        response.put("tea",topcost);
+        return ResponseEntity.ok(response);
     }
 //
     @Operation(summary = "낮은가격순", description = "페이지네이션 완료")
@@ -73,7 +88,13 @@ public class TeaController {
     public ResponseEntity<?> lowcost(@RequestParam("page") int page,@RequestParam("limit") int limit ){
 
         List<Tea> lowcost=teaService.lowcostsort(page,limit);
-        return ResponseEntity.ok(lowcost);
+        Long teacount=teaService.count();
+
+
+        Map<String,Object> response=new HashMap<>();
+        response.put("size",teacount);
+        response.put("tea",lowcost);
+        return ResponseEntity.ok(response);
 
     }
 
@@ -83,10 +104,13 @@ public class TeaController {
 
         List<Tea> all=teaService.all(page,limit);
 
+        Long teacount=teaService.count();
+
         Map<String,Object> response=new HashMap<>();
-        response.put("size",all.size());
+        response.put("size",teacount);
         response.put("tea",all);
         return ResponseEntity.ok(response);
+
 
     }
 
