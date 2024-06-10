@@ -14,7 +14,9 @@ import store.teabliss.tea.mapper.TeaMapper;
 import store.teabliss.tea.service.TeaService;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -80,7 +82,12 @@ public class TeaController {
     public ResponseEntity<?> all(){
 
         List<Tea> all=teaService.all();
-        return ResponseEntity.ok(all);
+
+        Map<String,Object> response=new HashMap<>();
+        response.put("size",all.size());
+        response.put("tea",all);
+        return ResponseEntity.ok(response);
+
     }
 
 

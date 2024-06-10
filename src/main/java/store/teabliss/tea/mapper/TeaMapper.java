@@ -7,8 +7,7 @@ import java.util.List;
 
 @Mapper
 public interface TeaMapper {
-
-    long Count(Long count);
+    
 
     void save(Tea tea);
 
@@ -21,6 +20,8 @@ public interface TeaMapper {
     List<Tea> lowcost();
 
     List<Tea> all();
+
+
 
 //    List<Tea> category();
 

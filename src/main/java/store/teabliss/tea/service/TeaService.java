@@ -152,7 +152,6 @@ public class TeaService {
     public List<Tea> all(){
 
         List<Tea> all=teaMapper.all();
-
         return all;
     }
 
