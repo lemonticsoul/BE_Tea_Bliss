@@ -17,33 +17,33 @@
 
     <select id="recommend">
         SELECT *
-        FROM tea
+        FROM Tea
         ORDER BY rate DESC ,createat
     </select>
 
     <select id="sale">
         select *
-        from tea
+        from Tea
         order by sale desc ,createat
     </select>
 
     <select id="topcost">
         select *
-        from tea
+        from Tea
         order by cost desc ,createat
 
     </select>
 
     <select id="lowcost">
         select *
-        from tea
+        from Tea
         order by cost ,createat
 
     </select>
 
     <select id="all">
         select *
-        from tea
+        from Tea
     </select>
 
 
