@@ -41,6 +41,11 @@
 
     </select>
 
+    <select id="all">
+        select *
+        from tea
+    </select>
+
 
 
 

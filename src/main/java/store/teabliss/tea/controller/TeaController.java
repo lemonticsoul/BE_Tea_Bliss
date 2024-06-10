@@ -14,7 +14,9 @@ import store.teabliss.tea.mapper.TeaMapper;
 import store.teabliss.tea.service.TeaService;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -72,6 +74,19 @@ public class TeaController {
 
         List<Tea> lowcost=teaService.lowcostsort(page,limit);
         return ResponseEntity.ok(lowcost);
+
+    }
+
+    @GetMapping("all")
+    @Operation(summary = "모두 조회", description = "모든 차를 조회하는 로직입니다.")
+    public ResponseEntity<?> all(){
+
+        List<Tea> all=teaService.all();
+
+        Map<String,Object> response=new HashMap<>();
+        response.put("size",all.size());
+        response.put("tea",all);
+        return ResponseEntity.ok(response);
 
     }
 
