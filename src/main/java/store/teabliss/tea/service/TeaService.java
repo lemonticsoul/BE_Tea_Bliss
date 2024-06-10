@@ -176,5 +176,11 @@ public class TeaService {
 
     }
 
+    public Long count(){
+
+        Long count=teaMapper.count();
+        return count;
+    }
+
 
 }

@@ -21,6 +21,8 @@ public interface TeaMapper {
 
     List<Tea> all();
 
+    Long count();
+
 
 
 //    List<Tea> category();

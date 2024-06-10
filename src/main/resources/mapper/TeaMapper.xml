@@ -46,6 +46,10 @@
         from Tea
     </select>
 
+    <select id="count">
+        select count(*)
+        from Tea
+    </select>
 
 
 
