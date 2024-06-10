@@ -149,10 +149,31 @@ public class TeaService {
 
     }
 
-    public List<Tea> all(){
+    public List<Tea> all(int page,int limit){
 
-        List<Tea> all=teaMapper.all();
-        return all;
+        List<Tea> alllist=teaMapper.all();
+        double all=alllist.size();
+        int limitpage= (int) Math.ceil(all/limit);
+        List<Tea> new_recommend=new ArrayList<>();
+
+        for (int i =limit*(page-1);i<(page*limit);i++){
+            if (i==all) {
+                break;
+            }
+            if (page==limitpage){
+                alllist.get(i).setIsLastPage(true);
+                new_recommend.add(alllist.get(i));
+
+            } else if (page !=limitpage) {
+                alllist.get(i).setIsLastPage(false);
+                new_recommend.add(alllist.get(i));
+
+            }
+
+        }
+
+        return new_recommend;
+
     }
 
 
