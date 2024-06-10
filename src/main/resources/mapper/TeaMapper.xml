@@ -10,7 +10,7 @@
 <!--        VALUES(#{email}, #{password}, #{nickname})-->
 <!--    </insert>-->
 
-    <insert id="save" parameterType="Tea">
+    <insert id="save" parameterType="tea">
         INSERT INTO Tea (title, category, cost, review, sale, rating, rate, season, createat, IsLastPage)
         VALUES (#{title}, #{category}, #{cost}, #{review}, #{sale}, #{rating}, #{rate}, #{season}, #{createat}, #{IsLastPage})
     </insert>

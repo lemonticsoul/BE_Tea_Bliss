@@ -7,7 +7,7 @@ import java.util.List;
 
 @Mapper
 public interface TeaMapper {
-    
+
 
     void save(Tea tea);
 
