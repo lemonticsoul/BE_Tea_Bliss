@@ -3,6 +3,11 @@
 
 <mapper namespace="store.teabliss.ingredient.mapper.IngredientMapper">
 
+    <insert id="createIngredient" parameterType="Ingredient" useGeneratedKeys="true" keyProperty="ingredientId" keyColumn="ingredient_id">
+        INSERT INTO INGREDIENT (category, name, name_eng, flavor, explanation, photo)
+        VALUES(#{category}, #{name}, #{name_eng}, #{flavor}, #{explanation}, #{photo})
+    </insert>
+
     <select id="findByIngredients" resultType="Ingredient">
         SELECT
             ingredient_id as id,
@@ -13,6 +18,26 @@
             explanation
         FROM INGREDIENT
         WHERE 1=1
+        LIMIT 0, 50;
     </select>
+
+    <update id="updateIngredient" parameterType="Ingredient">
+        UPDATE INGREDIENT
+        SET
+            category = #{category},
+            name = #{name},
+            name_eng = #{nameEng},
+            flavor = #{flavor},
+            explanation = #{explanation},
+            photo = #{photo}
+        WHERE 1=1
+        AND ingredient_id = #{id}
+    </update>
+
+    <delete id="deleteIngredient" parameterType="Long">
+        DELETE FROM INGREDIENT
+        WHERE 1=1
+        AND ingredient_id = #{value}
+    </delete>
 
 </mapper>

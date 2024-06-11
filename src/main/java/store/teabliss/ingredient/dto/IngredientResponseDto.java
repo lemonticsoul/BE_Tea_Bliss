@@ -22,6 +22,16 @@ public class IngredientResponseDto {
 
     private String photo;
 
+    public static IngredientResponseDto of(Ingredient ingredient) {
+        return IngredientResponseDto.builder()
+                .category(ingredient.getCategory())
+                .name(ingredient.getName())
+                .nameEng(ingredient.getNameEng())
+                .explanation(ingredient.getExplanation())
+                .photo(ingredient.getPhoto())
+                .build();
+    }
+
     public static IngredientResponseDto of(Ingredient ingredient, List<FlavorResponseDto> flavors) {
         return IngredientResponseDto.builder()
                 .category(ingredient.getCategory())
