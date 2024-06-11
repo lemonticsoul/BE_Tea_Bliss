@@ -10,7 +10,7 @@ public interface IngredientMapper {
 
     Long createIngredient(Ingredient ingredient);
 
-    List<Ingredient> findByIngredients();
+    List<Ingredient> findByIngredients(Ingredient ingredient);
 
     int updateIngredient(Ingredient ingredient);
 

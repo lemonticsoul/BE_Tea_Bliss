@@ -33,8 +33,12 @@ public class IngredientService {
         return ingredientMapper.createIngredient(ingredient);
     }
 
-    public List<IngredientResponseDto> findByIngredient() {
-        List<Ingredient> ingredients = ingredientMapper.findByIngredients();
+    public List<IngredientResponseDto> findByIngredient(String category) {
+        Ingredient ingredient = Ingredient.builder()
+                .category(category)
+                .build();
+
+        List<Ingredient> ingredients = ingredientMapper.findByIngredients(ingredient);
 
         List<IngredientResponseDto> ingredientResponseDtoList = new ArrayList<>();
 

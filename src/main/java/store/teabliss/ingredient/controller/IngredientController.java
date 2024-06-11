@@ -36,7 +36,7 @@ public class IngredientController {
             @RequestParam(name = "category", required = false) String category
     ) {
 
-        List<IngredientResponseDto> list = ingredientService.findByIngredient();
+        List<IngredientResponseDto> list = ingredientService.findByIngredient(category);
 
         return ResponseEntity.ok(IngredientResponse.ok(list));
     }
