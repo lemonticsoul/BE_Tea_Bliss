@@ -3,6 +3,7 @@ package store.teabliss.ingredient.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import store.teabliss.ingredient.dto.FlavorResponseDto;
+import store.teabliss.ingredient.dto.IngredientRequestDto;
 import store.teabliss.ingredient.dto.IngredientResponseDto;
 import store.teabliss.ingredient.entity.Flavor;
 import store.teabliss.ingredient.entity.Ingredient;
@@ -19,33 +20,64 @@ public class IngredientService {
     private final IngredientMapper ingredientMapper;
     private final FlavorMapper flavorMapper;
 
-    public List<IngredientResponseDto> findByIngredient() {
-        List<Ingredient> ingredients = ingredientMapper.findByIngredients();
+    public Long createIngredient(IngredientRequestDto ingredientRequestDto) {
+        Ingredient ingredient = Ingredient.builder()
+                .category(ingredientRequestDto.getCategory())
+                .name(ingredientRequestDto.getName())
+                .nameEng(ingredientRequestDto.getNameEng())
+                .flavor(ingredientRequestDto.getFlavor())
+                .explanation(ingredientRequestDto.getExplanation())
+                .photo(ingredientRequestDto.getPhoto())
+                .build();
+
+        return ingredientMapper.createIngredient(ingredient);
+    }
+
+    public List<IngredientResponseDto> findByIngredient(String category) {
+        Ingredient ingredient = Ingredient.builder()
+                .category(category)
+                .build();
+
+        List<Ingredient> ingredients = ingredientMapper.findByIngredients(ingredient);
 
         List<IngredientResponseDto> ingredientResponseDtoList = new ArrayList<>();
 
         for(Ingredient i : ingredients) {
 
-            // long[] flavor_ids = Arrays.stream(i.getFlavor().split(",")).mapToLong(Long::parseLong).toArray();
+            IngredientResponseDto ingredientResponseDto;
 
-            List<Flavor> flavorList = flavorMapper.findByFlavors(i.getFlavor().split(","));
+            if(i.getFlavor() != null && !i.getFlavor().isEmpty()) {
+                List<Flavor> flavorList = flavorMapper.findByFlavors(i.getFlavor().split(","));
 
-            List<FlavorResponseDto> flavorResponseDtoList = FlavorResponseDto.ofs(flavorList);
+                List<FlavorResponseDto> flavorResponseDtoList = FlavorResponseDto.ofs(flavorList);
 
-            // for(long f_id : flavor_ids) {
-            //     Flavor flavor = flavorMapper.findByFlavor(f_id).orElseThrow();
-            //
-            //     FlavorResponseDto flavorResponseDto = FlavorResponseDto.of(flavor);
-            //
-            //     flavorResponseDtoList.add(flavorResponseDto);
-            // }
-
-            IngredientResponseDto ingredientResponseDto = IngredientResponseDto.of(i, flavorResponseDtoList);
+                ingredientResponseDto = IngredientResponseDto.of(i, flavorResponseDtoList);
+            } else {
+                ingredientResponseDto = IngredientResponseDto.of(i);
+            }
 
             ingredientResponseDtoList.add(ingredientResponseDto);
         }
 
         return ingredientResponseDtoList;
+    }
+
+    public int updateIngredient(IngredientRequestDto ingredientRequestDto) {
+        Ingredient ingredient = Ingredient.builder()
+                .id(ingredientRequestDto.getId())
+                .category(ingredientRequestDto.getCategory())
+                .name(ingredientRequestDto.getName())
+                .nameEng(ingredientRequestDto.getNameEng())
+                .flavor(ingredientRequestDto.getFlavor())
+                .explanation(ingredientRequestDto.getExplanation())
+                .photo(ingredientRequestDto.getPhoto())
+                .build();
+
+        return ingredientMapper.updateIngredient(ingredient);
+    }
+
+    public void deleteIngredient(Long id) {
+        ingredientMapper.deleteIngredient(id);
     }
 
 }

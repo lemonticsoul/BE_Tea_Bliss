@@ -2,9 +2,9 @@ package store.teabliss.ingredient.dto;
 
 import lombok.Builder;
 import lombok.Getter;
+import store.teabliss.ingredient.entity.Ingredient;
 
 @Getter
-@Builder
 public class IngredientRequestDto {
     private Long id;
 
@@ -12,5 +12,11 @@ public class IngredientRequestDto {
 
     private String name;
 
+    private String nameEng;
+
+    private String flavor;
+
     private String explanation;
+
+    private String photo;
 }
