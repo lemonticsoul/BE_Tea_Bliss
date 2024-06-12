@@ -19,6 +19,12 @@ public class Ingredient {
 
     private String nameEng;
 
+    private int sale;
+
+    private int inventory;
+
+    private String saleStatus;
+
     private String flavor;
 
     private String explanation;

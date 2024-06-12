@@ -76,6 +76,12 @@ public class IngredientService {
         return ingredientMapper.updateIngredient(ingredient);
     }
 
+    public int updateIngredients(List<IngredientRequestDto> ingredientRequestDtos) {
+
+
+        return 0;
+    }
+
     public void deleteIngredient(Long id) {
         ingredientMapper.deleteIngredient(id);
     }
