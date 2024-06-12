@@ -68,6 +68,9 @@ public class IngredientService {
                 .category(ingredientRequestDto.getCategory())
                 .name(ingredientRequestDto.getName())
                 .nameEng(ingredientRequestDto.getNameEng())
+                .sale(ingredientRequestDto.getSale())
+                .inventory(ingredientRequestDto.getInventory())
+                .saleStatus(ingredientRequestDto.getSaleStatus())
                 .flavor(ingredientRequestDto.getFlavor())
                 .explanation(ingredientRequestDto.getExplanation())
                 .photo(ingredientRequestDto.getPhoto())
@@ -78,8 +81,28 @@ public class IngredientService {
 
     public int updateIngredients(List<IngredientRequestDto> ingredientRequestDtos) {
 
+        int count = 0;
 
-        return 0;
+        for(IngredientRequestDto iDto : ingredientRequestDtos) {
+            Ingredient ingredient = Ingredient.builder()
+                    .id(iDto.getId())
+                    .category(iDto.getCategory())
+                    .name(iDto.getName())
+                    .nameEng(iDto.getNameEng())
+                    .sale(iDto.getSale())
+                    .inventory(iDto.getInventory())
+                    .saleStatus(iDto.getSaleStatus())
+                    .flavor(iDto.getFlavor())
+                    .explanation(iDto.getExplanation())
+                    .photo(iDto.getPhoto())
+                    .build();
+
+            int success = ingredientMapper.updateIngredient(ingredient);
+
+            count += success;
+        }
+
+        return count;
     }
 
     public void deleteIngredient(Long id) {

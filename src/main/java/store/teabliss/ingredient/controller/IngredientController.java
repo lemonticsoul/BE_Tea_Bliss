@@ -57,11 +57,9 @@ public class IngredientController {
             @RequestBody List<IngredientRequestDto> ingredientRequestDtos
     ) {
 
-        System.out.println(ingredientRequestDtos);
-        // int success = ingredientService.updateIngredients(ingredientRequestDtos);
+        int success = ingredientService.updateIngredients(ingredientRequestDtos);
 
-        // return ResponseEntity.ok(IngredientResponse.ok(success));
-        return null;
+        return ResponseEntity.ok(IngredientResponse.ok(success));
     }
 
     @DeleteMapping("/{id}")
