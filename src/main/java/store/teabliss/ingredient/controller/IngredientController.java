@@ -41,12 +41,23 @@ public class IngredientController {
         return ResponseEntity.ok(IngredientResponse.ok(list));
     }
 
-    @PutMapping("")
-    @Operation(summary = "차 재료 업데이트", description = "차 재료 업데이트 API")
+    @PutMapping("/one")
+    @Operation(summary = "차 재료 단일 업데이트", description = "차 재료 단일 업데이트 API")
     public ResponseEntity<IngredientResponse> updateIngredient(
             @RequestBody IngredientRequestDto ingredientRequestDto
     ) {
         int success = ingredientService.updateIngredient(ingredientRequestDto);
+
+        return ResponseEntity.ok(IngredientResponse.ok(success));
+    }
+
+    @PutMapping("/many")
+    @Operation(summary = "차 재료 다중 업데이트", description = "차 재료 다중 업데이트 API")
+    public ResponseEntity<IngredientResponse> updateIngredients(
+            @RequestBody List<IngredientRequestDto> ingredientRequestDtos
+    ) {
+
+        int success = ingredientService.updateIngredients(ingredientRequestDtos);
 
         return ResponseEntity.ok(IngredientResponse.ok(success));
     }
