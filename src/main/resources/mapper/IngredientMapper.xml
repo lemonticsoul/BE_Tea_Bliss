@@ -3,16 +3,50 @@
 
 <mapper namespace="store.teabliss.ingredient.mapper.IngredientMapper">
 
-    <select id="findByIngredients" resultType="Ingredient">
+    <insert id="createIngredient" parameterType="Ingredient" useGeneratedKeys="true" keyProperty="ingredientId" keyColumn="ingredient_id">
+        INSERT INTO INGREDIENT (category, name, name_eng, sale, inventory, sale_status, flavor, explanation, photo)
+        VALUES(#{category}, #{name}, #{name_eng}, #{sale}, #{inventory}, #{sale_status}, #{flavor}, #{explanation}, #{photo})
+    </insert>
+
+    <select id="findByIngredients" parameterType="Ingredient" resultType="Ingredient">
         SELECT
             ingredient_id as id,
             category,
             name,
             name_eng,
+            sale,
+            inventory,
+            sale_status,
             flavor,
             explanation
         FROM INGREDIENT
         WHERE 1=1
+        <if test="category != null and category != ''">
+        AND category = #{category}
+        </if>
+<!--        LIMIT 0, 50;-->
     </select>
+
+    <update id="updateIngredient" parameterType="Ingredient">
+        UPDATE INGREDIENT
+        SET
+            category = IFNULL(#{category}, category),
+            name = IFNULL(#{name}, name),
+            name_eng = IFNULL(#{name_eng}, nameEng),
+            sale = IFNULL(#{sale}, sale}),
+            inventory = IFNULL(#{inventory}, inventory}),
+            sale_status = IFNULL(#{sale_status}, sale_status}),
+            flavor = IFNULL(#{flavor}, flavor),
+            explanation = IFNULL(#{explanation}, explanation),
+            photo = IFNULL(#{photo}, photo)
+        WHERE 1=1
+        AND ingredient_id = #{id}
+    </update>
+
+    <delete id="deleteIngredient" parameterType="Long">
+        DELETE FROM INGREDIENT
+        WHERE 1=1
+        AND ingredient_id = #{value}
+    </delete>
 
 </mapper>

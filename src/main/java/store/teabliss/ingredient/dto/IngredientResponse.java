@@ -15,6 +15,10 @@ public class IngredientResponse extends CommonResponse {
         this.data = data;
     }
 
+    public static IngredientResponse ok(String message, Object data) {
+        return new IngredientResponse(200, message, data);
+    }
+
     public static IngredientResponse ok(Object data) {
         return new IngredientResponse(200, "Success", data);
     }

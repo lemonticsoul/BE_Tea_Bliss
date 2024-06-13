@@ -8,8 +8,12 @@ import java.util.List;
 @Mapper
 public interface IngredientMapper {
 
-    void createIngredient(Ingredient ingredient);
+    Long createIngredient(Ingredient ingredient);
 
-    List<Ingredient> findByIngredients();
+    List<Ingredient> findByIngredients(Ingredient ingredient);
+
+    int updateIngredient(Ingredient ingredient);
+
+    void deleteIngredient(Long id);
 
 }
