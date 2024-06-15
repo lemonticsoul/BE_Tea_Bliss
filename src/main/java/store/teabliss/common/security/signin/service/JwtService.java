@@ -32,7 +32,7 @@ public class JwtService {
 
     private static final long ACCESS_TOKEN_EXPIRED_TIME = 1000L * 60L * 60L * 24L; // 1일
     private static final long REFRESH_TOKEN_EXPIRED_TIME = 1000L * 60L * 60L * 24L * 7L; // 7일
-    private static final String ACCESS_TOKEN = "AccessToken";
+    private static final String ACCESS_TOKEN = "Authorization";
     private static final String REFRESH_TOKEN = "RefreshToken";
     private static final String BEARER = "Bearer ";
 
@@ -102,20 +102,26 @@ public class JwtService {
     public void sendAccessAndRefreshToken(HttpServletResponse response, String accessToken, String refreshToken) {
         response.setStatus(HttpServletResponse.SC_OK);
 
-        CookieUtils.addCookie(response, "accessToken", accessToken, 24 * 60 * 60);
+        // CookieUtils.addCookie(response, "accessToken", accessToken, 24 * 60 * 60);
+        setAccessTokenHeader(response, accessToken);
         CookieUtils.addCookie(response, "refreshToken", refreshToken, 7 * 24 * 60 * 60);
     }
 
     public void sendAccessToken(HttpServletResponse response, String accessToken) {
         response.setStatus(HttpServletResponse.SC_OK);
 
-        CookieUtils.addCookie(response, "accessToken", accessToken, 24 * 60 * 60);
+        setAccessTokenHeader(response, accessToken);
+        // CookieUtils.addCookie(response, "accessToken", accessToken, 24 * 60 * 60);
+    }
+
+    public void setAccessTokenHeader(HttpServletResponse response, String accessToken) {
+        response.setHeader(ACCESS_TOKEN, BEARER + accessToken);
     }
 
     public Optional<String> extractAccessToken(HttpServletRequest request) {
-        return Optional.ofNullable(request.getHeader(ACCESS_TOKEN)).filter(
-                accessToken -> accessToken.startsWith(BEARER)
-        ).map(accessToken -> accessToken.replace(BEARER, ""));
+        return Optional.ofNullable(request.getHeader(ACCESS_TOKEN))
+                .filter(accessToken -> accessToken.startsWith(BEARER))
+                .map(accessToken -> accessToken.replace(BEARER, ""));
     }
 
     public Optional<String> extractRefreshToken(HttpServletRequest request) {

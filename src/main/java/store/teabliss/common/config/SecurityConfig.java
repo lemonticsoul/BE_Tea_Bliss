@@ -72,8 +72,12 @@ public class SecurityConfig {
                         HeadersConfigurer.FrameOptionsConfig::disable).disable())
                 .sessionManagement(c -> c.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests((request) -> {
-                        request.requestMatchers(new AntPathRequestMatcher("/api/**")).permitAll();
-                        request.requestMatchers(permitUrl).permitAll();
+                        // request.requestMatchers(new AntPathRequestMatcher("/api/**")).permitAll();
+                        request.requestMatchers(new AntPathRequestMatcher("/api/member/**")).permitAll();
+                        // request.requestMatchers(new AntPathRequestMatcher("/api/ingredient/**")).permitAll();
+                        // request.requestMatchers(new AntPathRequestMatcher("/api/survey/**")).authenticated();
+                        // request.requestMatchers(permitUrl).permitAll();
+                        request.anyRequest().authenticated();
                     }
                 );
 
@@ -86,7 +90,7 @@ public class SecurityConfig {
                 );
 
         http
-                .addFilterAfter(usernamePasswordAuthenticationFilter(),LogoutFilter.class)
+                .addFilterAfter(usernamePasswordAuthenticationFilter(), LogoutFilter.class)
                 .addFilterBefore(jwtAuthenticationProcessingFilter(), UsernamePasswordAuthenticationFilter.class);
 
 

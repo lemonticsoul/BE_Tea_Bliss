@@ -52,11 +52,9 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     private void checkAccessTokenAndAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         jwtService.extractAccessToken(request)
                 .filter(jwtService::isTokenValid)
-                    .ifPresent(accessToken -> jwtService.extractEmail(accessToken)
-                        .ifPresent(email -> memberMapper.findByEmail(email)
-                                .ifPresent(this::saveAuthentication)
-                        )
-                );
+                    .flatMap(jwtService::extractEmail)
+                        .flatMap(memberMapper::findByEmail)
+                                .ifPresent(this::saveAuthentication);
 
         filterChain.doFilter(request, response);
     }
