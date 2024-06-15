@@ -43,7 +43,7 @@ public class SwaggerConfig {
         List<Tag> tagList = List.of(
                 createTag("회원 API", "회원 관련 API"),
                 createTag("차 완제품 API", "차 완제품 관련 API"),
-                createTag("차 재료 API", "차 재료 관련 API")
+                createTag("차 재료 API", "차 재료 관련 API"),
                 createTag("설문조사 API", "설문조사 관련 API")
         );
 
