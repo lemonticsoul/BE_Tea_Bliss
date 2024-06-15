@@ -4,8 +4,8 @@
 <mapper namespace="store.teabliss.survey.mapper.SurveyMapper">
 
     <insert id="createSurvey" parameterType="Survey">
-        INSERT INTO SURVEY (taste, sale, category, caffeine)
-        VALUES (#{taste}, #{sale}, #{category}, #{caffeine})
+        INSERT INTO SURVEY (taste, sale, category, caffeine, mem_id)
+        VALUES (#{taste}, #{sale}, #{category}, #{caffeine}, #{memId})
     </insert>
 
 </mapper>
