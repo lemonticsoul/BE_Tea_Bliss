@@ -74,9 +74,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests((request) -> {
                         // request.requestMatchers(new AntPathRequestMatcher("/api/**")).permitAll();
                         request.requestMatchers(new AntPathRequestMatcher("/api/member/**")).permitAll();
-                        // request.requestMatchers(new AntPathRequestMatcher("/api/ingredient/**")).permitAll();
+                        request.requestMatchers(new AntPathRequestMatcher("/api/ingredient/**")).permitAll();
+                        request.requestMatchers(new AntPathRequestMatcher("/api/tea/**")).permitAll();
                         // request.requestMatchers(new AntPathRequestMatcher("/api/survey/**")).authenticated();
-                        // request.requestMatchers(permitUrl).permitAll();
+                        request.requestMatchers(permitUrl).permitAll();
                         request.anyRequest().authenticated();
                     }
                 );
