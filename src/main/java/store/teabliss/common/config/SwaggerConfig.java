@@ -1,6 +1,7 @@
 package store.teabliss.common.config;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.servers.Server;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
@@ -14,7 +15,11 @@ import org.springframework.http.HttpHeaders;
 
 import java.util.List;
 
-@OpenAPIDefinition
+@OpenAPIDefinition(servers = {
+        @Server(url = "https://teabliss.kro.kr", description = "Tea-Bliss HTTPS DEV SERVER"),
+        @Server(url = "http://3.34.226.82:8080", description = "Tea-Bliss HTTP DEV SERVER"),
+        @Server(url = "http://localhost:8080", description = "Tea-Bliss LOCAL SERVER")
+})
 @Configuration
 public class SwaggerConfig {
 
@@ -23,7 +28,8 @@ public class SwaggerConfig {
         String[] paths = {
                 "/api/member/**",
                 "/api/tea/**",
-                "/api/ingredient/**"
+                "/api/ingredient/**",
+                "/api/survey/**"
         };
 
         return GroupedOpenApi.builder()
@@ -37,7 +43,8 @@ public class SwaggerConfig {
         List<Tag> tagList = List.of(
                 createTag("회원 API", "회원 관련 API"),
                 createTag("차 완제품 API", "차 완제품 관련 API"),
-                createTag("차 재료 API", "차 재료 관련 API")
+                createTag("차 재료 API", "차 재료 관련 API"),
+                createTag("설문조사 API", "설문조사 관련 API")
         );
 
         String key = "Access Token (Bearer)";
