@@ -27,7 +27,7 @@ public class SurveyCreateDto {
                 .sale(sale)
                 .category(category)
                 .caffeine(caffeine)
-                .id(memId)
+                .memId(memId)
                 .build();
     }
 
