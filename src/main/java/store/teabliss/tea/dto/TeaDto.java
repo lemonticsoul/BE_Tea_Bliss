@@ -13,16 +13,13 @@ import java.util.Date;
 
 @Getter
 @Setter
-
 public class TeaDto {
-
 
     private Long price;
 
     private String category;
 
     private Long review;
-
 
     private Long sale;
 
@@ -46,11 +43,8 @@ public class TeaDto {
 
     private Long inventory;
 
-
     private String saleStatus;
 
     private ArrayList<Long> flavor;
-
-
 
 }
