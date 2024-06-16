@@ -17,7 +17,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@Tag(name = "차 완제품 API")
+@Tag(name = "리뷰 API")
 @RequestMapping("/api/review")
 public class ReviewController {
 
