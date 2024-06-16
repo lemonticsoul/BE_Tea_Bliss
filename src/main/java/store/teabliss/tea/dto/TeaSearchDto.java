@@ -1,21 +1,16 @@
 package store.teabliss.tea.dto;
 
-
-import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
+
 
 @Getter
 @Setter
+public class TeaSearchDto {
 
-public class TeaDto {
-
+    private Long id;
 
     private Long price;
 
@@ -50,7 +45,4 @@ public class TeaDto {
     private String saleStatus;
 
     private ArrayList<Long> flavor;
-
-
-
 }

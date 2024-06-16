@@ -10,45 +10,91 @@
 <!--        VALUES(#{email}, #{password}, #{nickname})-->
 <!--    </insert>-->
 
-    <insert id="save" parameterType="tea">
-        INSERT INTO Tea (title, category, cost, review, sale, rating, rate, season, createat, IsLastPage)
-        VALUES (#{title}, #{category}, #{cost}, #{review}, #{sale}, #{rating}, #{rate}, #{season}, #{createat}, #{IsLastPage})
+    <insert id="save" parameterType="Tea" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO Tea (price, category, review, sale, rating, rate, season, createat,name, name_eng, caffeine, description, img, inventory, sale_status)
+        VALUES (#{price}, #{category}, #{review}, #{sale}, #{rating}, #{rate}, #{season}, #{createat}, #{name}, #{nameEng}, #{caffeine}, #{description}, #{img}, #{inventory}, #{saleStatus})
+    </insert>
+
+    <insert id="saveIngredient" parameterType="store.teabliss.tea.entity.TeaIngredient">
+        INSERT INTO TeaIngredient (tea_id, ingredient_id)
+        VALUES (#{teaId}, #{ingredientId})
+    </insert>
+
+    <insert id="saveFlavor" parameterType="store.teabliss.tea.entity.TeaFlavor">
+        INSERT INTO TeaFlavor (tea_id, flavor_id)
+        VALUES (#{teaId}, #{flavor})
     </insert>
 
     <select id="recommend">
         SELECT *
         FROM Tea
-        ORDER BY rate DESC ,createat
+        ORDER BY rate DESC, createat
     </select>
 
     <select id="sale">
-        select *
-        from Tea
-        order by sale desc ,createat
+        SELECT *
+        FROM Tea
+        ORDER BY sale DESC, createat
     </select>
 
     <select id="topcost">
-        select *
-        from Tea
-        order by cost desc ,createat
-
+        SELECT *
+        FROM Tea
+        ORDER BY price DESC, createat
     </select>
 
     <select id="lowcost">
-        select *
-        from Tea
-        order by cost ,createat
-
+        SELECT *
+        FROM Tea
+        ORDER BY price, createat
     </select>
 
     <select id="all">
-        select *
-        from Tea
+        SELECT *
+        FROM Tea
     </select>
 
     <select id="count">
-        select count(*)
-        from Tea
+        SELECT count(*)
+        FROM Tea
+    </select>
+
+    <select id="category">
+        SELECT *
+        FROM Tea
+        WHERE category = #{category}
+    </select>
+
+    <select id="countByCategory">
+        SELECT count(*)
+        FROM Tea
+        WHERE category = #{category}
+    </select>
+
+    <select id="search">
+        SELECT img, name, nameEng, price
+        FROM Tea
+        WHERE id = #{id}
+    </select>
+
+    <select id="findbyid">
+        SELECT *
+        FROM Tea
+        WHERE id=#{id}
+    </select>
+
+    <select id="findbyingredient">
+        SELECT ingredient_id
+        FROM TeaIngredient
+        WHERE tea_id =#{id}
+
+    </select>
+
+    <select id="findbyflavor">
+        SELECT flavor_id
+        FROM TeaFlavor
+        WHERE tea_id =#{id}
+
     </select>
 
 

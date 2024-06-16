@@ -1,6 +1,7 @@
 package store.teabliss.tea.controller;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +10,8 @@ import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import store.teabliss.tea.dto.TeaDto;
+import store.teabliss.tea.dto.TeaFinalDto;
+import store.teabliss.tea.dto.TeaSearchDto;
 import store.teabliss.tea.entity.Tea;
 import store.teabliss.tea.mapper.TeaMapper;
 import store.teabliss.tea.service.TeaService;
@@ -30,7 +33,7 @@ public class TeaController {
 
     @Operation(summary = "티 정보 입력하기", description = "아직 티 하나만 입력가능합니다(향후 수정)")
     @PostMapping("/summit")
-    public ResponseEntity<?> summit(@RequestBody TeaDto teaDto){
+    public ResponseEntity<?> summit(@RequestBody TeaDto teaDto) throws JsonProcessingException {
 
         teaService.createtea(teaDto);
         return ResponseEntity.ok("완성차 티 정보가 입력되었습니다!");
@@ -40,9 +43,7 @@ public class TeaController {
     @GetMapping("/recommend")
     public ResponseEntity<?> recommend(@RequestParam("page") int page,@RequestParam("limit") int limit) {
 
-        List<Tea> sort=teaService.sort(page,limit);
-
-
+        List<TeaFinalDto> sort=teaService.sort(page,limit);
         Long teacount=teaService.count();
 
         Map<String,Object> response=new HashMap<>();
@@ -55,7 +56,7 @@ public class TeaController {
     @GetMapping("/sale")
     public ResponseEntity<?> sale(@RequestParam("page") int page,@RequestParam("limit") int limit) {
 
-        List<Tea> sort=teaService.salesort(page,limit);
+        List<TeaFinalDto> sort=teaService.salesort(page,limit);
 
         Long teacount=teaService.count();
 
@@ -73,7 +74,7 @@ public class TeaController {
     public ResponseEntity<?> topcost(@RequestParam("page") int page,@RequestParam("limit") int limit){
 
 
-        List<Tea> topcost=teaService.topcostsort(page,limit);
+        List<TeaFinalDto> topcost=teaService.topcostsort(page,limit);
 
         Long teacount=teaService.count();
 
@@ -87,7 +88,7 @@ public class TeaController {
     @GetMapping("/lowcost")
     public ResponseEntity<?> lowcost(@RequestParam("page") int page,@RequestParam("limit") int limit ){
 
-        List<Tea> lowcost=teaService.lowcostsort(page,limit);
+        List<TeaFinalDto> lowcost=teaService.lowcostsort(page,limit);
         Long teacount=teaService.count();
 
 
@@ -102,7 +103,7 @@ public class TeaController {
     @Operation(summary = "모두 조회", description = "모든 차를 조회하는 로직입니다.")
     public ResponseEntity<?> all(@RequestParam("page") int page,@RequestParam("limit") int limit ){
 
-        List<Tea> all=teaService.all(page,limit);
+        List<TeaFinalDto> all=teaService.all(page,limit);
 
         Long teacount=teaService.count();
 
@@ -112,6 +113,32 @@ public class TeaController {
         return ResponseEntity.ok(response);
 
 
+    }
+    @GetMapping("findtea")
+    @Operation(summary = "티 상세 조회", description = "차 하나만 조회하는 로직")
+    public ResponseEntity<TeaSearchDto> responseid(@RequestParam("id") int id){
+
+
+        TeaSearchDto tea=teaService.find(id);
+
+        return ResponseEntity.ok(tea);
+
+
+    }
+
+    @GetMapping("category")
+    @Operation(summary = "카테고리 조회", description = "차 하나만 조회하는 로직")
+    public ResponseEntity<?> category(@RequestParam("page") int page,@RequestParam("limit") int limit,@RequestParam("category") String categroy){
+
+
+        List<TeaFinalDto> category=teaService.categorysort(page,limit,categroy);
+
+        Long teacount=teaService.categorycount(categroy);
+
+        Map<String,Object> response=new HashMap<>();
+        response.put("size",teacount);
+        response.put("tea",category);
+        return ResponseEntity.ok(response);
     }
 
 
