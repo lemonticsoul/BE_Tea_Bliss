@@ -11,10 +11,7 @@ import store.teabliss.tea.entity.TeaIngredient;
 import store.teabliss.tea.entity.Tea;
 import store.teabliss.tea.mapper.TeaMapper;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -23,31 +20,46 @@ public class TeaService {
 
     private final TeaMapper teaMapper;
 
-
     public boolean createtea(TeaDto teaDto) throws JsonProcessingException {
-            Tea tea = new Tea();
+            // Tea tea = new Tea();
+            //
+            // tea.setCategory(teaDto.getCategory());
+            // tea.setPrice(teaDto.getPrice());
+            // tea.setReview(teaDto.getReview());
+            // tea.setSale(teaDto.getSale());
+            // tea.setRating(teaDto.getRating());
+            // tea.setSeason(teaDto.getSeason());
+            // tea.setName(teaDto.getName());
+            // tea.setNameEng(tea.getNameEng());
+            // tea.setRate(teaDto.getRate());
+            // tea.setCaffeine(teaDto.isCaffeine());
+            //
+            // tea.setDescription(teaDto.getDescription());
+            // tea.setImg(teaDto.getImg());
+            // tea.setInventory(teaDto.getInventory());
+            // tea.setSaleStatus(teaDto.getSaleStatus());
+            // tea.setCreateat(new Timestamp(new Date().getTime()));
+            // tea.setIsLastPage(false);
 
-            tea.setCategory(teaDto.getCategory());
-            tea.setPrice(teaDto.getPrice());
-            tea.setReview(teaDto.getReview());
-            tea.setSale(teaDto.getSale());
-            tea.setRating(teaDto.getRating());
-            tea.setSeason(teaDto.getSeason());
-            tea.setName(teaDto.getName());
-            tea.setNameEng(tea.getNameEng());
-            tea.setRate(teaDto.getRate());
-            tea.setCaffeine(teaDto.isCaffeine());
-
-            tea.setDescription(teaDto.getDescription());
-            tea.setImg(teaDto.getImg());
-            tea.setInventory(teaDto.getInventory());
-            tea.setSaleStatus(teaDto.getSaleStatus());
-            tea.setCreateat(new Timestamp(new Date().getTime()));
-            tea.setIsLastPage(false);
+            Tea tea = Tea.builder()
+                    .category(teaDto.getCategory())
+                    .price(teaDto.getPrice())
+                    .review(teaDto.getReview())
+                    .sale(teaDto.getSale())
+                    .rating(teaDto.getRating())
+                    .season(teaDto.getSeason())
+                    .name(teaDto.getName())
+                    .nameEng(teaDto.getNameEng())
+                    .rate(teaDto.getRate())
+                    .caffeine(teaDto.isCaffeine())
+                    .description(teaDto.getDescription())
+                    .img(teaDto.getImg())
+                    .inventory(teaDto.getInventory())
+                    .saleStatus(teaDto.getSaleStatus())
+                    .build();
 
             /// flavor와 재료
             teaMapper.save(tea);
-
 
             List<Long> temp1=teaDto.getIngredient();
             for (Long t1:temp1){
@@ -66,45 +78,8 @@ public class TeaService {
                 teaMapper.saveFlavor(teaflavor);
             }
 
-
-
-
-
             return true;
-
     }
-
-    private List<TeaFinalDto> changeDto(List<Tea> listtea){
-
-        List<TeaFinalDto> saveTeaFinalDto = new ArrayList<>();
-
-        for (Tea tea:listtea){
-            TeaFinalDto saveDto=new TeaFinalDto();
-            saveDto.setPrice(tea.getPrice());
-            saveDto.setCategory(tea.getCategory());
-            saveDto.setReview(tea.getReview());
-            saveDto.setSale(tea.getSale());
-            saveDto.setRating(tea.getRating());
-            saveDto.setRate(tea.getRate());
-            saveDto.setSeason(tea.getSeason());
-            saveDto.setName(tea.getName());
-            saveDto.setNameEng(tea.getNameEng());
-            saveDto.setImg(tea.getImg());
-            saveDto.setCreateat(tea.getCreateat());
-            saveDto.setIsLastPage(tea.isIsLastPage());
-
-
-            saveTeaFinalDto.add(saveDto);
-
-
-
-
-        }
-
-        return saveTeaFinalDto;
-    }
-
-
 
     public List<TeaFinalDto> sort(int page,int limit){
 
@@ -132,7 +107,7 @@ public class TeaService {
 
         }
 
-        List<TeaFinalDto> saveFinalDto=changeDto(new_recommend);
+        List<TeaFinalDto> saveFinalDto = TeaFinalDto.of(new_recommend);
 
 
 
@@ -165,14 +140,7 @@ public class TeaService {
             }
 
         }
-
-        List<TeaFinalDto> saveFinalDto=changeDto(new_recommend);
-
-
-
-        return saveFinalDto;
-
-
+        return TeaFinalDto.of(new_recommend);
     }
 
     public List<TeaFinalDto> topcostsort(int page,int limit){
@@ -190,21 +158,14 @@ public class TeaService {
                 topcost.get(i).setIsLastPage(true);
                 new_recommend.add(topcost.get(i));
 
-            } else if (page !=limitpage) {
+            } else {
                 topcost.get(i).setIsLastPage(false);
                 new_recommend.add(topcost.get(i));
 
             }
 
         }
-
-        List<TeaFinalDto> saveFinalDto=changeDto(new_recommend);
-
-
-
-        return saveFinalDto;
-
-
+        return TeaFinalDto.of(new_recommend);
     }
     public List<TeaFinalDto> lowcostsort(int page,int limit){
 
@@ -221,19 +182,14 @@ public class TeaService {
                 lowcost.get(i).setIsLastPage(true);
                 new_recommend.add(lowcost.get(i));
 
-            } else if (page !=limitpage) {
+            } else {
                 lowcost.get(i).setIsLastPage(false);
                 new_recommend.add(lowcost.get(i));
 
             }
 
         }
-
-        List<TeaFinalDto> saveFinalDto=changeDto(new_recommend);
-
-
-
-        return saveFinalDto;
+        return TeaFinalDto.of(new_recommend);
 
     }
 
@@ -248,24 +204,16 @@ public class TeaService {
             if (i==all) {
                 break;
             }
-            if (page==limitpage){
+            if (page == limitpage){
                 alllist.get(i).setIsLastPage(true);
                 new_recommend.add(alllist.get(i));
 
-            } else if (page !=limitpage) {
+            } else {
                 alllist.get(i).setIsLastPage(false);
                 new_recommend.add(alllist.get(i));
-
             }
-
         }
-
-        List<TeaFinalDto> saveFinalDto=changeDto(new_recommend);
-
-
-
-        return saveFinalDto;
-
+        return TeaFinalDto.of(new_recommend);
     }
 
     public Long count(){
@@ -323,7 +271,7 @@ public class TeaService {
                 categorylist.get(i).setIsLastPage(true);
                 new_recommend.add(categorylist.get(i));
 
-            } else if (page !=limitpage) {
+            } else {
                 categorylist.get(i).setIsLastPage(false);
                 new_recommend.add(categorylist.get(i));
 
@@ -331,11 +279,7 @@ public class TeaService {
 
         }
 
-        List<TeaFinalDto> saveFinalDto=changeDto(new_recommend);
-
-
-
-        return saveFinalDto;
+        return TeaFinalDto.of(new_recommend);
 
     }
 
