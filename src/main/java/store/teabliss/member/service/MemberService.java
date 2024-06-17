@@ -3,6 +3,8 @@ package store.teabliss.member.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import store.teabliss.member.dto.MemberEditDto;
 import store.teabliss.member.dto.MemberSignUpDto;
 import store.teabliss.member.entity.Member;
 import store.teabliss.member.exception.DuplicationMemberEmailException;
@@ -33,6 +35,15 @@ public class MemberService {
         memberMapper.createMember(member);
 
         return member.getMemId();
+    }
+
+    public int updateMember(Long memId, MemberEditDto memberEditDto) {
+        Member member = memberEditDto.toEntity(memId);
+
+        if(StringUtils.hasText(memberEditDto.getPassword()))
+            member.passwordEncode(encoder);
+
+        return memberMapper.updateMember(member);
     }
 
 }
