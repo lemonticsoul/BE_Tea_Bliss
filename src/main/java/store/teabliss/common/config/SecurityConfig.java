@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -32,6 +33,8 @@ import store.teabliss.common.security.signin.service.UserDetailsServiceImpl;
 import store.teabliss.common.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository;
 import store.teabliss.common.security.oauth2.service.CustomOAuth2UserService;
 import store.teabliss.member.mapper.MemberMapper;
+
+import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -73,9 +76,9 @@ public class SecurityConfig {
                 .sessionManagement(c -> c.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests((request) -> {
                         // request.requestMatchers(new AntPathRequestMatcher("/api/**")).permitAll();
-                        request.requestMatchers(new AntPathRequestMatcher("/api/member/**")).permitAll();
-                        request.requestMatchers(new AntPathRequestMatcher("/api/ingredient/**")).permitAll();
-                        request.requestMatchers(new AntPathRequestMatcher("/api/tea/**")).permitAll();
+                        request.requestMatchers(antMatcher("/api/member/**")).permitAll();
+                        request.requestMatchers(antMatcher("/api/ingredient/**")).permitAll();
+                        request.requestMatchers(antMatcher(HttpMethod.GET, "/api/tea/**")).permitAll();
                         // request.requestMatchers(new AntPathRequestMatcher("/api/survey/**")).authenticated();
                         request.requestMatchers(permitUrl).permitAll();
                         request.anyRequest().authenticated();

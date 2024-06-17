@@ -3,16 +3,19 @@ package store.teabliss.tea.entity;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Tea {
 
     private Long id;
@@ -31,8 +34,6 @@ public class Tea {
 
     private String season;
 
-    private Timestamp createat =new Timestamp(new Date().getTime());
-
     private boolean IsLastPage = false;
 
     private String name;
@@ -49,12 +50,7 @@ public class Tea {
 
     private String saleStatus;
 
+    private LocalDateTime createDt;
 
-
-
-
-
-
-
-
+    private LocalDateTime updateDt;
 }

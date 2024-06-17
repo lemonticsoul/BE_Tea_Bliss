@@ -21,7 +21,9 @@ public interface MemberMapper {
 
     List<Member> findByMembers();
 
-    void updateMember(Member member);
+    int updateMember(Member member);
+
+    void updateRefreshToken(Member member);
 
     void deleteMember(String email);
 

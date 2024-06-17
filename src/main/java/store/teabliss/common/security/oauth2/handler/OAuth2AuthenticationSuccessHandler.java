@@ -82,7 +82,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
                     () -> new NotFoundMemberByEmailException(email)
             );
             member.updateRefreshToken(refreshToken);
-            memberMapper.updateMember(member);
+            memberMapper.updateRefreshToken(member);
 
             jwtService.sendAccessAndRefreshToken(response, accessToken, refreshToken);
 
@@ -101,7 +101,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
                     () -> new NotFoundMemberByEmailException(email)
             );
             member.destroyRefreshToken();
-            memberMapper.updateMember(member);
+            memberMapper.updateRefreshToken(member);
 
             oAuth2UserUnlinkManager.unlink(provider, accessToken);
 

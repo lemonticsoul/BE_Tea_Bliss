@@ -11,75 +11,75 @@
 <!--    </insert>-->
 
     <insert id="save" parameterType="Tea" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO Tea (price, category, review, sale, rating, rate, season, createat,name, name_eng, caffeine, description, img, inventory, sale_status)
-        VALUES (#{price}, #{category}, #{review}, #{sale}, #{rating}, #{rate}, #{season}, #{createat}, #{name}, #{nameEng}, #{caffeine}, #{description}, #{img}, #{inventory}, #{saleStatus})
+        INSERT INTO TEA (price, category, review, sale, rating, rate, season, name, name_eng, caffeine, description, img, inventory, sale_status)
+        VALUES (#{price}, #{category}, #{review}, #{sale}, #{rating}, #{rate}, #{season}, #{name}, #{nameEng}, #{caffeine}, #{description}, #{img}, #{inventory}, #{saleStatus})
     </insert>
 
     <insert id="saveIngredient" parameterType="store.teabliss.tea.entity.TeaIngredient">
-        INSERT INTO TeaIngredient (tea_id, ingredient_id)
+        INSERT INTO TEAINGREDIENT (tea_id, ingredient_id)
         VALUES (#{teaId}, #{ingredientId})
     </insert>
 
     <insert id="saveFlavor" parameterType="store.teabliss.tea.entity.TeaFlavor">
-        INSERT INTO TeaFlavor (tea_id, flavor_id)
+        INSERT INTO TEAFLAVOR (tea_id, flavor_id)
         VALUES (#{teaId}, #{flavor})
     </insert>
 
     <select id="recommend">
         SELECT *
-        FROM Tea
-        ORDER BY rate DESC, createat
+        FROM TEA
+        ORDER BY rate DESC, createDt
     </select>
 
     <select id="sale">
         SELECT *
-        FROM Tea
-        ORDER BY sale DESC, createat
+        FROM TEA
+        ORDER BY sale DESC, createDt
     </select>
 
     <select id="topcost">
         SELECT *
-        FROM Tea
-        ORDER BY price DESC, createat
+        FROM TEA
+        ORDER BY price DESC, createDt
     </select>
 
     <select id="lowcost">
         SELECT *
-        FROM Tea
-        ORDER BY price, createat
+        FROM TEA
+        ORDER BY price, createDt
     </select>
 
     <select id="all">
         SELECT *
-        FROM Tea
+        FROM TEA
     </select>
 
     <select id="count">
         SELECT count(*)
-        FROM Tea
+        FROM TEA
     </select>
 
     <select id="category">
         SELECT *
-        FROM Tea
+        FROM TEA
         WHERE category = #{category}
     </select>
 
     <select id="countByCategory">
         SELECT count(*)
-        FROM Tea
+        FROM TEA
         WHERE category = #{category}
     </select>
 
     <select id="search">
-        SELECT img, name, nameEng, price
-        FROM Tea
+        SELECT img, name, name_eng, price
+        FROM TEA
         WHERE id = #{id}
     </select>
 
     <select id="findbyid">
         SELECT *
-        FROM Tea
+        FROM TEA
         WHERE id=#{id}
     </select>
 

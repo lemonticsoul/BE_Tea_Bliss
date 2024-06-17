@@ -20,6 +20,10 @@ public class Member {
 
     private String nickname;
 
+    private String address;
+
+    private String profile;
+
     private MemberRole role;
 
     private String refreshToken;
