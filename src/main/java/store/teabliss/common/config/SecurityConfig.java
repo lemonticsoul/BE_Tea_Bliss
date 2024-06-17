@@ -70,23 +70,9 @@ public class SecurityConfig {
     }
 
     @Bean
-    public CorsConfiguration corsFilter() {
-        CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(Arrays.asList(
-                "http://localhost:3000", "http://localhost:3001"
-                , "https://localhost:3001"
-        ));
-        config.setAllowedMethods(Collections.singletonList("*"));
-        config.setAllowCredentials(true);
-        config.setAllowedHeaders(Collections.singletonList("*"));
-        config.setExposedHeaders(List.of("Authorization", "Set-Cookie"));
-        config.setMaxAge(3600L);
-        return config;
-    }
-
-    @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+                .cors(cors -> cors.configurationSource(request -> corsFilter()))
                 .csrf(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
@@ -119,6 +105,21 @@ public class SecurityConfig {
 
 
         return http.build();
+    }
+
+    @Bean
+    public CorsConfiguration corsFilter() {
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowedOrigins(Arrays.asList(
+                "http://localhost:3000", "http://localhost:3001"
+                , "https://localhost:3001", "https://tea-bliss.vercel.app/"
+        ));
+        config.setAllowedMethods(Collections.singletonList("*"));
+        config.setAllowCredentials(true);
+        config.setAllowedHeaders(Collections.singletonList("*"));
+        config.setExposedHeaders(Collections.singletonList("Set-Cookie"));
+        config.setMaxAge(3600L);
+        return config;
     }
 
     @Bean
