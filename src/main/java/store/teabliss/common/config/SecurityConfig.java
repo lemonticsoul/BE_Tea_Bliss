@@ -22,6 +22,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.cors.CorsConfiguration;
 import store.teabliss.common.security.oauth2.handler.OAuth2AuthenticationFailureHandler;
 import store.teabliss.common.security.oauth2.handler.OAuth2AuthenticationSuccessHandler;
 import store.teabliss.common.security.signin.UsernamePasswordAuthenticationFilter;
@@ -33,6 +34,10 @@ import store.teabliss.common.security.signin.service.UserDetailsServiceImpl;
 import store.teabliss.common.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository;
 import store.teabliss.common.security.oauth2.service.CustomOAuth2UserService;
 import store.teabliss.member.mapper.MemberMapper;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
@@ -62,6 +67,21 @@ public class SecurityConfig {
         return web -> web.ignoring()
                 // error endpoint를 열어줘야 함, favicon.ico 추가!
                 .requestMatchers("/error", "/favicon.ico");
+    }
+
+    @Bean
+    public CorsConfiguration corsFilter() {
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowedOrigins(Arrays.asList(
+                "http://localhost:3000", "http://localhost:3001"
+                , "https://localhost:3001"
+        ));
+        config.setAllowedMethods(Collections.singletonList("*"));
+        config.setAllowCredentials(true);
+        config.setAllowedHeaders(Collections.singletonList("*"));
+        config.setExposedHeaders(List.of("Authorization", "Set-Cookie"));
+        config.setMaxAge(3600L);
+        return config;
     }
 
     @Bean

@@ -24,6 +24,14 @@
         )
     </insert>
 
+    <select id="findById" parameterType="String">
+        SELECT
+            *
+        FROM MEMBER
+        WHERE 1=1
+        AND memId = #{value}
+    </select>
+
     <select id="findByEmail" parameterType="String">
         SELECT
             *
@@ -63,14 +71,18 @@
     <update id="updateMember" parameterType="Member">
         UPDATE MEMBER
         SET
-            <if test="password != null and password != ''">
-            password = #{password},
-            </if>
             nickname = IFNULL(#{nickname}, nickname),
             profile = IFNULL(#{profile}, profile)
         WHERE 1=1
         AND mem_id = #{memId}
+    </update>
 
+    <update id="updatePassword" parameterType="Member">
+        UPDATE MEMBER
+        SET
+            password = #{password}
+        WHERE 1=1
+        AND mem_id = #{memId}
     </update>
     
     <update id="updateRefreshToken" parameterType="Member">
