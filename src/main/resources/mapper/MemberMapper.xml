@@ -59,14 +59,24 @@
         WHERE 1=1
         AND refreshToken = #{value}
     </select>
-    
+
     <update id="updateMember" parameterType="Member">
         UPDATE MEMBER
         SET
-        <if test="nickname != null and nickname != ''">
-            nickname = #{nickname},
-        </if>
-            refresh_token = #{refreshToken}
+            <if test="password != null and password != ''">
+            password = #{password},
+            </if>
+            nickname = IFNULL(#{nickname}, nickname),
+            profile = IFNULL(#{profile}, profile)
+        WHERE 1=1
+        AND mem_id = #{memId}
+
+    </update>
+    
+    <update id="updateRefreshToken" parameterType="Member">
+        UPDATE MEMBER
+        SET
+           refresh_token = #{refreshToken}
         WHERE 1=1
         AND mem_id = #{memId}
     </update>

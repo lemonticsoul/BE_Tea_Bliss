@@ -5,10 +5,13 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import store.teabliss.member.dto.MemberEditDto;
 import store.teabliss.member.dto.MemberResponse;
 import store.teabliss.member.dto.MemberSignInDto;
 import store.teabliss.member.dto.MemberSignUpDto;
+import store.teabliss.member.entity.MemberDetails;
 import store.teabliss.member.service.MemberService;
 
 @Slf4j
@@ -38,6 +41,54 @@ public class MemberController {
     @Operation(summary = "로그인", description = "회원 로그인 API")
     public ResponseEntity<MemberResponse> signIn(@RequestBody MemberSignInDto memberSignInDto) {
         return ResponseEntity.ok(MemberResponse.ok(""));
+    }
+
+    @GetMapping("/profile")
+    @Operation(summary = "프로필 요청", description = "프로필 요청 API")
+    public ResponseEntity<MemberResponse> getProfile(
+            @AuthenticationPrincipal MemberDetails memberDetails
+    ) {
+        return null;
+    }
+
+    @PatchMapping("/edit")
+    @Operation(summary = "회원 정보 수정", description = "회원 정보 수정 API")
+    public ResponseEntity<MemberResponse> updateMember(
+            @AuthenticationPrincipal MemberDetails memberDetails,
+            @RequestBody MemberEditDto memberEditDto
+    ) {
+
+        int result = memberService.updateMember(memberDetails.getMemberId(), memberEditDto);
+
+        return ResponseEntity.ok(MemberResponse.ok(result));
+    }
+
+    @PatchMapping("/password")
+    @Operation(summary = "회원 비밀번호 수정", description = "회원 비밀번호 수정 API")
+    public ResponseEntity<MemberResponse> updatePassword(
+            @AuthenticationPrincipal MemberDetails memberDetails,
+            @RequestBody MemberEditDto memberEditDto
+    ) {
+
+        int result = memberService.updateMember(memberDetails.getMemberId(), memberEditDto);
+
+        return ResponseEntity.ok(MemberResponse.ok(result));
+    }
+
+    @GetMapping("/address")
+    @Operation(summary = "회원 주소 요청", description = "회원 주소 요청 API")
+    public ResponseEntity<MemberResponse> getAddress(
+            @AuthenticationPrincipal MemberDetails memberDetails
+    ) {
+        return null;
+    }
+
+    @PatchMapping("/address")
+    @Operation(summary = "회원 주소 수정 요청", description = "회원 주소 수정 요청 API")
+    public ResponseEntity<MemberResponse> updateAddress(
+            @AuthenticationPrincipal MemberDetails memberDetails
+    ) {
+        return null;
     }
 
 }
