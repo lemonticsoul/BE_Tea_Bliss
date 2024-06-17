@@ -11,6 +11,8 @@ public interface MemberMapper {
 
     void createMember(Member member);
 
+    Optional<Member> findById(Long id);
+
     Optional<Member> findByEmail(String email);
 
     boolean existsByEmail(String email);
@@ -22,6 +24,8 @@ public interface MemberMapper {
     List<Member> findByMembers();
 
     int updateMember(Member member);
+
+    int updatePassword(Member member);
 
     void updateRefreshToken(Member member);
 

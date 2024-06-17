@@ -7,10 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import store.teabliss.member.dto.MemberEditDto;
-import store.teabliss.member.dto.MemberResponse;
-import store.teabliss.member.dto.MemberSignInDto;
-import store.teabliss.member.dto.MemberSignUpDto;
+import store.teabliss.member.dto.*;
 import store.teabliss.member.entity.MemberDetails;
 import store.teabliss.member.service.MemberService;
 
@@ -43,12 +40,15 @@ public class MemberController {
         return ResponseEntity.ok(MemberResponse.ok(""));
     }
 
-    @GetMapping("/profile")
-    @Operation(summary = "프로필 요청", description = "프로필 요청 API")
+    @GetMapping("/info")
+    @Operation(summary = "회원 정보 요청", description = "회원 정보 API")
     public ResponseEntity<MemberResponse> getProfile(
             @AuthenticationPrincipal MemberDetails memberDetails
     ) {
-        return null;
+
+        MemberDto memberDto = memberService.selectMemberId(memberDetails.getMemberId());
+
+        return ResponseEntity.ok(MemberResponse.ok(memberDto));
     }
 
     @PatchMapping("/edit")
@@ -67,20 +67,12 @@ public class MemberController {
     @Operation(summary = "회원 비밀번호 수정", description = "회원 비밀번호 수정 API")
     public ResponseEntity<MemberResponse> updatePassword(
             @AuthenticationPrincipal MemberDetails memberDetails,
-            @RequestBody MemberEditDto memberEditDto
+            @RequestBody MemberPasswordDto memberPasswordDto
     ) {
 
-        int result = memberService.updateMember(memberDetails.getMemberId(), memberEditDto);
+        int result = memberService.updatePassword(memberDetails.getMemberId(), memberPasswordDto);
 
         return ResponseEntity.ok(MemberResponse.ok(result));
-    }
-
-    @GetMapping("/address")
-    @Operation(summary = "회원 주소 요청", description = "회원 주소 요청 API")
-    public ResponseEntity<MemberResponse> getAddress(
-            @AuthenticationPrincipal MemberDetails memberDetails
-    ) {
-        return null;
     }
 
     @PatchMapping("/address")
