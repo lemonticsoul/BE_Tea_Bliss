@@ -85,6 +85,7 @@ public class SecurityConfig {
                         request.requestMatchers(antMatcher("/api/member/**")).permitAll();
                         request.requestMatchers(antMatcher("/api/ingredient/**")).permitAll();
                         request.requestMatchers(antMatcher(HttpMethod.GET, "/api/tea/**")).permitAll();
+                        request.requestMatchers(antMatcher(HttpMethod.GET, "/api/review/**")).permitAll();
                         // request.requestMatchers(new AntPathRequestMatcher("/api/survey/**")).authenticated();
                         request.requestMatchers(permitUrl).permitAll();
                         request.anyRequest().authenticated();

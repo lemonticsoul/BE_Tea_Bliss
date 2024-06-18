@@ -9,10 +9,10 @@ import java.util.List;
 @Mapper
 public interface ReviewMapper {
 
+    List<Review> all(Review review);
 
-    List<Review> all();
+    int countAll(Review review);
 
     List<Review> topsort(int limit);
-
 
 }
