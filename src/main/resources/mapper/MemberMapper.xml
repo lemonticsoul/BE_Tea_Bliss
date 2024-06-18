@@ -24,12 +24,12 @@
         )
     </insert>
 
-    <select id="findById" parameterType="String">
+    <select id="findById" parameterType="Long">
         SELECT
             *
         FROM MEMBER
         WHERE 1=1
-        AND memId = #{value}
+        AND mem_id = #{value}
     </select>
 
     <select id="findByEmail" parameterType="String">
@@ -72,7 +72,8 @@
         UPDATE MEMBER
         SET
             nickname = IFNULL(#{nickname}, nickname),
-            profile = IFNULL(#{profile}, profile)
+            profile = IFNULL(#{profile}, profile),
+            address = IFNULL(#{address}, address)
         WHERE 1=1
         AND mem_id = #{memId}
     </update>

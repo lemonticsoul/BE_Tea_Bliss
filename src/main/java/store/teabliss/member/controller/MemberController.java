@@ -78,9 +78,12 @@ public class MemberController {
     @PatchMapping("/address")
     @Operation(summary = "회원 주소 수정 요청", description = "회원 주소 수정 요청 API")
     public ResponseEntity<MemberResponse> updateAddress(
-            @AuthenticationPrincipal MemberDetails memberDetails
+            @AuthenticationPrincipal MemberDetails memberDetails,
+            @RequestBody MemberAddressDto memberAddressDto
     ) {
-        return null;
+        int result = memberService.updateAddress(memberDetails.getMemberId(), memberAddressDto);
+
+        return ResponseEntity.ok(MemberResponse.ok(result));
     }
 
 }
