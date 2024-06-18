@@ -4,17 +4,60 @@
 
 <mapper namespace="store.teabliss.review.mapper.ReviewMapper">
 
-
-    <select id="all">
-        select *
-        from Review
+    <select id="all" parameterType="Review" resultType="Review">
+        SELECT
+            r.review_id as id,
+            r.title,
+            r.contents,
+            r.likes,
+            r.tea_id,
+            r.mem_id,
+            r.create_dt,
+            r.update_dt
+        FROM REVIEW AS r
+        INNER JOIN (
+            SELECT
+                review_id,
+                title,
+                contents,
+                likes,
+                tea_id,
+                mem_id,
+                create_dt,
+                update_dt
+            FROM REVIEW
+            WHERE 1=1
+            <if test="memId != null and memId != ''">
+            AND mem_id = #{memId}
+            </if>
+            <if test="teaId != null and teaId != ''">
+            AND tea_id = #{teaId}
+            </if>
+            ORDER BY create_dt DESC
+            LIMIT #{page}, #{limit}
+        ) temp
+        ON temp.review_id = r.review_id
     </select>
 
     <select id="topsort">
-        SELECT *
-        FROM Review
+        SELECT
+            *
+        FROM REVIEW
         ORDER BY 'like' DESC
+    </select>
 
+    <select id="countAll" parameterType="Review">
+        SELECT
+            count(*)
+        FROM REVIEW
+        WHERE 1=1
+        <if test="memId != null and memId != ''">
+        AND mem_id = #{memId}
+        </if>
+        <if test="teaId != null and teaId != ''">
+        AND tea_id = #{teaId}
+        </if>
+        ORDER BY create_dt DESC
     </select>
 
 
