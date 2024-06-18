@@ -113,11 +113,12 @@ public class SecurityConfig {
         config.setAllowedOrigins(Arrays.asList(
                 "http://localhost:3000", "http://localhost:3001"
                 , "https://localhost:3001", "https://tea-bliss.vercel.app/"
+                , "https://teabliss.kro.kr/"
         ));
         config.setAllowedMethods(Collections.singletonList("*"));
         config.setAllowCredentials(true);
         config.setAllowedHeaders(Collections.singletonList("*"));
-        config.setExposedHeaders(Collections.singletonList("Set-Cookie"));
+        config.setExposedHeaders(Arrays.asList("Authorization", "Set-Cookie"));
         config.setMaxAge(3600L);
         return config;
     }
