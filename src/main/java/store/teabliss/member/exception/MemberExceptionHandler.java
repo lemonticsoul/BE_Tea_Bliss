@@ -55,6 +55,18 @@ public class MemberExceptionHandler {
         return ResponseEntity.badRequest().body(response);
     }
 
+    @ExceptionHandler(NotEqualPasswordException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    private ResponseEntity<MemberResponse> handler(NotEqualPasswordException e) {
+
+        MemberResponse response = MemberResponse.builder()
+                .status(e.getStatus())
+                .message(e.getMessage())
+                .build();
+
+        return ResponseEntity.badRequest().body(response);
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     private ResponseEntity<MemberResponse> handlerMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         Map<String, Object> errors = new HashMap<>();

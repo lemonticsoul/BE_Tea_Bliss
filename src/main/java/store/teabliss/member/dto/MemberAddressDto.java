@@ -4,23 +4,18 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
 import store.teabliss.member.entity.Member;
-import store.teabliss.member.entity.MemberRole;
 
 @Getter
-public class MemberEditDto {
+public class MemberAddressDto {
 
-    @Schema(description = "닉네임", example = "nickname")
-    private String nickname;
-
-    @Schema(description = "프로필 사진 URL", example = "~~")
-    private String profile;
+    @Schema(description = "회원 주소", example = "주소 입력")
+    private String address;
 
     @Builder
     public Member toEntity(Long memId) {
         return Member.builder()
                 .memId(memId)
-                .nickname(nickname)
-                .profile(profile)
+                .address(address)
                 .build();
     }
 
