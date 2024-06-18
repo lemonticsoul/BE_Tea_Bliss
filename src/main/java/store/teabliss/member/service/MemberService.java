@@ -4,13 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import store.teabliss.member.dto.MemberDto;
-import store.teabliss.member.dto.MemberEditDto;
-import store.teabliss.member.dto.MemberPasswordDto;
-import store.teabliss.member.dto.MemberSignUpDto;
+import store.teabliss.member.dto.*;
 import store.teabliss.member.entity.Member;
 import store.teabliss.member.exception.DuplicationMemberEmailException;
 import store.teabliss.member.exception.DuplicationNicknameException;
+import store.teabliss.member.exception.NotEqualPasswordException;
 import store.teabliss.member.exception.NotFoundMemberByIdException;
 import store.teabliss.member.mapper.MemberMapper;
 
@@ -50,9 +48,13 @@ public class MemberService {
     }
 
     public int updateMember(Long memId, MemberEditDto memberEditDto) {
-        Member member = memberEditDto.toEntity(memId);
+        Member member = memberMapper.findById(memId).orElseThrow(
+                () -> new NotFoundMemberByIdException(memId)
+        );
 
-        return memberMapper.updateMember(member);
+        Member updateMember = memberEditDto.toEntity(memId);
+
+        return memberMapper.updateMember(updateMember);
     }
 
     public int updatePassword(Long memId, MemberPasswordDto memberPasswordDto) {
@@ -61,16 +63,26 @@ public class MemberService {
         );
 
         if(!encoder.matches(memberPasswordDto.getOldPassword(), member.getPassword()))
-            throw new RuntimeException("기존 비밀번호 입력이 틀립니다.");
+            throw new NotEqualPasswordException("old");
 
         if(!memberPasswordDto.getNewPassword().equals(memberPasswordDto.getNewPasswordCheck()))
-            throw new RuntimeException("새 비밀번호 비교가 틀립니다.");
+            throw new NotEqualPasswordException("new");
 
         Member updateMember = memberPasswordDto.toEntity(memId);
 
         updateMember.passwordEncode(encoder);
 
-        return memberMapper.updatePassword(member);
+        return memberMapper.updatePassword(updateMember);
+    }
+
+    public int updateAddress(Long memId, MemberAddressDto memberAddressDto) {
+        Member member = memberMapper.findById(memId).orElseThrow(
+                () -> new NotFoundMemberByIdException(memId)
+        );
+
+        Member updateMember = memberAddressDto.toEntity(memId);
+
+        return memberMapper.updateMember(updateMember);
     }
 
 }
