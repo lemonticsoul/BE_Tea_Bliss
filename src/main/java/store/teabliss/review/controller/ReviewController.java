@@ -6,7 +6,11 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import store.teabliss.member.entity.MemberDetails;
+import store.teabliss.review.dto.ReviewDto;
+import store.teabliss.review.dto.ReviewResponse;
 import store.teabliss.review.entity.Review;
 import store.teabliss.review.service.ReviewService;
 import store.teabliss.tea.dto.TeaDto;
@@ -29,18 +33,23 @@ public class ReviewController {
     @GetMapping("/review-list/order")
     public ResponseEntity<?> summit(@RequestParam int limit){
 
-        List<Review> reviews=reviewservice.topreview(limit);
+        List<Review> reviews = reviewservice.topreview(limit);
 
         return ResponseEntity.ok(reviews);
     }
 
     @Operation(summary = "모든 리뷰 조회", description = "페이지네이션 가능!")
     @GetMapping("/review-list")
-    public ResponseEntity<?> summit(@RequestParam int page,@RequestParam int limit){
+    public ResponseEntity<ReviewResponse> summit(
+            @AuthenticationPrincipal MemberDetails memberDetails
+            , @RequestParam int page
+            , @RequestParam int limit
+    ){
+        ReviewResponse reviewResponse = reviewservice.reviews(page, limit);
 
-        List<Review> reviews=reviewservice.reviews(page,limit);
+        ResponseEntity<ReviewResponse> ok = ResponseEntity.ok(reviewResponse);
 
-        return ResponseEntity.ok(reviews);
+        return ResponseEntity.ok(reviewResponse);
     }
 
 

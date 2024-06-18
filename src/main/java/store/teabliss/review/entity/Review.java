@@ -1,32 +1,33 @@
 package store.teabliss.review.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import java.sql.Timestamp;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 
 
-@Data
+@Getter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Review {
-
-
     private Long id;
 
     private String title;
 
-    private Long like;
-
     private String contents;
 
-    private Timestamp createat =new Timestamp(new Date().getTime());
+    private Long likes;
 
-    private boolean IsLastPage = false;
+    private Long memId;
 
+    private Long teaId;
 
+    private LocalDateTime createDt;
 
+    private LocalDateTime updateDt;
+
+    private int page;
+
+    private int limit;
 }
