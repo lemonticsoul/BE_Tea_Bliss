@@ -32,6 +32,8 @@ public class TeaFinalDto {
 
     private boolean isLastPage = false;
 
+    private boolean caffeine ;
+
     private String season;
 
     private String name;
@@ -57,6 +59,7 @@ public class TeaFinalDto {
                     .sale(tea.getSale())
                     .rating(tea.getRating())
                     .rate(tea.getRate())
+                    .caffeine(tea.isCaffeine())
                     .season(tea.getSeason())
                     .name(tea.getName())
                     .nameEng(tea.getNameEng())

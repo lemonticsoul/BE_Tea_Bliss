@@ -3,8 +3,10 @@ package store.teabliss.tea.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import store.teabliss.ingredient.entity.Ingredient;
 import store.teabliss.tea.dto.TeaDto;
 import store.teabliss.tea.dto.TeaFinalDto;
+import store.teabliss.tea.dto.TeaPatchDto;
 import store.teabliss.tea.dto.TeaSearchDto;
 import store.teabliss.tea.entity.TeaFlavor;
 import store.teabliss.tea.entity.TeaIngredient;
@@ -289,6 +291,93 @@ public class TeaService {
 
         return count;
     }
+
+    public List<TeaFinalDto> sortseason(int page,int limit,String season){
+
+
+        List<Tea> categorylist=teaMapper.seasonsort(season);
+        double all=categorylist.size();
+
+        int limitpage= (int) Math.ceil(all/limit);
+
+        List<Tea> new_recommend=new ArrayList<>();
+
+        for (int i =limit*(page-1);i<(page*limit);i++){
+            if (i==all) {
+                break;
+            }
+            if (page==limitpage){
+                categorylist.get(i).setIsLastPage(true);
+                new_recommend.add(categorylist.get(i));
+
+            } else {
+                categorylist.get(i).setIsLastPage(false);
+                new_recommend.add(categorylist.get(i));
+
+            }
+
+        }
+
+        return TeaFinalDto.of(new_recommend);
+
+    }
+
+    public List<TeaFinalDto> caffeinesort(int page,int limit,boolean caffeine){
+
+        List<Tea> categorylist=teaMapper.caffeinesort(caffeine);
+
+        double all=categorylist.size();
+
+        int limitpage= (int) Math.ceil(all/limit);
+
+        List<Tea> new_recommend=new ArrayList<>();
+
+        for (int i =limit*(page-1);i<(page*limit);i++){
+            if (i==all) {
+                break;
+            }
+            if (page==limitpage){
+                categorylist.get(i).setIsLastPage(true);
+                new_recommend.add(categorylist.get(i));
+
+            } else {
+                categorylist.get(i).setIsLastPage(false);
+                new_recommend.add(categorylist.get(i));
+
+            }
+
+        }
+
+        return TeaFinalDto.of(new_recommend);
+    }
+
+    public boolean deletetea(int id){
+
+        boolean result=teaMapper.deletetea(id);
+
+        return result;
+    }
+
+    public boolean patchtea(TeaPatchDto teaPatchDto){
+
+        Tea updatetea = Tea.builder()
+                .id(teaPatchDto.getId())
+                .price(teaPatchDto.getPrice())
+                .category(teaPatchDto.getCategory())
+                .name(teaPatchDto.getName())
+                .nameEng(teaPatchDto.getNameEng())
+                .caffeine(teaPatchDto.isCaffeine())
+                .description(teaPatchDto.getDescription())
+                .img(teaPatchDto.getImg())
+                .inventory(teaPatchDto.getInventory())
+                .build();
+
+
+        boolean result=teaMapper.patchtea(updatetea);
+
+        return result;
+    }
+
 
 
 }
