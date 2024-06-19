@@ -12,6 +12,8 @@ import store.teabliss.member.exception.NotEqualPasswordException;
 import store.teabliss.member.exception.NotFoundMemberByIdException;
 import store.teabliss.member.mapper.MemberMapper;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class MemberService {
@@ -44,7 +46,7 @@ public class MemberService {
                 () -> new NotFoundMemberByIdException(memId)
         );
 
-        return MemberDto.of(member);
+        return MemberDto.of1(member);
     }
 
     public int updateMember(Long memId, MemberEditDto memberEditDto) {
@@ -83,6 +85,24 @@ public class MemberService {
         Member updateMember = memberAddressDto.toEntity(memId);
 
         return memberMapper.updateMember(updateMember);
+    }
+
+    /*
+    관리자 영역
+     */
+
+    public MemberResponse memberList(String email, String nickname, int page, int limit) {
+        Member searchMember = Member.builder()
+                .email(email)
+                .nickname(nickname)
+                .page(page)
+                .limit(limit)
+                .build();
+
+        List<Member> members = memberMapper.findByMembers(searchMember);
+        Integer total = memberMapper.countByMembers(searchMember);
+
+        return MemberResponse.ok(members, total);
     }
 
 }

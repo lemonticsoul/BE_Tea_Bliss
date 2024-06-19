@@ -11,6 +11,8 @@ import store.teabliss.member.dto.*;
 import store.teabliss.member.entity.MemberDetails;
 import store.teabliss.member.service.MemberService;
 
+import java.util.List;
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -84,6 +86,24 @@ public class MemberController {
         int result = memberService.updateAddress(memberDetails.getMemberId(), memberAddressDto);
 
         return ResponseEntity.ok(MemberResponse.ok(result));
+    }
+
+    /*
+        관리자 영역
+     */
+
+    @GetMapping("/member-list")
+    @Operation(summary = "관리자 회원 관리 리스트", description = "회원 관리 리스트")
+    public ResponseEntity<MemberResponse> memberList(
+            @RequestParam String email,
+            @RequestParam String nickname,
+            @RequestParam int page,
+            @RequestParam int limit
+    ) {
+
+        MemberResponse memberResponse = memberService.memberList(email, nickname, page, limit);
+
+        return ResponseEntity.ok(memberResponse);
     }
 
 }

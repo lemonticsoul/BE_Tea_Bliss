@@ -5,6 +5,8 @@ import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import store.teabliss.common.security.oauth2.user.OAuth2Provider;
 
+import java.time.LocalDateTime;
+
 @Builder
 @Data
 @NoArgsConstructor
@@ -31,6 +33,18 @@ public class Member {
     private OAuth2Provider provider;
 
     private String providerId;
+
+    private int reviewCount;
+
+    private double purchaseAmount;
+
+    private int page;
+
+    private int limit;
+
+    private LocalDateTime createDt;
+
+    private LocalDateTime updateDt;
 
     public void passwordEncode(PasswordEncoder encoder) {
         this.password = encoder.encode(this.password);
