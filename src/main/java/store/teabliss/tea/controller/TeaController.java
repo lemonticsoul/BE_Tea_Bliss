@@ -7,10 +7,13 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.coyote.Response;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import store.teabliss.tea.dto.TeaDto;
 import store.teabliss.tea.dto.TeaFinalDto;
+import store.teabliss.tea.dto.TeaPatchDto;
 import store.teabliss.tea.dto.TeaSearchDto;
 import store.teabliss.tea.entity.Tea;
 import store.teabliss.tea.mapper.TeaMapper;
@@ -140,6 +143,67 @@ public class TeaController {
         response.put("tea",category);
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping("season")
+    @Operation(summary = "시즌별 조회", description = "차 하나만 조회하는 로직")
+    public ResponseEntity<?> season(@RequestParam("page") int page,@RequestParam("limit") int limit,@RequestParam("season") String season){
+
+        List<TeaFinalDto> seasonsort=teaService.sortseason(page,limit,season);
+
+        int teacount=seasonsort.size();
+
+
+        Map<String,Object> response=new HashMap<>();
+        response.put("size",teacount);
+        response.put("tea",seasonsort);
+        return ResponseEntity.ok(response);
+
+    }
+
+    @GetMapping("caffeine")
+    @Operation(summary = "카페인 조회", description = "차 하나만 조회하는 로직")
+    public ResponseEntity<?> caffeine(@RequestParam("page") int page,@RequestParam("limit") int limit,@RequestParam("caffeine") boolean caffeine){
+
+        List<TeaFinalDto> caffeinesort=teaService.caffeinesort(page,limit,caffeine);
+
+        int teacount=caffeinesort.size();
+        Map<String,Object> response=new HashMap<>();
+        response.put("size",teacount);
+        response.put("tea",caffeinesort);
+        return ResponseEntity.ok(response);
+
+    }
+
+    @DeleteMapping("delete/{id}")
+    @Operation(summary = "완성차 삭제 ", description = "차 하나만 조회하는 로직")
+    public ResponseEntity<?> teaDelete(@PathVariable int id){
+
+        boolean delete=teaService.deletetea(id);
+        if (delete) {
+            return ResponseEntity.ok("삭제되었습니다.");
+        } else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제 실패!");
+        }
+    }
+
+    @PatchMapping("patch/{id}")
+    @Operation(summary = "완성차 수정 ", description = "차 하나만 조회하는 로직")
+    public ResponseEntity<?> teaPatch(TeaPatchDto teaPatchDto){
+
+
+
+        boolean patch=teaService.patchtea(teaPatchDto);
+
+        if (patch) {
+            return ResponseEntity.ok("수정되었습니다.");
+        } else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정 실패!");
+        }
+
+    }
+
+
+
 
 
 

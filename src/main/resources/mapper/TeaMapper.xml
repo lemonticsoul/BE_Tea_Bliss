@@ -74,7 +74,7 @@
     <select id="search">
         SELECT img, name, name_eng, price
         FROM TEA
-        WHERE id = #{id}
+        WHERE name=#{product}
     </select>
 
     <select id="findbyid">
@@ -96,6 +96,47 @@
         WHERE tea_id =#{id}
 
     </select>
+
+    <select id="seasonsort">
+        SELECT *
+        FROM TEA
+        WHERE season=#{season}
+    </select>
+
+    <select id="caffeinesort">
+        SELECT *
+        FROM TEA
+        WHERE caffeine=#{caffeine}
+    </select>
+
+    <delete id="deletetea">
+        DELETE FROM TEA
+        WHERE 1=1
+        AND id= #{id}
+    </delete>
+
+    <update id="patchtea">
+        UPDATE TEA
+        SET quality= IFNULL(#{quantity}, quantity),
+        type = IFNULL(#{type}, type)
+        WHERE id=#{id}
+    </update>
+
+    <update id="updateIngredient" parameterType="Ingredient">
+        UPDATE TEA
+        SET
+        price = IFNULL(#{price}, price),
+        category = IFNULL(#{category}, category),
+        name = IFNULL(#{name}, name),
+        name_eng = IFNULL(#{nameEng}, name_eng),
+        caffeine = IFNULL(#{caffeine}, caffeine),
+        description = IFNULL(#{description}, description),
+        img = IFNULL(#{img}, img),
+        inventory = IFNULL(#{inventory}, inventory)
+
+        WHERE 1=1
+        AND id= #{id}
+    </update>
 
 
 
