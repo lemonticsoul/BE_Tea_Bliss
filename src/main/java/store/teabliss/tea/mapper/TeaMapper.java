@@ -34,7 +34,7 @@ public interface TeaMapper {
 
     Long countByCategory(String category);
 
-    Tea search(String product);
+    Tea search(Long product);
 
     void saveIngredient(TeaIngredient ingredient);
     void saveFlavor(TeaFlavor flavor);

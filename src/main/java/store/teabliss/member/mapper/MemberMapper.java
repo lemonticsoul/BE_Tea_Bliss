@@ -21,7 +21,9 @@ public interface MemberMapper {
 
     Optional<Member> findByRefreshToken(String refreshToken);
 
-    List<Member> findByMembers();
+    List<Member> findByMembers(Member member);
+
+    Integer countByMembers(Member member);
 
     int updateMember(Member member);
 
