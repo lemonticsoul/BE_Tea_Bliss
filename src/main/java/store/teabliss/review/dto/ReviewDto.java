@@ -1,5 +1,6 @@
 package store.teabliss.review.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -8,6 +9,8 @@ import store.teabliss.review.entity.Review;
 import store.teabliss.tea.entity.Tea;
 
 import java.time.LocalDateTime;
+
+import static com.fasterxml.jackson.annotation.JsonFormat.Shape;
 
 @Getter
 @Builder
@@ -25,9 +28,11 @@ public class ReviewDto {
 
     private Tea tea;
 
+    @JsonFormat(shape = Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createDt;
 
+    @JsonFormat(shape = Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updateDt;
 

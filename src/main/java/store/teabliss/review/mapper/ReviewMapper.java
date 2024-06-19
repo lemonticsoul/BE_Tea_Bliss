@@ -9,10 +9,18 @@ import java.util.List;
 @Mapper
 public interface ReviewMapper {
 
-    List<Review> all(Review review);
+    long createReview(Review review);
 
-    int countAll(Review review);
+    List<Review> findByAllReview(Review review);
+
+    int countAllReview(Review review);
+
+    List<Review> findByMyReview(Review review);
+
+    int countMyReview(Review review);
 
     List<Review> topsort(int limit);
+
+    void updateReview(Review review);
 
 }
