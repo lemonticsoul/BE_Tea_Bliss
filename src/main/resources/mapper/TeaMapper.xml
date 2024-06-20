@@ -118,7 +118,15 @@
     <update id="patchtea">
         UPDATE TEA
         SET quality= IFNULL(#{quantity}, quantity),
-        type = IFNULL(#{type}, type)
+            price=IFNULL(#{price}, price),
+            category=IFNULL(#{category}, category),
+            name=IFNULL(#{name}, name),
+            nameEng=IFNULL(#{nameEng}, nameEng),
+            caffeine=IFNULL(#{caffeine}, caffeine),
+            description=IFNULL(#{description}, description),
+            img=IFNULL(#{img}, img),
+            inventory=IFNULL(#{inventory}, inventory),
+            type = IFNULL(#{type}, type)
         WHERE id=#{id}
     </update>
 
