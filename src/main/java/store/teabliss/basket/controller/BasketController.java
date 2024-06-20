@@ -10,10 +10,6 @@ import store.teabliss.basket.dto.BasketDto;
 import store.teabliss.basket.dto.DeleteBasketDto;
 import store.teabliss.basket.entity.Basket;
 import store.teabliss.basket.service.BasketService;
-import store.teabliss.ingredient.dto.IngredientResponse;
-import store.teabliss.ingredient.dto.IngredientResponseDto;
-import store.teabliss.ingredient.service.IngredientService;
-import store.teabliss.tea.dto.TeaDto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,11 +22,11 @@ public class BasketController {
 
     private final BasketService basketService;
 
-    @GetMapping("/")
+    @GetMapping("")
     @Operation(summary = "장바구니 검색", description = "")
-    public ResponseEntity<?> basket() {
+    public ResponseEntity<?> basket(@RequestParam String email) {
 
-        List<Basket> list = basketService.getbasket();
+        List<Basket> list = basketService.getbasket(email);
 
         if (list.size()>0){
             return ResponseEntity.ok(list);
@@ -40,7 +36,7 @@ public class BasketController {
         }
     }
 
-    @PostMapping("/")
+    @PostMapping("")
     @Operation(summary = "장바구니 저장",description = "")
     public ResponseEntity<?> postbasket(@RequestBody BasketDto basketDto){
 
@@ -57,11 +53,11 @@ public class BasketController {
     }
 
 
-    @PatchMapping("/")
+    @PatchMapping("")
     @Operation(summary = "장바구니 수정",description = "")
-    public ResponseEntity<?> patchbasket(@RequestBody BasketDto basketDto){
+    public ResponseEntity<?> patchbasket(@RequestParam("id") Long id,@RequestBody BasketDto basketDto){
 
-        boolean baskets=basketService.patchBaskets(basketDto);
+        boolean baskets=basketService.patchBaskets(id,basketDto);
 
         if (baskets){
             return ResponseEntity.ok("장바구니 수정 완료!");
@@ -70,11 +66,11 @@ public class BasketController {
         }
     }
 
-    @DeleteMapping("/{productid}")
+    @DeleteMapping("")
     @Operation(summary = "장바구니 하나만 삭제",description = "")
-    public ResponseEntity<?> deletebasket(@PathVariable Long productid){
+    public ResponseEntity<?> deletebasket(@RequestBody DeleteBasketDto deleteBasketDto){
 
-        boolean baskets=basketService.deleteBaskets(productid);
+        boolean baskets=basketService.deleteBaskets(deleteBasketDto);
 
         if (baskets){
             return ResponseEntity.ok("장바구니 삭제 완료!");
@@ -90,10 +86,10 @@ public class BasketController {
 
 
         for (DeleteBasketDto dto :deleteBasketDto) {
-            boolean baskets = basketService.deleteselectBaskets(dto);
+            boolean baskets = basketService.deleteBaskets(dto);
         }
 
-        return ResponseEntity.ok("Successfully deleted items from basket");
+        return ResponseEntity.ok("삭제 완료되었습니다.");
     }
 
 

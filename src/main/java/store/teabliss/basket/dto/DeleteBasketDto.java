@@ -10,5 +10,7 @@ import java.util.ArrayList;
 @Setter
 public class DeleteBasketDto {
 
-    private Long productid;
+    private Long id;
+
+    private String email;
 }
