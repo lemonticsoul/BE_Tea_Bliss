@@ -74,7 +74,7 @@ public class ReviewController {
     }
 
     @Operation(summary = "리뷰 수정", description = "리뷰 수정 API")
-    @PatchMapping("/{id}")
+    @PupMapping("/{id}")
     public ResponseEntity<ReviewResponse> updateReview(
             @AuthenticationPrincipal MemberDetails memberDetails,
             @RequestBody ReviewUpdateDto reviewUpdateDto,
