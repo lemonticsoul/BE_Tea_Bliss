@@ -33,9 +33,14 @@ public class IngredientService {
         return ingredientMapper.createIngredient(ingredient);
     }
 
-    public List<IngredientResponseDto> findByIngredient(String category) {
+    public List<IngredientResponseDto> findByIngredients(int page, int limit, String category) {
+
+        int pagination = limit * (page - 1);
+
         Ingredient ingredient = Ingredient.builder()
                 .category(category)
+                .page(pagination)
+                .limit(limit)
                 .build();
 
         List<Ingredient> ingredients = ingredientMapper.findByIngredients(ingredient);
@@ -60,6 +65,25 @@ public class IngredientService {
         }
 
         return ingredientResponseDtoList;
+    }
+
+    public IngredientResponseDto findByIngredient(Long id) {
+
+        Ingredient i = ingredientMapper.findById(id);
+
+        IngredientResponseDto ingredientResponseDto;
+
+        if(i.getFlavor() != null && !i.getFlavor().isEmpty()) {
+            List<Flavor> flavorList = flavorMapper.findByFlavors(i.getFlavor().split(","));
+
+            List<FlavorResponseDto> flavorResponseDtoList = FlavorResponseDto.ofs(flavorList);
+
+            ingredientResponseDto = IngredientResponseDto.of(i, flavorResponseDtoList);
+        } else {
+            ingredientResponseDto = IngredientResponseDto.of(i);
+        }
+
+        return ingredientResponseDto;
     }
 
     public int updateIngredient(IngredientRequestDto ingredientRequestDto) {

@@ -10,6 +10,43 @@
 
     <select id="findByIngredients" parameterType="Ingredient" resultType="Ingredient">
         SELECT
+            i.ingredient_id as id,
+            i.category,
+            i.name,
+            i.name_eng,
+            i.sale,
+            i.inventory,
+            i.sale_status,
+            i.flavor,
+            i.explanation,
+            i.create_dt,
+            i.update_dt
+        FROM INGREDIENT i
+        INNER JOIN (
+            SELECT
+                ingredient_id,
+                category,
+                name,
+                name_eng,
+                sale,
+                inventory,
+                sale_status,
+                flavor,
+                explanation,
+                create_dt,
+                update_dt
+            WHERE 1=1
+            <if test="category != null and category != ''">
+            AND category = #{category}
+            </if>
+            LIMIT #{page}, #{limit}
+        ) temp
+        ON temp.ingredient_id = i.ingredient_id
+        ORDER BY create_dt DESC
+    </select>
+
+    <select id="findById" parameterType="Long">
+        SELECT
             ingredient_id as id,
             category,
             name,
@@ -18,13 +55,12 @@
             inventory,
             sale_status,
             flavor,
-            explanation
+            explanation,
+            create_dt,
+            update_dt
         FROM INGREDIENT
         WHERE 1=1
-        <if test="category != null and category != ''">
-        AND category = #{category}
-        </if>
-<!--        LIMIT 0, 50;-->
+        AND ingredient_id = #{value}
     </select>
 
     <update id="updateIngredient" parameterType="Ingredient">
