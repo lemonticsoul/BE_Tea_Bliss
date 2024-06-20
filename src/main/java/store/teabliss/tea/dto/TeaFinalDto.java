@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.format.datetime.DateFormatter;
 import store.teabliss.tea.entity.Tea;
+import store.teabliss.tea.entity.TeaFlavor;
+import store.teabliss.tea.entity.TeaIngredient;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -17,6 +19,8 @@ import java.util.Locale;
 @Getter
 @Setter
 public class TeaFinalDto {
+
+    private Long id;
 
     private Long price;
 
@@ -51,8 +55,11 @@ public class TeaFinalDto {
         List<TeaFinalDto> teaFinalDto = new ArrayList<>();
         // var fommatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss", Locale.KOREA);
 
+
+
         for (Tea tea : list){
             TeaFinalDto dto = TeaFinalDto.builder()
+                    .id(tea.getId())
                     .price(tea.getPrice())
                     .category(tea.getCategory())
                     .review(tea.getReview())
@@ -65,6 +72,8 @@ public class TeaFinalDto {
                     .nameEng(tea.getNameEng())
                     .img(tea.getImg())
                     .isLastPage(tea.isIsLastPage())
+
+
                     // .createDt(LocalDateTime.parse(tea.getCreateDt().toString(), fommatter))
                     // .updateDt(LocalDateTime.parse(tea.getUpdateDt().toString(), fommatter))
                     .build();
