@@ -117,7 +117,7 @@
 
     <update id="patchtea">
         UPDATE TEA
-        SET quality= IFNULL(#{quantity}, quantity),
+        SET
             price=IFNULL(#{price}, price),
             category=IFNULL(#{category}, category),
             name=IFNULL(#{name}, name),
@@ -125,8 +125,7 @@
             caffeine=IFNULL(#{caffeine}, caffeine),
             description=IFNULL(#{description}, description),
             img=IFNULL(#{img}, img),
-            inventory=IFNULL(#{inventory}, inventory),
-            type = IFNULL(#{type}, type)
+            inventory=IFNULL(#{inventory}, inventory)
         WHERE id=#{id}
     </update>
 
