@@ -2,19 +2,23 @@ package store.teabliss.basket.entity;
 
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Basket {
 
     private Long id;
 
+    private String email;
+
     private String img;
 
-    private Long productId;
+    private String product;
 
     private String name;
 
@@ -22,7 +26,7 @@ public class Basket {
 
     private Long price;
 
-    private String quality;
+    private Long quantity;
 
     private String type;
 

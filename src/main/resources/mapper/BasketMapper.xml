@@ -5,28 +5,34 @@
 <mapper namespace="store.teabliss.basket.mapper.BasketMapper">
 
     <insert id="save">
-        INSERT INTO Basket(img,productId,name,nameEng,price,quality,type)
-        VALUES (#{img},#{productId},#{name},#{nameEng},#{price},#{quality},#{type})
+        INSERT INTO BASKET(email,img,product,name,name_eng,price,quantity,type)
+        VALUES (#{email},#{img},#{product},#{name},#{nameEng},#{price},#{quantity},#{type})
     </insert>
 
 
     <select id="getbasket">
         select *
-        from Basket
+        from BASKET
+        where email=#{email}
     </select>
 
     <update id="update">
-        UPDATE Basket
-        SET quality= IFNULL(#{quality}, quality),
+        UPDATE BASKET
+        SET
+        img = IFNULL(#{img}, img),
+        name = IFNULL(#{name}, name),
+        name_eng = IFNULL(#{nameEng}, name_eng),
+        price = IFNULL(#{price}, price),
+        product = IFNULL(#{product}, product),
+        quantity = IFNULL(#{quantity}, quantity),
         type = IFNULL(#{type}, type)
-        WHERE productId=#{productId}
-
+        WHERE id = #{id} AND email = #{email}
     </update>
 
     <delete id="delete">
-        DELETE FROM Basket
+        DELETE FROM BASKET
         WHERE 1=1
-        AND productid= #{prodcutid}
+        AND id = #{id}  AND email=#{email}
     </delete>
 
 </mapper>
