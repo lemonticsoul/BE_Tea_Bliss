@@ -12,6 +12,8 @@ public interface IngredientMapper {
 
     List<Ingredient> findByIngredients(Ingredient ingredient);
 
+    Ingredient findById(Long id);
+
     int updateIngredient(Ingredient ingredient);
 
     void deleteIngredient(Long id);

@@ -88,21 +88,50 @@ public class MemberService {
     }
 
     /*
-    관리자 영역
+        관리자 영역
      */
 
     public MemberResponse memberList(String email, String nickname, int page, int limit) {
+
+        int pagination = limit * (page - 1);
+
         Member searchMember = Member.builder()
                 .email(email)
                 .nickname(nickname)
-                .page(page)
+                .page(pagination)
                 .limit(limit)
                 .build();
 
         List<Member> members = memberMapper.findByMembers(searchMember);
         Integer total = memberMapper.countByMembers(searchMember);
 
-        return MemberResponse.ok(members, total);
+        List<MemberDto> memberDtos = MemberDto.ofs2(members);
+
+        return MemberResponse.ok(memberDtos, total);
+    }
+
+    public MemberDto selectMemberId2(Long memId) {
+
+        Member member = memberMapper.findById(memId).orElseThrow(
+                () -> new NotFoundMemberByIdException(memId)
+        );
+
+        return MemberDto.of2(member);
+    }
+
+    public int updatePassword2(Long memId, MemberPasswordDto memberPasswordDto) {
+        Member member = memberMapper.findById(memId).orElseThrow(
+                () -> new NotFoundMemberByIdException(memId)
+        );
+
+        if(!memberPasswordDto.getNewPassword().equals(memberPasswordDto.getNewPasswordCheck()))
+            throw new NotEqualPasswordException("new");
+
+        Member updateMember = memberPasswordDto.toEntity(memId);
+
+        updateMember.passwordEncode(encoder);
+
+        return memberMapper.updatePassword(updateMember);
     }
 
 }
