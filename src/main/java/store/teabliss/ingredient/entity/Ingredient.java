@@ -30,4 +30,8 @@ public class Ingredient {
     private String explanation;
 
     private String photo;
+
+    private int page;
+
+    private int limit;
 }

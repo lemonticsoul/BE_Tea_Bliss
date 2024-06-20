@@ -32,13 +32,26 @@ public class IngredientController {
 
     @GetMapping("")
     @Operation(summary = "차 재료 검색", description = "차 재료 검색 API")
-    public ResponseEntity<IngredientResponse> searchIngredient(
+    public ResponseEntity<IngredientResponse> searchIngredients(
+            @RequestParam(name = "page") int page,
+            @RequestParam(name = "limit") int limit,
             @RequestParam(name = "category", required = false) String category
     ) {
 
-        List<IngredientResponseDto> list = ingredientService.findByIngredient(category);
+        List<IngredientResponseDto> list = ingredientService.findByIngredients(page, limit, category);
 
         return ResponseEntity.ok(IngredientResponse.ok(list));
+    }
+
+    @GetMapping("/{id}")
+    @Operation(summary = "차 재료 단일 검색", description = "차 재료 단일 검색 API")
+    public ResponseEntity<IngredientResponse> searchIngredient(
+            @RequestParam Long id
+    ) {
+
+        IngredientResponseDto dto = ingredientService.findByIngredient(id);
+
+        return ResponseEntity.ok(IngredientResponse.ok(dto));
     }
 
     @PutMapping("/one")
@@ -70,7 +83,7 @@ public class IngredientController {
 
         ingredientService.deleteIngredient(id);
 
-        return ResponseEntity.ok(IngredientResponse.ok("재료 삭제가 성공 되었습니다.", null));
+        return ResponseEntity.ok(IngredientResponse.ok("재료 삭제가 성공 되었습니다."));
     }
 
 
