@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import store.teabliss.ingredient.dto.IngredientCreateDto;
 import store.teabliss.ingredient.dto.IngredientRequestDto;
 import store.teabliss.ingredient.dto.IngredientResponse;
 import store.teabliss.ingredient.dto.IngredientResponseDto;
@@ -23,9 +24,9 @@ public class IngredientController {
     @PostMapping("")
     @Operation(summary = "차 재료 등록", description = "차 재료 등록 API")
     public ResponseEntity<IngredientResponse> createIngredient(
-            @RequestBody IngredientRequestDto ingredientRequestDto
+            @RequestBody IngredientCreateDto ingredientCreateDto
             ) {
-        Long id = ingredientService.createIngredient(ingredientRequestDto);
+        Long id = ingredientService.createIngredient(ingredientCreateDto);
 
         return ResponseEntity.ok(IngredientResponse.ok(id));
     }

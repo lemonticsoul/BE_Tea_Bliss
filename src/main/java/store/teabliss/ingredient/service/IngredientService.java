@@ -3,6 +3,7 @@ package store.teabliss.ingredient.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import store.teabliss.ingredient.dto.FlavorResponseDto;
+import store.teabliss.ingredient.dto.IngredientCreateDto;
 import store.teabliss.ingredient.dto.IngredientRequestDto;
 import store.teabliss.ingredient.dto.IngredientResponseDto;
 import store.teabliss.ingredient.entity.Flavor;
@@ -20,14 +21,17 @@ public class IngredientService {
     private final IngredientMapper ingredientMapper;
     private final FlavorMapper flavorMapper;
 
-    public Long createIngredient(IngredientRequestDto ingredientRequestDto) {
+    public Long createIngredient(IngredientCreateDto ingredientCreateDto) {
         Ingredient ingredient = Ingredient.builder()
-                .category(ingredientRequestDto.getCategory())
-                .name(ingredientRequestDto.getName())
-                .nameEng(ingredientRequestDto.getNameEng())
-                .flavor(ingredientRequestDto.getFlavor())
-                .explanation(ingredientRequestDto.getExplanation())
-                .photo(ingredientRequestDto.getPhoto())
+                .category(ingredientCreateDto.getCategory())
+                .name(ingredientCreateDto.getName())
+                .nameEng(ingredientCreateDto.getNameEng())
+                .sale(ingredientCreateDto.getSale())
+                .inventory(ingredientCreateDto.getInventory())
+                .saleStatus(ingredientCreateDto.getSaleStatus())
+                .flavor(ingredientCreateDto.getFlavor())
+                .explanation(ingredientCreateDto.getExplanation())
+                .photo(ingredientCreateDto.getPhoto())
                 .build();
 
         return ingredientMapper.createIngredient(ingredient);
