@@ -129,22 +129,23 @@
         WHERE id=#{id}
     </update>
 
-    <update id="updateIngredient" parameterType="Ingredient">
-        UPDATE TEA
+    <update id="updateIngredient" >
+        UPDATE TEAINGREDIENT
         SET
-        price = IFNULL(#{price}, price),
-        category = IFNULL(#{category}, category),
-        name = IFNULL(#{name}, name),
-        name_eng = IFNULL(#{nameEng}, name_eng),
-        caffeine = IFNULL(#{caffeine}, caffeine),
-        description = IFNULL(#{description}, description),
-        img = IFNULL(#{img}, img),
-        inventory = IFNULL(#{inventory}, inventory)
+            ingredient_id=IFNULL(#{ingredientId},ingredientId)
 
         WHERE 1=1
         AND id= #{id}
     </update>
 
+    <update id="updateFlavor" >
+        UPDATE TEAINGREDIENT
+        SET
+        flavor_id=IFNULL(#{flavorId},flavorId)
+
+        WHERE 1=1
+        AND id= #{id}
+    </update>
 
 
 
