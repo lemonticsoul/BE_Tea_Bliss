@@ -9,6 +9,7 @@ import store.teabliss.basket.entity.Basket;
 import store.teabliss.basket.mapper.BasketMapper;
 import store.teabliss.member.entity.Member;
 import store.teabliss.member.exception.NotFoundMemberByEmailException;
+import store.teabliss.member.exception.NotFoundMemberByIdException;
 import store.teabliss.member.mapper.MemberMapper;
 import store.teabliss.tea.entity.Tea;
 import store.teabliss.tea.mapper.TeaMapper;
@@ -26,9 +27,9 @@ public class BasketService {
     private final MemberMapper memberMapper;
 
 
-    public List<Basket> getbasket(String email){
+    public List<Basket> getbasket(Long memId){
 
-        List<Basket> list=basketMapper.getbasket(email);
+        List<Basket> list=basketMapper.getbasket(memId);
 
         return list;
 
@@ -36,16 +37,16 @@ public class BasketService {
     }
 
 
-    public boolean postBaskets(BasketDto basketDto){
+    public boolean postBaskets(BasketDto basketDto,Long memId){
 
             Tea tea = teaMapper.search(basketDto.getProduct());
 
-            Optional<Member> memberOpt=memberMapper.findByEmail(basketDto.getEmail());
+            Optional<Member> memberOpt=memberMapper.findById(memId);
 
             if (memberOpt.isPresent()){
 
                 Basket basket = Basket.builder()
-                        .email(basketDto.getEmail())
+                        .memId(memId)
                         .img(tea.getImg())
                         .name(tea.getName())
                         .nameEng(tea.getNameEng())
@@ -57,24 +58,22 @@ public class BasketService {
                 basketMapper.save(basket);
                 return true;
             }else {
-                throw new NotFoundMemberByEmailException("User with ID " + basketDto.getEmail() + " not found");
+                return false;
             }
 
 
 
     }
 
-    public boolean patchBaskets(Long id,BasketDto basketDto){
+    public boolean patchBaskets(String product,BasketDto basketDto,Long memId){
 
-        Optional<Member> memberOpt=memberMapper.findByEmail(basketDto.getEmail());
+        Optional<Member> memberOpt=memberMapper.findById(memId);
         Tea tea = teaMapper.search(basketDto.getProduct());
-
-
 
         if (memberOpt.isPresent()) {
 
             Basket basket = Basket.builder()
-                    .email(basketDto.getEmail())
+                    .memId(memId)
                     .img(tea.getImg())
                     .name(tea.getName())
                     .nameEng(tea.getNameEng())
@@ -85,18 +84,18 @@ public class BasketService {
                     .build();
 
 
-            basketMapper.update(id,basket);
+            basketMapper.update(product,basket);
 
             return true;
 
         }else {
-            throw new NotFoundMemberByEmailException("User with ID " + basketDto.getEmail() + " not found");
+            return false;
         }
     }
 
-    public boolean deleteBaskets(DeleteBasketDto deleteBasketDto){
+    public boolean deleteBaskets(DeleteBasketDto deleteBasketDto,Long memId){
 
-        Optional<Member> memberOpt=memberMapper.findByEmail(deleteBasketDto.getEmail());
+        Optional<Member> memberOpt=memberMapper.findById(memId);
 
         if (memberOpt.isPresent()) {
 
