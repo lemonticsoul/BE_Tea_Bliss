@@ -9,7 +9,6 @@ import lombok.Setter;
 
 public class BasketDto {
 
-
     private String product;
 
     private Long quantity;
