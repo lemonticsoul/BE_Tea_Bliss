@@ -5,7 +5,7 @@
 <mapper namespace="store.teabliss.basket.mapper.BasketMapper">
 
     <insert id="save">
-        INSERT INTO BASKET(memId,img,product,name,name_eng,price,quantity,type)
+        INSERT INTO BASKET(mem_id,img,product,name,name_eng,price,quantity,type)
         VALUES (#{memId},#{img},#{product},#{name},#{nameEng},#{price},#{quantity},#{type})
     </insert>
 
