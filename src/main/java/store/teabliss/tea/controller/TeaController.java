@@ -176,7 +176,7 @@ public class TeaController {
 
     @DeleteMapping("delete/{id}")
     @Operation(summary = "완성차 삭제 ", description = "차 하나만 조회하는 로직")
-    public ResponseEntity<?> teaDelete(@PathVariable int id){
+    public ResponseEntity<?> teaDelete(@PathVariable(name="id") int id){
 
         boolean delete=teaService.deletetea(id);
         if (delete) {
@@ -188,11 +188,11 @@ public class TeaController {
 
     @PatchMapping("patch/{id}")
     @Operation(summary = "완성차 수정 ", description = "차 하나만 조회하는 로직")
-    public ResponseEntity<?> teaPatch(TeaPatchDto teaPatchDto){
+    public ResponseEntity<?> teaPatch(@PathVariable(name="id") Long id,TeaPatchDto teaPatchDto){
 
 
 
-        boolean patch=teaService.patchtea(teaPatchDto);
+        boolean patch=teaService.patchtea(id,teaPatchDto);
 
         if (patch) {
             return ResponseEntity.ok("수정되었습니다.");

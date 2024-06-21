@@ -23,25 +23,7 @@ public class TeaService {
     private final TeaMapper teaMapper;
 
     public boolean createtea(TeaDto teaDto) throws JsonProcessingException {
-            // Tea tea = new Tea();
-            //
-            // tea.setCategory(teaDto.getCategory());
-            // tea.setPrice(teaDto.getPrice());
-            // tea.setReview(teaDto.getReview());
-            // tea.setSale(teaDto.getSale());
-            // tea.setRating(teaDto.getRating());
-            // tea.setSeason(teaDto.getSeason());
-            // tea.setName(teaDto.getName());
-            // tea.setNameEng(tea.getNameEng());
-            // tea.setRate(teaDto.getRate());
-            // tea.setCaffeine(teaDto.isCaffeine());
-            //
-            // tea.setDescription(teaDto.getDescription());
-            // tea.setImg(teaDto.getImg());
-            // tea.setInventory(teaDto.getInventory());
-            // tea.setSaleStatus(teaDto.getSaleStatus());
-            // tea.setCreateat(new Timestamp(new Date().getTime()));
-            // tea.setIsLastPage(false);
+
 
             Tea tea = Tea.builder()
                     .category(teaDto.getCategory())
@@ -198,6 +180,7 @@ public class TeaService {
     public List<TeaFinalDto> all(int page,int limit){
 
         List<Tea> alllist=teaMapper.all();
+        System.out.println(alllist);
         double all=alllist.size();
         int limitpage= (int) Math.ceil(all/limit);
         List<Tea> new_recommend=new ArrayList<>();
@@ -333,10 +316,12 @@ public class TeaService {
         List<Tea> new_recommend=new ArrayList<>();
 
         for (int i =limit*(page-1);i<(page*limit);i++){
+
             if (i==all) {
                 break;
             }
             if (page==limitpage){
+
                 categorylist.get(i).setIsLastPage(true);
                 new_recommend.add(categorylist.get(i));
 
@@ -348,6 +333,8 @@ public class TeaService {
 
         }
 
+
+
         return TeaFinalDto.of(new_recommend);
     }
 
@@ -358,7 +345,7 @@ public class TeaService {
         return result;
     }
 
-    public boolean patchtea(TeaPatchDto teaPatchDto){
+    public boolean patchtea(Long id,TeaPatchDto teaPatchDto){
 
         Tea updatetea = Tea.builder()
                 .id(teaPatchDto.getId())
@@ -370,10 +357,29 @@ public class TeaService {
                 .description(teaPatchDto.getDescription())
                 .img(teaPatchDto.getImg())
                 .inventory(teaPatchDto.getInventory())
+                .saleStatus(teaPatchDto.getSaleStatus())
+                .season(teaPatchDto.getSeason())
                 .build();
 
+        List<Long> temp1=teaPatchDto.getIngredient();
+        for (Long t1:temp1){
+            TeaIngredient teaingredient =new TeaIngredient();
+            teaingredient.setIngredientId(t1);
+            teaingredient.setTeaId(id);
+            teaMapper.updateIngredient(id,teaingredient);
+        }
 
-        boolean result=teaMapper.patchtea(updatetea);
+        List<Long> temp2=teaPatchDto.getFlavor();
+
+        for (Long t2:temp2){
+            TeaFlavor teaflavor =new TeaFlavor();
+            teaflavor.setFlavor(t2);
+            teaflavor.setTeaId(id);
+            teaMapper.updateFlavor(id,teaflavor);
+        }
+
+
+        boolean result=teaMapper.patchtea(id,updatetea);
 
         return result;
     }

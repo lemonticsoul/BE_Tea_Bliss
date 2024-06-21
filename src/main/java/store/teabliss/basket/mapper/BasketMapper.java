@@ -12,9 +12,9 @@ import java.util.Optional;
 @Mapper
 public interface BasketMapper {
 
-     List<Basket> getbasket(String email);
+     List<Basket> getbasket(Long memberId);
 
-     void update(Long id,Basket basket);
+     void update(String product,Basket basket);
 
      boolean delete(Long id,String email);
 

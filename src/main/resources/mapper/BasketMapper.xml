@@ -13,7 +13,7 @@
     <select id="getbasket">
         select *
         from BASKET
-        where email=#{email}
+        where memId=#{memId}
     </select>
 
     <update id="update">
@@ -26,7 +26,7 @@
         product = IFNULL(#{product}, product),
         quantity = IFNULL(#{quantity}, quantity),
         type = IFNULL(#{type}, type)
-        WHERE id = #{id} AND email = #{email}
+        WHERE product = #{product} AND memId = #{memId}
     </update>
 
     <delete id="delete">

@@ -14,7 +14,7 @@ public class Basket {
 
     private Long id;
 
-    private String email;
+    private Long memId;
 
     private String img;
 
