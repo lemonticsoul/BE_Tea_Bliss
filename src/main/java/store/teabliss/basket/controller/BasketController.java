@@ -55,12 +55,12 @@ public class BasketController {
     }
 
 
-    @PatchMapping("{product}")
+    @PatchMapping("/{id}")
     @Operation(summary = "장바구니 수정",description = "")
-    public ResponseEntity<?> patchbasket(@PathVariable (name = "product") String product,@RequestBody BasketDto basketDto
+    public ResponseEntity<?> patchbasket(@PathVariable(name="id") Long id,@RequestBody BasketDto basketDto
     ,@AuthenticationPrincipal MemberDetails memberDetails){
 
-        boolean baskets=basketService.patchBaskets(product,basketDto,memberDetails.getMemberId());
+        boolean baskets=basketService.patchBaskets(id,basketDto,memberDetails.getMemberId());
 
         if (baskets){
             return ResponseEntity.ok("장바구니 수정 완료!");
