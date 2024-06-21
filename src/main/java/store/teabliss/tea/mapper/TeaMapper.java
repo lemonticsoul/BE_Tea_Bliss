@@ -49,11 +49,11 @@ public interface TeaMapper {
     List<Tea> caffeinesort(boolean caffeine);
 
     boolean deletetea(int id);
-    boolean patchtea(Long id, Tea tea);
+    boolean patchtea(Tea tea);
 
-    void updateIngredient(Long id,TeaIngredient teaIngredient);
+    void updateIngredient(TeaIngredient teaIngredient);
 
-    void updateFlavor(Long id,TeaFlavor teaFlavor);
+    void updateFlavor(TeaFlavor teaFlavor);
 
 
 
