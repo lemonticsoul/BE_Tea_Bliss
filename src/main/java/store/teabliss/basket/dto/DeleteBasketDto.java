@@ -12,5 +12,4 @@ public class DeleteBasketDto {
 
     private Long id;
 
-    private String email;
 }

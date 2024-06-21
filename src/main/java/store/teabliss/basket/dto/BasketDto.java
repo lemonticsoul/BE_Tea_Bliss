@@ -9,9 +9,6 @@ import lombok.Setter;
 
 public class BasketDto {
 
-    private String email;//유저 아이디=이메일형식이라 그런거임 ㅇㅇ
-    
-
     private String product;
 
     private Long quantity;

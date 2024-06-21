@@ -51,6 +51,10 @@ public interface TeaMapper {
     boolean deletetea(int id);
     boolean patchtea(Tea tea);
 
+    void updateIngredient(TeaIngredient teaIngredient);
+
+    void updateFlavor(TeaFlavor teaFlavor);
+
 
 
 //    List<Tea> category();

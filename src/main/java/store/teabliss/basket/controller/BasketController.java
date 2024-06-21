@@ -5,11 +5,13 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import store.teabliss.basket.dto.BasketDto;
 import store.teabliss.basket.dto.DeleteBasketDto;
 import store.teabliss.basket.entity.Basket;
 import store.teabliss.basket.service.BasketService;
+import store.teabliss.member.entity.MemberDetails;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,9 +26,9 @@ public class BasketController {
 
     @GetMapping("")
     @Operation(summary = "장바구니 검색", description = "")
-    public ResponseEntity<?> basket(@RequestParam String email) {
+    public ResponseEntity<?> basket(@AuthenticationPrincipal MemberDetails memberDetails) {
 
-        List<Basket> list = basketService.getbasket(email);
+        List<Basket> list = basketService.getbasket(memberDetails.getMemberId());
 
         if (list.size()>0){
             return ResponseEntity.ok(list);
@@ -38,10 +40,10 @@ public class BasketController {
 
     @PostMapping("")
     @Operation(summary = "장바구니 저장",description = "")
-    public ResponseEntity<?> postbasket(@RequestBody BasketDto basketDto){
+    public ResponseEntity<?> postbasket(@RequestBody BasketDto basketDto,@AuthenticationPrincipal MemberDetails memberDetails){
 
 
-        boolean baskets=basketService.postBaskets(basketDto);
+        boolean baskets=basketService.postBaskets(basketDto,memberDetails.getMemberId());
 
         if (baskets){
             return ResponseEntity.ok("장바구니 등록 완료!");
@@ -53,11 +55,12 @@ public class BasketController {
     }
 
 
-    @PatchMapping("")
+    @PatchMapping("/{id}")
     @Operation(summary = "장바구니 수정",description = "")
-    public ResponseEntity<?> patchbasket(@RequestParam("id") Long id,@RequestBody BasketDto basketDto){
+    public ResponseEntity<?> patchbasket(@PathVariable(name="id") Long id,@RequestBody BasketDto basketDto
+    ,@AuthenticationPrincipal MemberDetails memberDetails){
 
-        boolean baskets=basketService.patchBaskets(id,basketDto);
+        boolean baskets=basketService.patchBaskets(id,basketDto,memberDetails.getMemberId());
 
         if (baskets){
             return ResponseEntity.ok("장바구니 수정 완료!");
@@ -68,9 +71,9 @@ public class BasketController {
 
     @DeleteMapping("")
     @Operation(summary = "장바구니 하나만 삭제",description = "")
-    public ResponseEntity<?> deletebasket(@RequestBody DeleteBasketDto deleteBasketDto){
+    public ResponseEntity<?> deletebasket(@RequestBody DeleteBasketDto deleteBasketDto,@AuthenticationPrincipal MemberDetails memberDetails){
 
-        boolean baskets=basketService.deleteBaskets(deleteBasketDto);
+        boolean baskets=basketService.deleteBaskets(deleteBasketDto,memberDetails.getMemberId());
 
         if (baskets){
             return ResponseEntity.ok("장바구니 삭제 완료!");
@@ -82,19 +85,15 @@ public class BasketController {
 
     @DeleteMapping("/selecteddelete")
     @Operation(summary = "장바구니  선택 삭제",description = "")
-    public ResponseEntity<?> deletebasket(@RequestBody ArrayList<DeleteBasketDto> deleteBasketDto){
+    public ResponseEntity<?> deletebasket(@RequestBody ArrayList<DeleteBasketDto> deleteBasketDto,@AuthenticationPrincipal MemberDetails memberDetails){
 
 
         for (DeleteBasketDto dto :deleteBasketDto) {
-            boolean baskets = basketService.deleteBaskets(dto);
+            boolean baskets = basketService.deleteBaskets(dto,memberDetails.getMemberId());
         }
 
         return ResponseEntity.ok("삭제 완료되었습니다.");
     }
-
-
-
-
 
 
 }
