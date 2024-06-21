@@ -25,6 +25,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import store.teabliss.common.security.oauth2.handler.OAuth2AuthenticationFailureHandler;
 import store.teabliss.common.security.oauth2.handler.OAuth2AuthenticationSuccessHandler;
+import store.teabliss.common.security.signin.JwtExceptionFilter;
 import store.teabliss.common.security.signin.UsernamePasswordAuthenticationFilter;
 import store.teabliss.common.security.signin.handler.SignInFailureHandler;
 import store.teabliss.common.security.signin.handler.SignInSuccessHandler;
@@ -102,7 +103,8 @@ public class SecurityConfig {
 
         http
                 .addFilterAfter(usernamePasswordAuthenticationFilter(), LogoutFilter.class)
-                .addFilterBefore(jwtAuthenticationProcessingFilter(), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(jwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtExceptionFilter(), JwtAuthorizationFilter.class);
 
 
         return http.build();
@@ -152,7 +154,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    UsernamePasswordAuthenticationFilter usernamePasswordAuthenticationFilter() throws Exception{
+    public UsernamePasswordAuthenticationFilter usernamePasswordAuthenticationFilter() throws Exception{
         UsernamePasswordAuthenticationFilter usernamePasswordAuthenticationFilter = new UsernamePasswordAuthenticationFilter(objectMapper);
         usernamePasswordAuthenticationFilter.setAuthenticationManager(authenticationManager());
         usernamePasswordAuthenticationFilter.setAuthenticationSuccessHandler(signInSuccessHandler());
@@ -161,8 +163,12 @@ public class SecurityConfig {
     }
 
     @Bean
-    public JwtAuthorizationFilter jwtAuthenticationProcessingFilter(){
+    public JwtAuthorizationFilter jwtAuthorizationFilter() {
         return new JwtAuthorizationFilter(memberMapper, jwtService);
     }
 
+    @Bean
+    public JwtExceptionFilter jwtExceptionFilter() {
+        return new JwtExceptionFilter();
+    }
 }

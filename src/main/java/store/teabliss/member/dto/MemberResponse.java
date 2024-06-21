@@ -30,6 +30,10 @@ public class MemberResponse extends CommonResponse {
         return new MemberResponse(200, "Success", member, total);
     }
 
+    public static MemberResponse error(String message) {
+        return new MemberResponse(400, message, null, null);
+    }
+
     public static MemberResponse profileError() {
         return new MemberResponse(400, "해당 프로필 파일은 10MB를 넘기면 안됩니다.", null, null);
     }

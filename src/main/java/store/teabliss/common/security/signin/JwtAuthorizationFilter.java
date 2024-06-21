@@ -31,20 +31,23 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        if (request.getRequestURI().equals(NO_CHECK_URL)) {
+        if (request.getRequestURI().equals(NO_CHECK_URL) ) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        String refreshToken = jwtService
-                .extractRefreshToken(request)
-                .filter(jwtService::isTokenValid)
-                .orElse(null);
-
-        if (refreshToken != null) {
-            checkRefreshTokenAndReIssueAccessToken(response, refreshToken);
-            return;
-        }
+        /*
+            2024-06-21, Header 형식 RefreshToken 검증 주석 처리
+         */
+        // String refreshToken = jwtService
+        //         .extractRefreshToken(request)
+        //         .filter(jwtService::isTokenValid)
+        //         .orElse(null);
+        //
+        // if (refreshToken != null) {
+        //     checkRefreshTokenAndReIssueAccessToken(response, refreshToken);
+        //     return;
+        // }
 
         checkAccessTokenAndAuthentication(request, response, filterChain);
     }
