@@ -2,11 +2,14 @@ package store.teabliss.member.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import store.teabliss.common.security.signin.service.JwtService;
 import store.teabliss.member.dto.*;
 import store.teabliss.member.entity.MemberDetails;
 import store.teabliss.member.service.MemberService;
@@ -84,5 +87,23 @@ public class MemberController {
         int result = memberService.updateAddress(memberDetails.getMemberId(), memberAddressDto);
 
         return ResponseEntity.ok(MemberResponse.ok(result));
+    }
+
+    @GetMapping("/re-issue")
+    @Operation(summary = "엑세스 토큰 만료 시 Refresh Token 검증", description = "엑세스 토큰 만료 시 Refresh Token 검증 API")
+    public ResponseEntity<MemberResponse> reIssue(
+            HttpServletResponse response,
+            @CookieValue(name = "refreshToken") String refreshToken
+    ) {
+
+        if(refreshToken.isEmpty()) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(MemberResponse.error("다시 로그인을 하시기 바랍니다."));
+        }
+
+        memberService.reIssue(response, refreshToken);
+
+        return ResponseEntity.ok(MemberResponse.ok("Access Token 재발급 처리"));
     }
 }

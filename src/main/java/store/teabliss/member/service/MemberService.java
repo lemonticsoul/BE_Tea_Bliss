@@ -1,9 +1,11 @@
 package store.teabliss.member.service;
 
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import store.teabliss.common.security.signin.service.JwtService;
 import store.teabliss.member.dto.*;
 import store.teabliss.member.entity.Member;
 import store.teabliss.member.exception.DuplicationMemberEmailException;
@@ -19,6 +21,7 @@ import java.util.List;
 public class MemberService {
 
     private final MemberMapper memberMapper;
+    private final JwtService jwtService;
     private final PasswordEncoder encoder;
 
     public long createMember(MemberSignUpDto memberSignUpDto) {
@@ -134,4 +137,17 @@ public class MemberService {
         return memberMapper.updatePassword(updateMember);
     }
 
+    public void reIssue(HttpServletResponse response, String refreshToken) {
+        checkRefreshTokenAndReIssueAccessToken(response, refreshToken);
+    }
+
+    private void checkRefreshTokenAndReIssueAccessToken(HttpServletResponse response, String refreshToken) {
+        if(jwtService.isTokenValid(refreshToken)) {
+            memberMapper.findByRefreshToken(refreshToken).ifPresent(
+                    users -> {
+                        jwtService.sendAccessToken(response, jwtService.createAccessToken(users.getEmail()));
+                    }
+            );
+        }
+    }
 }

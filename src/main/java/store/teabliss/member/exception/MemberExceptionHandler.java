@@ -1,5 +1,6 @@
 package store.teabliss.member.exception;
 
+import io.jsonwebtoken.JwtException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -81,5 +82,15 @@ public class MemberExceptionHandler {
                 .build();
 
         return ResponseEntity.badRequest().body(response);
+    }
+
+    @ExceptionHandler(JwtException.class)
+    private ResponseEntity<MemberResponse> jwtRefreshTokenNotValidException(JwtException e) {
+        MemberResponse response = MemberResponse.builder()
+                .status(HttpStatus.UNAUTHORIZED.value())
+                .message("Refresh Token 만료로 인한 재로그인을 시도해주세요.")
+                .build();
+
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
     }
 }
