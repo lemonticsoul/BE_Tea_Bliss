@@ -9,8 +9,6 @@ import java.util.ArrayList;
 @Setter
 public class TeaPatchDto {
 
-    private Long id ;
-
     private Long price;
     private String  category ;
 
@@ -19,6 +17,7 @@ public class TeaPatchDto {
     private boolean caffeine;
     private String description;
     private String img;
+
     private Long inventory ;
 
     private ArrayList<Long> ingredient;

@@ -102,7 +102,7 @@ public class TeaController {
 
     }
 
-    @GetMapping("all")
+    @GetMapping("/all")
     @Operation(summary = "모두 조회", description = "모든 차를 조회하는 로직입니다.")
     public ResponseEntity<?> all(@RequestParam("page") int page,@RequestParam("limit") int limit ){
 
@@ -117,9 +117,9 @@ public class TeaController {
 
 
     }
-    @GetMapping("findtea")
+    @GetMapping("/findtea/{id}")
     @Operation(summary = "티 상세 조회", description = "차 하나만 조회하는 로직")
-    public ResponseEntity<TeaSearchDto> responseid(@RequestParam("id") int id){
+    public ResponseEntity<TeaSearchDto> responseid(@PathVariable(name="id") int id){
 
 
         TeaSearchDto tea=teaService.find(id);
@@ -129,7 +129,7 @@ public class TeaController {
 
     }
 
-    @GetMapping("category")
+    @GetMapping("/category")
     @Operation(summary = "카테고리 조회", description = "차 하나만 조회하는 로직")
     public ResponseEntity<?> category(@RequestParam("page") int page,@RequestParam("limit") int limit,@RequestParam("category") String categroy){
 
@@ -144,7 +144,7 @@ public class TeaController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("season")
+    @GetMapping("/season")
     @Operation(summary = "시즌별 조회", description = "차 하나만 조회하는 로직")
     public ResponseEntity<?> season(@RequestParam("page") int page,@RequestParam("limit") int limit,@RequestParam("season") String season){
 
@@ -160,7 +160,7 @@ public class TeaController {
 
     }
 
-    @GetMapping("caffeine")
+    @GetMapping("/caffeine")
     @Operation(summary = "카페인 조회", description = "차 하나만 조회하는 로직")
     public ResponseEntity<?> caffeine(@RequestParam("page") int page,@RequestParam("limit") int limit,@RequestParam("caffeine") boolean caffeine){
 
@@ -174,7 +174,7 @@ public class TeaController {
 
     }
 
-    @DeleteMapping("delete/{id}")
+    @DeleteMapping("/delete/{id}")
     @Operation(summary = "완성차 삭제 ", description = "차 하나만 조회하는 로직")
     public ResponseEntity<?> teaDelete(@PathVariable(name="id") int id){
 
@@ -188,8 +188,7 @@ public class TeaController {
 
     @PatchMapping("patch/{id}")
     @Operation(summary = "완성차 수정 ", description = "차 하나만 조회하는 로직")
-    public ResponseEntity<?> teaPatch(@PathVariable(name="id") Long id,TeaPatchDto teaPatchDto){
-
+    public ResponseEntity<?> teaPatch(@PathVariable(name="id") Long id,@RequestBody TeaPatchDto teaPatchDto){
 
 
         boolean patch=teaService.patchtea(id,teaPatchDto);

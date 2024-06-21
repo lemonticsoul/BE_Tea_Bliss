@@ -28,25 +28,25 @@
     <select id="recommend">
         SELECT *
         FROM TEA
-        ORDER BY rate DESC, createDt
+        ORDER BY rate DESC, create_dt
     </select>
 
     <select id="sale">
         SELECT *
         FROM TEA
-        ORDER BY sale DESC, createDt
+        ORDER BY sale DESC, create_dt
     </select>
 
     <select id="topcost">
         SELECT *
         FROM TEA
-        ORDER BY price DESC, createDt
+        ORDER BY price DESC, create_dt
     </select>
 
     <select id="lowcost">
         SELECT *
         FROM TEA
-        ORDER BY price, createDt
+        ORDER BY price, create_dt
     </select>
 
     <select id="all">
@@ -121,7 +121,7 @@
             price=IFNULL(#{price}, price),
             category=IFNULL(#{category}, category),
             name=IFNULL(#{name}, name),
-            nameEng=IFNULL(#{nameEng}, nameEng),
+            name_eng=IFNULL(#{nameEng}, name_eng),
             caffeine=IFNULL(#{caffeine}, caffeine),
             description=IFNULL(#{description}, description),
             img=IFNULL(#{img}, img),
@@ -132,19 +132,18 @@
     <update id="updateIngredient" >
         UPDATE TEAINGREDIENT
         SET
-            ingredient_id=IFNULL(#{ingredientId},ingredientId)
+            ingredient_id=IFNULL(#{ingredientId},ingredient_id)
+        WHERE tea_id= #{teaId}
 
-        WHERE 1=1
-        AND id= #{id}
     </update>
 
-    <update id="updateFlavor" >
-        UPDATE TEAINGREDIENT
+    <update id="updateFlavor"  >
+        UPDATE TEAFLAVOR
         SET
-        flavor_id=IFNULL(#{flavorId},flavorId)
+        flavor_id=IFNULL(#{flavor},flavor_id)
 
         WHERE 1=1
-        AND id= #{id}
+        AND tea_id= #{teaId}
     </update>
 
 
