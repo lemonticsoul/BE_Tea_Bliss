@@ -40,7 +40,7 @@ public class SignInSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
         member.updateRefreshToken(refreshToken);
 
-        memberMapper.updateMember(member);
+        memberMapper.updateRefreshToken(member);
 
         jwtService.sendAccessAndRefreshToken(response, accessToken, refreshToken);
 
