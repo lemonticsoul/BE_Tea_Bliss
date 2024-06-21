@@ -11,15 +11,16 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.util.WebUtils;
-import store.teabliss.common.entity.ErrorMessage;
 import store.teabliss.common.security.utils.CookieUtils;
 import store.teabliss.member.entity.Member;
 import store.teabliss.member.mapper.MemberMapper;
 
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -30,7 +31,7 @@ public class JwtService {
     private String secret;
 
     private static final long ACCESS_TOKEN_EXPIRED_TIME = 1000L * 60L * 60L * 24L; // 1일
-    private static final long REFRESH_TOKEN_EXPIRED_TIME = 1000L; // 7일
+    private static final long REFRESH_TOKEN_EXPIRED_TIME = 1000L * 60L * 60L * 24L * 7L; // 7일
     private static final String ACCESS_TOKEN = "Authorization";
     private static final String REFRESH_TOKEN = "RefreshToken";
     private static final String BEARER = "Bearer ";
@@ -124,13 +125,7 @@ public class JwtService {
     }
 
     public Optional<String> extractRefreshToken(HttpServletRequest request) {
-        Cookie refreshToken = WebUtils.getCookie(request, "refreshToken");
-
-        if(refreshToken == null) {
-            return Optional.empty();
-        }
-
-        return Optional.ofNullable(refreshToken.getValue());
+        return Optional.ofNullable(request.getHeader(REFRESH_TOKEN));
     }
 
     public Optional<String> extractEmail(String accessToken) {
@@ -154,15 +149,18 @@ public class JwtService {
                     .parseClaimsJws(token);
 
             return true;
-        } catch (MalformedJwtException e) {
-            log.info("MalformedJwtException");
-            throw new JwtException(ErrorMessage.UNSUPPORTED_TOKEN.getMsg());
+        } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
+            throw new RuntimeException("잘못된 JWT 서명입니다.");
+            // throw new JwtErrorException(JwtErrorStatus.MALFORMED_JWT);
         } catch (ExpiredJwtException e) {
-            log.info("ExpiredJwtException");
-            throw new JwtException(ErrorMessage.EXPIRED_TOKEN.getMsg());
+            throw new RuntimeException("만료된 JWT 토큰입니다.");
+            // throw new JwtErrorException(JwtErrorStatus.EXPIRED_JWT);
+        } catch (UnsupportedJwtException e) {
+            throw new RuntimeException("지원되지 않는 JWT 토큰입니다.");
+            // throw new JwtErrorException(JwtErrorStatus.UNSUPPORTED_JWT);
         } catch (IllegalArgumentException e) {
-            log.info("IllegalArgumentException");
-            throw new JwtException(ErrorMessage.UNKNOWN_ERROR.getMsg());
+            throw new RuntimeException("JWT 토큰이 잘못되었습니다.");
+            // throw new JwtErrorException(JwtErrorStatus.ILLEGAL_ARGUMENT);
         }
     }
 }
