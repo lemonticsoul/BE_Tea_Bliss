@@ -65,7 +65,7 @@ public class BasketService {
 
     }
 
-    public boolean patchBaskets(String product,BasketDto basketDto,Long memId){
+    public boolean patchBaskets(Long id,BasketDto basketDto,Long memId){
 
         Optional<Member> memberOpt=memberMapper.findById(memId);
         Tea tea = teaMapper.search(basketDto.getProduct());
@@ -73,6 +73,7 @@ public class BasketService {
         if (memberOpt.isPresent()) {
 
             Basket basket = Basket.builder()
+                    .id(id)
                     .memId(memId)
                     .img(tea.getImg())
                     .name(tea.getName())
@@ -84,7 +85,7 @@ public class BasketService {
                     .build();
 
 
-            basketMapper.update(product,basket);
+            basketMapper.update(basket);
 
             return true;
 
@@ -99,14 +100,13 @@ public class BasketService {
 
         if (memberOpt.isPresent()) {
 
-            String UserId = deleteBasketDto.getEmail();
             Long id = deleteBasketDto.getId();
 
-            boolean result = basketMapper.delete(id,UserId);
+            boolean result = basketMapper.delete(id,memId);
 
             return result;
         } else {
-            throw new NotFoundMemberByEmailException("User with ID " + deleteBasketDto.getEmail() + " not found");
+            return false;
         }
     }
 

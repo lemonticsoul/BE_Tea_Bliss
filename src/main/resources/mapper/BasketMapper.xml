@@ -13,7 +13,7 @@
     <select id="getbasket">
         select *
         from BASKET
-        where memId=#{memId}
+        where mem_id=#{memId}
     </select>
 
     <update id="update">
@@ -26,13 +26,13 @@
         product = IFNULL(#{product}, product),
         quantity = IFNULL(#{quantity}, quantity),
         type = IFNULL(#{type}, type)
-        WHERE product = #{product} AND memId = #{memId}
+        WHERE product = #{product} AND mem_id = #{memId}
     </update>
 
     <delete id="delete">
         DELETE FROM BASKET
         WHERE 1=1
-        AND id = #{id}  AND email=#{email}
+        AND id = #{id}  AND mem_id = #{memberId}
     </delete>
 
 </mapper>

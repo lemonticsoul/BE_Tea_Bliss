@@ -14,9 +14,9 @@ public interface BasketMapper {
 
      List<Basket> getbasket(Long memberId);
 
-     void update(String product,Basket basket);
+     void update(Basket basket);
 
-     boolean delete(Long id,String email);
+     boolean delete(Long id,Long memberId);
 
      void save(Basket basket);
 }
