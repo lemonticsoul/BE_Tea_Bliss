@@ -44,11 +44,12 @@
         ON temp.review_id = r.review_id
     </select>
 
-    <select id="topsort">
+    <select id="topSort" parameterType="Integer">
         SELECT
             *
         FROM REVIEW
         ORDER BY 'like' DESC
+        LIMIT 0, #{value}
     </select>
 
     <select id="countAllReview" parameterType="Review">

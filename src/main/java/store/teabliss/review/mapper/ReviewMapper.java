@@ -19,7 +19,7 @@ public interface ReviewMapper {
 
     int countMyReview(Review review);
 
-    List<Review> topsort(int limit);
+    List<Review> topSort(int limit);
 
     void updateReview(Review review);
 

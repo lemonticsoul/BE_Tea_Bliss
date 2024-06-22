@@ -40,11 +40,11 @@ public class ReviewController {
 
     @Operation(summary = "전체 top 리뷰 ", description = "퀴리 파라미터는 limit 한개 만 보내주세요!")
     @GetMapping("/review-list/order")
-    public ResponseEntity<?> summit(@RequestParam int limit){
+    public ResponseEntity<ReviewResponse> topReview(@RequestParam int limit){
 
-        List<Review> reviews = reviewservice.topreview(limit);
+        ReviewResponse reviewResponse = reviewservice.topReview(limit);
 
-        return ResponseEntity.ok(reviews);
+        return ResponseEntity.ok(reviewResponse);
     }
 
     @Operation(summary = "모든 리뷰 조회", description = "페이지네이션 가능!")

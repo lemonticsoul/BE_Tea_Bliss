@@ -3,7 +3,7 @@
 
 <mapper namespace="store.teabliss.ingredient.mapper.IngredientMapper">
 
-    <insert id="createIngredient" parameterType="Ingredient" useGeneratedKeys="true" keyProperty="ingredientId" keyColumn="ingredient_id">
+    <insert id="createIngredient" parameterType="Ingredient" useGeneratedKeys="true" keyProperty="id" keyColumn="ingredient_id">
         INSERT INTO INGREDIENT (category, name, name_eng, sale, inventory, sale_status, flavor, explanation, photo)
         VALUES(#{category}, #{name}, #{nameEng}, #{sale}, #{inventory}, #{saleStatus}, #{flavor}, #{explanation}, #{photo})
     </insert>
