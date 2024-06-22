@@ -34,6 +34,7 @@ import store.teabliss.common.security.signin.service.JwtService;
 import store.teabliss.common.security.signin.service.UserDetailsServiceImpl;
 import store.teabliss.common.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository;
 import store.teabliss.common.security.oauth2.service.CustomOAuth2UserService;
+import store.teabliss.member.entity.MemberRole;
 import store.teabliss.member.mapper.MemberMapper;
 
 import java.util.Arrays;
@@ -89,6 +90,7 @@ public class SecurityConfig {
                         request.requestMatchers(antMatcher(HttpMethod.GET, "/api/review/**")).permitAll();
                         // request.requestMatchers(new AntPathRequestMatcher("/api/survey/**")).authenticated();
                         request.requestMatchers(permitUrl).permitAll();
+                        // request.requestMatchers(antMatcher("/api/admin/**")).hasRole("ADMIN");
                         request.anyRequest().authenticated();
                     }
                 );
