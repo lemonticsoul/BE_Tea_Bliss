@@ -59,5 +59,7 @@ public interface TeaMapper {
 
 //    List<Tea> category();
 
+    List<Tea> surveyRecommendTea(Tea tea);
+
 
 }

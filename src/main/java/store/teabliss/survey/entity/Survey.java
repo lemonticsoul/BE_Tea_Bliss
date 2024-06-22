@@ -18,7 +18,7 @@ public class Survey {
 
     private int taste;
 
-    private String sale;
+    private int sale;
 
     private String category;
 
