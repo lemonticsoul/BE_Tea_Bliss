@@ -46,7 +46,14 @@
 
     <select id="topSort" parameterType="Integer">
         SELECT
-            *
+            review_id as id,
+            title,
+            contents,
+            likes,
+            tea_id,
+            mem_id,
+            create_dt,
+            update_dt
         FROM REVIEW
         ORDER BY 'like' DESC
         LIMIT 0, #{value}
