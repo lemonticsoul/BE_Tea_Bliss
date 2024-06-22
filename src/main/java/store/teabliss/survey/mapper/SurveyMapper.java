@@ -8,4 +8,6 @@ public interface SurveyMapper {
 
     Long createSurvey(Survey survey);
 
+    Survey findById(Long id);
+
 }
