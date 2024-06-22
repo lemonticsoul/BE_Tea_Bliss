@@ -147,7 +147,39 @@
     </update>
 
 
-
+    <!-- 설문조사 결과로 인한 완제품 추천 -->
+    <select id="surveyRecommendTea" parameterType="Tea">
+        SELECT
+            id,
+            price,
+            category,
+            sale,
+            rating,
+            rate,
+            season,
+            name,
+            name_eng,
+            caffeine,
+            description,
+            img,
+            inventory,
+            sale_status
+        FROM TEA
+        WHERE 1=1
+        <if test="category != null and category != ''">
+        AND category IN (#{category})
+        </if>
+        <if test="caffeine != null and caffeine != ''">
+        AND caffeine = #{caffeine}
+        </if>
+        <if test="priceStart != null and priceEnd != null and priceStart != '' and priceEnd != ''">
+        <![CDATA[
+        AND price >= #{priceStart} and price < #{priceEnd}
+        ]]>
+        </if>
+        ORDER BY RAND()
+        LIMIT 3
+    </select>
 
 
 </mapper>

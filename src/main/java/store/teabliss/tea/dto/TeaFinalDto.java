@@ -55,8 +55,6 @@ public class TeaFinalDto {
         List<TeaFinalDto> teaFinalDto = new ArrayList<>();
         // var fommatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss", Locale.KOREA);
 
-
-
         for (Tea tea : list){
             TeaFinalDto dto = TeaFinalDto.builder()
                     .id(tea.getId())
