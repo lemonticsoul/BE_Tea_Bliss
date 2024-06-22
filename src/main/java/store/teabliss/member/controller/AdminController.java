@@ -29,8 +29,8 @@ public class AdminController {
     @GetMapping("/member-list")
     @Operation(summary = "(관리자) 회원 관리 리스트", description = "(관리자) 회원 관리 리스트")
     public ResponseEntity<MemberResponse> memberList(
-            @RequestParam String email,
-            @RequestParam String nickname,
+            @RequestParam(required = false) String email,
+            @RequestParam(required = false) String nickname,
             @RequestParam int page,
             @RequestParam int limit
     ) {
