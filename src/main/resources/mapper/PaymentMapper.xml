@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="store.teabliss.payment.mapper.PaymentMapper">
+
+    <insert id="savepayment"  useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO PAYMENT (mem_id,payment_id,order_name)
+        VALUES (#{memId},#{paymentId},#{orderName})
+
+    </insert>
+
+    <insert id="saveproduct">
+        INSERT INTO PAYPRODUCT (pay_id,name,amount,quantity)
+        VALUES (#{payId},#{name},#{amount},#{quantity})
+    </insert>
+
+    <insert id="saveamount">
+        INSERT INTO PAYAMOUNT (pay_id,total,paid)
+        VALUES (#{payId},#{total},#{paid})
+    </insert>
+
+    <insert id="savecustomer">
+        INSERT INTO PAYCUSTOMER  (pay_id,user_id,name,email,oneline,type,zipcode)
+        VALUES (#{payId},#{id},#{name},#{email},#{oneline},#{type},#{zipcode})
+    </insert>
+
+    <insert id="savecard">
+        INSERT INTO PAYCARD (pay_id,card_name)
+        VALUES (#{payId},#{name})
+    </insert>
+
+
+
+
+
+
+</mapper>
