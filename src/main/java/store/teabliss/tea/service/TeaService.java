@@ -207,11 +207,11 @@ public class TeaService {
         return count;
     }
 
-    public TeaSearchDto find(int id){
+    public TeaSearchDto find(Long id){
 
-        Tea tea=teaMapper.findbyid(id);
-        ArrayList<Long> ingredient=teaMapper.findbyingredient(id);
-        ArrayList<Long> flavor=teaMapper.findbyflavor(id);
+        Tea tea=teaMapper.findById(id);
+        ArrayList<Long> ingredient=teaMapper.findByIngredient(id);
+        ArrayList<Long> flavor=teaMapper.findByFlavor(id);
 
         TeaSearchDto dto=new TeaSearchDto();
 

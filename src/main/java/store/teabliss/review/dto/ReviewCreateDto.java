@@ -14,7 +14,7 @@ public class ReviewCreateDto {
     private String contents;
 
     @Schema(description = "별점", example = "5")
-    private Long likes;
+    private int likes;
 
     @Schema(description = "완제품 차 고유 번호", example = "1")
     private Long teaId;

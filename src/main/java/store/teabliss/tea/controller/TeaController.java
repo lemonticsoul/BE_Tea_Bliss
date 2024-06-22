@@ -119,7 +119,7 @@ public class TeaController {
     }
     @GetMapping("/findtea/{id}")
     @Operation(summary = "티 상세 조회", description = "차 하나만 조회하는 로직")
-    public ResponseEntity<TeaSearchDto> responseid(@PathVariable(name="id") int id){
+    public ResponseEntity<TeaSearchDto> responseid(@PathVariable(name="id") Long id){
 
 
         TeaSearchDto tea=teaService.find(id);

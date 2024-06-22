@@ -13,6 +13,8 @@ import store.teabliss.review.dto.ReviewResponse;
 import store.teabliss.review.dto.ReviewUpdateDto;
 import store.teabliss.review.entity.Review;
 import store.teabliss.review.mapper.ReviewMapper;
+import store.teabliss.tea.entity.Tea;
+import store.teabliss.tea.mapper.TeaMapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +25,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ReviewService {
 
+    private final TeaMapper teaMapper;
     private final ReviewMapper reviewMapper;
 
     public long createReview(Long memId, ReviewCreateDto reviewCreateDto) {
@@ -37,7 +40,9 @@ public class ReviewService {
         List<ReviewDto> reviewDtos = new ArrayList<>();
 
         for(Review review : topReview) {
-            ReviewDto dto = ReviewDto.of(review);
+            Tea tea = teaMapper.findById(review.getTeaId());
+
+            ReviewDto dto = ReviewDto.of(review, tea);
             reviewDtos.add(dto);
         }
 
@@ -64,7 +69,9 @@ public class ReviewService {
         int limitPage = (int) Math.ceil((double) count / limit);
 
         for(Review review : reviews) {
-            ReviewDto dto = ReviewDto.of(review);
+            Tea tea = teaMapper.findById(review.getTeaId());
+
+            ReviewDto dto = ReviewDto.of(review, tea);
             reviewDtos.add(dto);
         }
 
@@ -108,7 +115,9 @@ public class ReviewService {
         int limitPage = (int) Math.ceil((double) count / limit);
 
         for(Review review : reviews) {
-            ReviewDto dto = ReviewDto.of(review);
+            Tea tea = teaMapper.findById(review.getTeaId());
+
+            ReviewDto dto = ReviewDto.of(review, tea);
             reviewDtos.add(dto);
         }
 

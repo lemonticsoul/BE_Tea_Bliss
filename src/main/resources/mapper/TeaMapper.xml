@@ -77,20 +77,20 @@
         WHERE name=#{product}
     </select>
 
-    <select id="findbyid">
+    <select id="findById" parameterType="Long">
         SELECT *
         FROM TEA
-        WHERE id=#{id}
+        WHERE id = #{value}
     </select>
 
-    <select id="findbyingredient">
+    <select id="findByIngredient">
         SELECT ingredient_id
         FROM TeaIngredient
         WHERE tea_id =#{id}
 
     </select>
 
-    <select id="findbyflavor">
+    <select id="findByFlavor">
         SELECT flavor_id
         FROM TeaFlavor
         WHERE tea_id =#{id}
