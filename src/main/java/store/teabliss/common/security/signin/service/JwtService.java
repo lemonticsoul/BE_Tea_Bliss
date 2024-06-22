@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import store.teabliss.common.entity.ErrorMessage;
 import store.teabliss.common.security.utils.CookieUtils;
 import store.teabliss.member.entity.Member;
 import store.teabliss.member.mapper.MemberMapper;
@@ -149,18 +150,15 @@ public class JwtService {
                     .parseClaimsJws(token);
 
             return true;
-        } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
-            throw new RuntimeException("잘못된 JWT 서명입니다.");
-            // throw new JwtErrorException(JwtErrorStatus.MALFORMED_JWT);
+        } catch (MalformedJwtException e) {
+            log.info("MalformedJwtException");
+            throw new JwtException(ErrorMessage.UNSUPPORTED_TOKEN.getMsg());
         } catch (ExpiredJwtException e) {
-            throw new RuntimeException("만료된 JWT 토큰입니다.");
-            // throw new JwtErrorException(JwtErrorStatus.EXPIRED_JWT);
-        } catch (UnsupportedJwtException e) {
-            throw new RuntimeException("지원되지 않는 JWT 토큰입니다.");
-            // throw new JwtErrorException(JwtErrorStatus.UNSUPPORTED_JWT);
+            log.info("ExpiredJwtException");
+            throw new JwtException(ErrorMessage.EXPIRED_TOKEN.getMsg());
         } catch (IllegalArgumentException e) {
-            throw new RuntimeException("JWT 토큰이 잘못되었습니다.");
-            // throw new JwtErrorException(JwtErrorStatus.ILLEGAL_ARGUMENT);
+            log.info("IllegalArgumentException");
+            throw new JwtException(ErrorMessage.UNKNOWN_ERROR.getMsg());
         }
     }
 }

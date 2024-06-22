@@ -22,12 +22,18 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
+    private final RequestMatcherHolder requestMatcherHolder;
     private final MemberMapper memberMapper;
     private final JwtService jwtService;
 
     private GrantedAuthoritiesMapper authoritiesMapper = new NullAuthoritiesMapper();
 
     private static final String NO_CHECK_URL = "/api/member/sign-up";
+
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        return requestMatcherHolder.getRequestMatchersByMinRole(null).matches(request);
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {

@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -26,6 +25,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import store.teabliss.common.security.oauth2.handler.OAuth2AuthenticationFailureHandler;
 import store.teabliss.common.security.oauth2.handler.OAuth2AuthenticationSuccessHandler;
 import store.teabliss.common.security.signin.JwtExceptionFilter;
+import store.teabliss.common.security.signin.RequestMatcherHolder;
 import store.teabliss.common.security.signin.UsernamePasswordAuthenticationFilter;
 import store.teabliss.common.security.signin.handler.SignInFailureHandler;
 import store.teabliss.common.security.signin.handler.SignInSuccessHandler;
@@ -53,6 +53,7 @@ public class SecurityConfig {
     private final JwtService jwtService;
     private final UserDetailsServiceImpl userDetailService;
     private final ObjectMapper objectMapper;
+    private final RequestMatcherHolder requestMatcherHolder;
 
     private final CustomOAuth2UserService customOAuth2UserService;
     private final OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
@@ -83,13 +84,20 @@ public class SecurityConfig {
                         HeadersConfigurer.FrameOptionsConfig::disable).disable())
                 .sessionManagement(c -> c.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests((request) -> {
+                        
+                        // (신버전)
+                        request.requestMatchers(requestMatcherHolder.getRequestMatchersByMinRole(null)).permitAll();
+                        // request.requestMatchers(requestMatcherHolder.getRequestMatchersByMinRole(MemberRole.USER)).hasAnyAuthority(MemberRole.USER.getKey());
+                        
+                    
+                        // (구버전)
                         // request.requestMatchers(new AntPathRequestMatcher("/api/**")).permitAll();
-                        request.requestMatchers(antMatcher("/api/member/**")).permitAll();
-                        request.requestMatchers(antMatcher("/api/ingredient/**")).permitAll();
-                        request.requestMatchers(antMatcher(HttpMethod.GET, "/api/tea/**")).permitAll();
-                        request.requestMatchers(antMatcher(HttpMethod.GET, "/api/review/**")).permitAll();
+                        // request.requestMatchers(antMatcher("/api/member/**")).permitAll();
+                        // request.requestMatchers(antMatcher("/api/ingredient/**")).permitAll();
+                        // request.requestMatchers(antMatcher(HttpMethod.GET, "/api/tea/**")).permitAll();
+                        // request.requestMatchers(antMatcher(HttpMethod.GET, "/api/review/**")).permitAll();
                         // request.requestMatchers(new AntPathRequestMatcher("/api/survey/**")).authenticated();
-                        request.requestMatchers(permitUrl).permitAll();
+                        // request.requestMatchers(permitUrl).permitAll();
                         // request.requestMatchers(antMatcher("/api/admin/**")).hasRole("ADMIN");
                         request.anyRequest().authenticated();
                     }
@@ -166,7 +174,7 @@ public class SecurityConfig {
 
     @Bean
     public JwtAuthorizationFilter jwtAuthorizationFilter() {
-        return new JwtAuthorizationFilter(memberMapper, jwtService);
+        return new JwtAuthorizationFilter(requestMatcherHolder, memberMapper, jwtService);
     }
 
     @Bean
