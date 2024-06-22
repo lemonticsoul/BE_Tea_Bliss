@@ -13,6 +13,9 @@ public class ReviewCreateDto {
     @Schema(description = "리뷰 내용", example = "리뷰 내용1")
     private String contents;
 
+    @Schema(description = "별점", example = "5")
+    private Long likes;
+
     @Schema(description = "완제품 차 고유 번호", example = "1")
     private Long teaId;
 
@@ -20,7 +23,7 @@ public class ReviewCreateDto {
         return Review.builder()
                 .title(title)
                 .contents(contents)
-                .likes(0L)
+                .likes(likes)
                 .teaId(teaId)
                 .memId(memId)
                 .build();
