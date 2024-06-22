@@ -18,7 +18,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include;
 @JsonInclude(Include.NON_NULL)
 public class MemberDto {
 
-    private Long memId;
+    private Long id;
 
     private String email;
 
@@ -40,19 +40,21 @@ public class MemberDto {
 
     public static MemberDto of1(Member member) {
         return MemberDto.builder()
+                .id(member.getMemId())
                 .email(member.getEmail())
                 .nickname(member.getNickname())
                 .address(member.getAddress())
                 .profile(member.getProfile())
+                .role(member.getRole().getKey().equalsIgnoreCase("USER") ? "일반 회원" : "관리자")
                 .build();
     }
 
     public static MemberDto of2(Member member) {
         return MemberDto.builder()
-                .memId(member.getMemId())
+                .id(member.getMemId())
                 .nickname(member.getNickname())
                 .email(member.getEmail())
-                .role(member.getRole().getKey().equalsIgnoreCase("USER") ? "일반 회원" : "관리자" )
+                .role(member.getRole().getKey().equalsIgnoreCase("USER") ? "일반 회원" : "관리자")
                 .reviewCount(member.getReviewCount())
                 .purchaseAmount(member.getPurchaseAmount())
                 .createDt(member.getCreateDt())

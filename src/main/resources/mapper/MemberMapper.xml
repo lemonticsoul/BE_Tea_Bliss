@@ -70,7 +70,7 @@
 
     <select id="findByMembers" parameterType="Member">
         SELECT
-            m.mem_id as id,
+            m.mem_id,
             m.email,
             m.nickname,
             m.address,
