@@ -71,30 +71,38 @@
     <select id="findByMembers" parameterType="Member">
         SELECT
             m.mem_id as id,
+            m.email,
             m.nickname,
             m.address,
             m.profile,
             m.role,
+            temp.reviewCount,
+            temp.purchaseAmount,
             m.create_dt,
             m.update_dt
         FROM MEMBER AS m
         INNER JOIN (
             SELECT
-                mem_id,
-                nickname,
-                address,
-                profile,
-                role,
-                create_dt,
-                update_dt
-            FROM MEMBER
-            WHERE 1=1
+                mem.mem_id,
+                mem.email,
+                mem.nickname,
+                mem.address,
+                mem.profile,
+                mem.role,
+                count(re.review_id) as reviewCount,
+                0 as purchaseAmount,
+                mem.create_dt,
+                mem.update_dt
+            FROM MEMBER mem
+            INNER JOIN REVIEW re
+            ON mem.mem_id = re.mem_id
             <if test="email != null and email != ''">
-            AND email = #{email}
+            AND mem.email = #{email}
             </if>
             <if test="nickname != null and nickname != ''">
-            AND nickname = #{nickname}
+            AND mem.nickname = #{nickname}
             </if>
+            GROUP BY mem.mem_id, mem.email, mem.nickname, mem.address, mem.profile, mem.role, mem.create_dt, mem.update_dt
             ORDER BY create_dt DESC
             LIMIT #{page}, #{limit}
         ) temp
@@ -120,7 +128,8 @@
         SET
             nickname = IFNULL(#{nickname}, nickname),
             profile = IFNULL(#{profile}, profile),
-            address = IFNULL(#{address}, address)
+            address = IFNULL(#{address}, address),
+            role = IFNULL(#{role}, role)
         WHERE 1=1
         AND mem_id = #{memId}
     </update>
