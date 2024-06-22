@@ -1,9 +1,11 @@
 package store.teabliss.survey.dto;
 
 import lombok.Builder;
+import lombok.Getter;
 import store.teabliss.common.response.CommonResponse;
 import store.teabliss.ingredient.dto.IngredientResponse;
 
+@Getter
 public class SurveyResponse extends CommonResponse {
 
     private final Object data;

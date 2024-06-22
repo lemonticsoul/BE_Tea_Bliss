@@ -11,8 +11,8 @@ public class SurveyCreateDto {
     @Schema(description = "맛", example = "1")
     private int taste;
 
-    @Schema(description = "원하는 가격대", example = "10,000원대")
-    private String sale;
+    @Schema(description = "원하는 가격대", example = "10000")
+    private int sale;
 
     @Schema(description = "원하는 재료", example = "Black,Pu Erh")
     private String category;

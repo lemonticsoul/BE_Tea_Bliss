@@ -53,4 +53,12 @@ public class Tea {
     private LocalDateTime createDt;
 
     private LocalDateTime updateDt;
+
+    /**
+     * 가격대 검색을 위한 컬럼
+      */
+    private int priceStart;
+
+    private int priceEnd;
+
 }

@@ -8,4 +8,15 @@
         VALUES (#{taste}, #{sale}, #{category}, #{caffeine}, #{memId})
     </insert>
 
+    <select id="findById" parameterType="Long">
+        SELECT
+            taste,
+            sale,
+            category,
+            caffeine
+        FROM SURVEY
+        WHERE 1=1
+        AND survey_id = #{value}
+    </select>
+
 </mapper>
