@@ -31,10 +31,17 @@ public class ReviewService {
         return reviewMapper.createReview(review);
     }
 
-    public List<Review> topreview(int limit){
-        List<Review> topreview = reviewMapper.topsort(limit);
+    public ReviewResponse topReview(int limit){
+        List<Review> topReview = reviewMapper.topSort(limit);
 
-        return topreview;
+        List<ReviewDto> reviewDtos = new ArrayList<>();
+
+        for(Review review : topReview) {
+            ReviewDto dto = ReviewDto.of(review);
+            reviewDtos.add(dto);
+        }
+
+        return ReviewResponse.ok(reviewDtos, null, limit);
     }
 
 
