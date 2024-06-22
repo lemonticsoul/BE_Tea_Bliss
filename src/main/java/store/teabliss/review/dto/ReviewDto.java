@@ -22,7 +22,7 @@ public class ReviewDto {
 
     private String contents;
 
-    private Long like;
+    private Long likes;
 
     private Member member;
 
@@ -41,7 +41,7 @@ public class ReviewDto {
                 .id(review.getId())
                 .title(review.getTitle())
                 .contents(review.getContents())
-                .like(review.getLikes())
+                .likes(review.getLikes())
                 .createDt(review.getCreateDt())
                 .updateDt((review.getUpdateDt()))
                 .build();
