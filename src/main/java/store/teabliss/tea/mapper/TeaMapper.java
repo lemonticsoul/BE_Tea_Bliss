@@ -28,7 +28,7 @@ public interface TeaMapper {
 
     Long count();
 
-    Tea findbyid(int id);
+    Tea findById(Long id);
 
     List<Tea> category(String category);
 
@@ -39,9 +39,9 @@ public interface TeaMapper {
     void saveIngredient(TeaIngredient ingredient);
     void saveFlavor(TeaFlavor flavor);
 
-    ArrayList<Long> findbyingredient(int id);
+    ArrayList<Long> findByIngredient(Long id);
 
-    ArrayList<Long> findbyflavor(int id);
+    ArrayList<Long> findByFlavor(Long id);
 
 
     List<Tea> seasonsort(String season);

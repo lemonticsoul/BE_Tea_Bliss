@@ -57,6 +57,7 @@
             sale_status,
             flavor,
             explanation,
+            photo,
             create_dt,
             update_dt
         FROM INGREDIENT

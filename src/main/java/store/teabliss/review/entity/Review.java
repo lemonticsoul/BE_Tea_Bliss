@@ -17,7 +17,9 @@ public class Review {
 
     private String contents;
 
-    private Long likes;
+    private int likes;
+
+    private String img;
 
     private Long memId;
 

@@ -22,11 +22,13 @@ public class ReviewDto {
 
     private String contents;
 
-    private Long likes;
+    private int likes;
 
     private Member member;
 
     private Tea tea;
+
+    private String teaImg;
 
     @JsonFormat(shape = Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -36,12 +38,13 @@ public class ReviewDto {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updateDt;
 
-    public static ReviewDto of(Review review) {
+    public static ReviewDto of(Review review, Tea tea) {
         return ReviewDto.builder()
                 .id(review.getId())
                 .title(review.getTitle())
                 .contents(review.getContents())
                 .likes(review.getLikes())
+                .teaImg(tea.getImg())
                 .createDt(review.getCreateDt())
                 .updateDt((review.getUpdateDt()))
                 .build();
