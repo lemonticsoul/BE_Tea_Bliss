@@ -2,8 +2,7 @@ package store.teabliss.basket.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 import store.teabliss.basket.entity.Basket;
-import store.teabliss.member.entity.Member;
-import store.teabliss.tea.entity.Tea;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -19,4 +18,8 @@ public interface BasketMapper {
      boolean delete(Long id,Long memberId);
 
      void save(Basket basket);
+
+     String search(String name,Long memberId);
+
+     void deleteproduct(String name,Long memberId);
 }
