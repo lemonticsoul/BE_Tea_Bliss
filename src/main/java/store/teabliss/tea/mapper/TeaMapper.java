@@ -61,5 +61,14 @@ public interface TeaMapper {
 
     List<Tea> surveyRecommendTea(Tea tea);
 
+    String searchstatus(String name);
+
+    Long searchinventory(String name);
+
+    void updateinventory(String name,Long quantity);
+
+    void updatesale(String name,Long quantity);
+
+
 
 }

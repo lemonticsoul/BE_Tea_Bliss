@@ -35,4 +35,16 @@
         AND id = #{id}  AND mem_id = #{memberId}
     </delete>
 
+    <select id="search">
+        select *
+        from BASKET
+        where name=#{name} AND mem_id = #{memberId}
+    </select>
+
+    <delete id="deleteproduct">
+        DELETE FROM BASKET
+        WHERE 1=1
+        AND name=#{name} AND mem_id = #{memberId}
+    </delete>
+
 </mapper>
