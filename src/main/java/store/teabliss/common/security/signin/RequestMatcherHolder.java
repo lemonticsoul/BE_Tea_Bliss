@@ -22,7 +22,8 @@ public class RequestMatcherHolder {
 
             // Tea
             new RequestInfo(HttpMethod.GET, "/api/tea/**", null),
-            new RequestInfo(HttpMethod.GET, "/api/review/**", null),
+            new RequestInfo(HttpMethod.GET, "/api/review/review-list", null),
+            new RequestInfo(HttpMethod.GET, "/api/review/review-list/order", null),
 
             // static resources
             new RequestInfo(HttpMethod.GET, "/docs/**", null),
