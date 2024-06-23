@@ -347,6 +347,10 @@ public class TeaService {
 
     public boolean patchtea(Long id,TeaPatchDto teaPatchDto){
 
+
+
+
+
         Tea updatetea = Tea.builder()
                 .id(id)
                 .price(teaPatchDto.getPrice())
@@ -361,7 +365,13 @@ public class TeaService {
                 .season(teaPatchDto.getSeason())
                 .build();
 
+
+        teaMapper.deleteIngredient(id);
+        teaMapper.deleteFlavor(id);
+
+
         List<Long> temp1=teaPatchDto.getIngredient();
+
 
         for (Long t1:temp1){
             TeaIngredient teaingredient =TeaIngredient.builder()
@@ -369,17 +379,18 @@ public class TeaService {
                                     .teaId(id)
                                             .build();
 
-            teaMapper.updateIngredient(teaingredient);
+            teaMapper.saveIngredient(teaingredient);
         }
 
         List<Long> temp2=teaPatchDto.getFlavor();
+
 
         for (Long t2:temp2){
             TeaFlavor teaflavor =TeaFlavor.builder()
                     .flavor(t2)
                     .teaId(id)
                     .build();
-            teaMapper.updateFlavor(teaflavor);
+            teaMapper.saveFlavor(teaflavor);
         }
 
 
