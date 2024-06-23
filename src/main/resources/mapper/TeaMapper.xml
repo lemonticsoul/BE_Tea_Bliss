@@ -28,92 +28,99 @@
     <select id="recommend">
         SELECT *
         FROM TEA
+        WHERE delete_yn=0
         ORDER BY rate DESC, create_dt
     </select>
 
     <select id="sale">
         SELECT *
         FROM TEA
+        WHERE delete_yn=0
         ORDER BY sale DESC, create_dt
     </select>
 
     <select id="topcost">
         SELECT *
         FROM TEA
+        WHERE delete_yn=0
         ORDER BY price DESC, create_dt
     </select>
 
     <select id="lowcost">
         SELECT *
         FROM TEA
+        WHERE delete_yn=0
         ORDER BY price, create_dt
     </select>
 
     <select id="all">
         SELECT *
         FROM TEA
+        WHERE delete_yn=0
     </select>
 
     <select id="count">
         SELECT count(*)
         FROM TEA
+        WHERE delete_yn=0
     </select>
 
     <select id="category">
         SELECT *
         FROM TEA
-        WHERE category = #{category}
+
+        WHERE category = #{category} AND delete_yn=0
     </select>
 
     <select id="countByCategory">
         SELECT count(*)
         FROM TEA
-        WHERE category = #{category}
+        WHERE category = #{category} AND delete_yn=0
     </select>
 
     <select id="search">
         SELECT img, name, name_eng, price
         FROM TEA
-        WHERE name=#{product}
+        WHERE name=#{product} AND delete_yn=0
     </select>
 
     <select id="findById" parameterType="Long">
         SELECT *
         FROM TEA
-        WHERE id = #{value}
+        WHERE id = #{value} AND delete_yn=0
     </select>
 
 
     <select id="findByIngredient">
         SELECT ingredient_id
         FROM TEAINGREDIENT
-        WHERE tea_id =#{id}
+        WHERE tea_id =#{id} AND delete_yn=0
 
     </select>
 
     <select id="findByFlavor">
         SELECT flavor_id
         FROM TEAFLAVOR
-        WHERE tea_id =#{id}
+        WHERE tea_id =#{id} AND delete_yn=0
 
     </select>
 
     <select id="seasonsort">
         SELECT *
         FROM TEA
-        WHERE season=#{season}
+        WHERE season=#{season} AND delete_yn=0
     </select>
 
     <select id="caffeinesort">
         SELECT *
         FROM TEA
-        WHERE caffeine=#{caffeine}
+        WHERE caffeine=#{caffeine} AND delete_yn=0
     </select>
 
     <delete id="deletetea">
         DELETE FROM TEA
         WHERE 1=1
-        AND id= #{id}
+        AND id= #{id} AND delete_yn=0
     </delete>
 
     <update id="patchtea">
@@ -208,6 +215,16 @@
         sale=sale+#{quantity}
         WHERE name=#{name}
     </update>
+
+    <delete id="deleteIngredient">
+        DELETE FROM TEAINGREDIENT
+        WHERE tea_id=#{tea_id}
+    </delete>
+
+    <delete id="deleteFlavor">
+        DELETE FROM TEAFLAVOR
+        WHERE tea_id=#{tea_id}
+    </delete>
 
 
 </mapper>
