@@ -31,10 +31,10 @@ public class JwtService {
     @Value("${jwt.secret}")
     private String secret;
 
-    // private static final long ACCESS_TOKEN_EXPIRED_TIME = 1000L * 60L * 60L * 24L; // 1일
-    private static final long ACCESS_TOKEN_EXPIRED_TIME = 1000L * 10L; // 10초
-    // private static final long REFRESH_TOKEN_EXPIRED_TIME = 1000L * 60L * 60L * 24L * 7L; // 7일
-    private static final long REFRESH_TOKEN_EXPIRED_TIME = 1000L * 60L * 10L; // 10분
+    private static final long ACCESS_TOKEN_EXPIRED_TIME = 1000L * 60L * 60L * 24L; // 1일
+    // private static final long ACCESS_TOKEN_EXPIRED_TIME = 1000L * 10L; // 10초
+    private static final long REFRESH_TOKEN_EXPIRED_TIME = 1000L * 60L * 60L * 24L * 7L; // 7일
+    // private static final long REFRESH_TOKEN_EXPIRED_TIME = 1000L * 60L * 10L; // 10분
     private static final String ACCESS_TOKEN = "Authorization";
     private static final String REFRESH_TOKEN = "RefreshToken";
     private static final String BEARER = "Bearer ";
