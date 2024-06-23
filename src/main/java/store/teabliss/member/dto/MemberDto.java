@@ -54,6 +54,7 @@ public class MemberDto {
                 .id(member.getMemId())
                 .nickname(member.getNickname())
                 .email(member.getEmail())
+                .profile(member.getProfile())
                 .role(member.getRole().getKey().equalsIgnoreCase("USER") ? "일반 회원" : "관리자")
                 .reviewCount(member.getReviewCount())
                 .purchaseAmount(member.getPurchaseAmount())
