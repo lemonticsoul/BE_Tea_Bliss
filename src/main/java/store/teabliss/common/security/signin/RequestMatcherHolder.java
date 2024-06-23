@@ -20,6 +20,10 @@ public class RequestMatcherHolder {
             new RequestInfo(HttpMethod.POST, "/api/member/sign-up", null),
             new RequestInfo(HttpMethod.POST, "/api/member/sign-in", null),
 
+            // re-issue
+            new RequestInfo(HttpMethod.POST, "/api/member/re-issue", null),
+
+
             // Tea
             new RequestInfo(HttpMethod.GET, "/api/tea/**", null),
             new RequestInfo(HttpMethod.GET, "/api/review/review-list", null),
