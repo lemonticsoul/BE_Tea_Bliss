@@ -94,14 +94,14 @@
     <select id="findByIngredient">
         SELECT ingredient_id
         FROM TEAINGREDIENT
-        WHERE tea_id =#{id} AND delete_yn=0
+        WHERE tea_id =#{id}
 
     </select>
 
     <select id="findByFlavor">
         SELECT flavor_id
         FROM TEAFLAVOR
-        WHERE tea_id =#{id} AND delete_yn=0
+        WHERE tea_id =#{id} 
 
     </select>
 
