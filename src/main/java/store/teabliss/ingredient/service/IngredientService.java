@@ -34,7 +34,9 @@ public class IngredientService {
                 .photo(ingredientCreateDto.getPhoto())
                 .build();
 
-        return ingredientMapper.createIngredient(ingredient);
+        ingredientMapper.createIngredient(ingredient);
+
+        return ingredient.getId();
     }
 
     public List<IngredientResponseDto> findByIngredients(int page, int limit, String category) {

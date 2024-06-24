@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class Survey {
 
-    private Long id;
+    private Long surveyId;
 
     private int taste;
 
