@@ -39,4 +39,5 @@ jwt:
 #            scope: # 기본 값 openid,profile,email => profile, email 로 설정 변경
 #              - profile
 #              - emailportone:
+portone:
   beartoken: ${PORTONE_BEARTOKEN}
