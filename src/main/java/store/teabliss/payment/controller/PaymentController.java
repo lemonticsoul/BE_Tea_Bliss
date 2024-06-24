@@ -13,8 +13,11 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import store.teabliss.member.entity.MemberDetails;
+import store.teabliss.payment.dto.PaymentRequestDto;
 import store.teabliss.payment.dto.PaymentResponseDto;
 import store.teabliss.payment.service.PaymentService;
+
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -47,6 +50,16 @@ public class PaymentController {
 
         return ResponseEntity.ok(portone);
 
+
+    }
+
+    @GetMapping("/")
+    public ResponseEntity<?> getpayment(@AuthenticationPrincipal MemberDetails memberDetails){
+
+        List<PaymentRequestDto> result=paymentService.getpayment(memberDetails.getMemberId());
+
+
+        return ResponseEntity.ok(result);
 
 
 

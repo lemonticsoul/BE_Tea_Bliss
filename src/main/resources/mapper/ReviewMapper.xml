@@ -130,5 +130,12 @@
         AND tea_id = #{teaId}
     </update>
 
+    <select id="findByteaidandmember"  resultType="boolean">
+        SELECT IF(COUNT(*) = 1, 1, 0)
+        FROM REVIEW
+        WHERE mem_id = #{mem_id} AND tea_id=#{tea_id}
+
+    </select>
+
 </mapper>
 
