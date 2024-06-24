@@ -69,6 +69,10 @@ public interface TeaMapper {
 
     void updatesale(String name,Long quantity);
 
+    void deleteIngredient(Long tea_id);
+
+    void deleteFlavor(Long tea_id);
+
 
 
 }
