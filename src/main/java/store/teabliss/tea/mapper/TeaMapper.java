@@ -73,6 +73,8 @@ public interface TeaMapper {
 
     void deleteFlavor(Long tea_id);
 
+    Long findByidandname(String name);
+
 
 
 }

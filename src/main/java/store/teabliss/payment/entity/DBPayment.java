@@ -19,7 +19,7 @@ public class DBPayment {
 
     private String orderName;
 
-    private LocalDateTime paidAt;
+    private String paidAt;
 
 
 
