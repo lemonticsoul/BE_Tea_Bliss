@@ -23,7 +23,9 @@ public class SurveyService {
 
         Survey survey = surveyCreateDto.toEntity(memId);
 
-        return surveyMapper.createSurvey(survey);
+        surveyMapper.createSurvey(survey);
+
+        return survey.getSurveyId();
     }
 
     public List<SurveyDto> findBySurveys() {
