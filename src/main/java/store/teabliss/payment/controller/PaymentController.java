@@ -54,6 +54,7 @@ public class PaymentController {
     }
 
     @GetMapping("/")
+    @Operation(summary = "결제 내역  조회", description = "결제 내역 조회입니다.")
     public ResponseEntity<?> getpayment(@AuthenticationPrincipal MemberDetails memberDetails){
 
         List<PaymentRequestDto> result=paymentService.getpayment(memberDetails.getMemberId());
