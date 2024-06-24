@@ -3,6 +3,7 @@ package store.teabliss.payment.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -43,12 +44,16 @@ public class PaymentService {
     //webclient 설정
     WebClient client=WebClient.create("https://api.portone.io/payments");
 
+    @Value("${portone.beartoken}")
+    private String token;
+    
     public PaymentResponseDto portone(String paymentId){
+
 
         // api 요청
         Mono<PaymentResponseDto> result=client.get()
                 .uri("/{paymentId}",paymentId)
-                .header("Authorization", "${PORTONE_BEARTOKEN}")
+                .header("Authorization", token)
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .bodyToMono(PaymentResponseDto.class);
