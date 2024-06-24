@@ -3,7 +3,7 @@
 
 <mapper namespace="store.teabliss.survey.mapper.SurveyMapper">
 
-    <insert id="createSurvey" parameterType="Survey" useGeneratedKeys="true" keyProperty="id" keyColumn="survey_id">
+    <insert id="createSurvey" parameterType="Survey" useGeneratedKeys="true" keyProperty="surveyId" keyColumn="survey_id">
         INSERT INTO SURVEY (taste, sale, category, caffeine, mem_id)
         VALUES (#{taste}, #{sale}, #{category}, #{caffeine}, #{memId})
     </insert>
