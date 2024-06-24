@@ -94,7 +94,7 @@
                 mem.create_dt,
                 mem.update_dt
             FROM MEMBER mem
-            INNER JOIN REVIEW re
+            LEFT OUTER JOIN REVIEW re
             ON mem.mem_id = re.mem_id
             <if test="email != null and email != ''">
             AND mem.email = #{email}

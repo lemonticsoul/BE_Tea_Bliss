@@ -19,6 +19,7 @@
             i.sale_status,
             i.flavor,
             i.explanation,
+            i.photo,
             i.create_dt,
             i.update_dt
         FROM INGREDIENT i
@@ -33,6 +34,7 @@
                 sale_status,
                 flavor,
                 explanation,
+                photo,
                 create_dt,
                 update_dt
             FROM INGREDIENT
