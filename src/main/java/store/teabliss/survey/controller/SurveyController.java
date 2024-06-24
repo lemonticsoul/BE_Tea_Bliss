@@ -12,6 +12,8 @@ import store.teabliss.survey.dto.SurveyDto;
 import store.teabliss.survey.dto.SurveyResponse;
 import store.teabliss.survey.service.SurveyService;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @Tag(name = "설문조사 API")
@@ -32,8 +34,17 @@ public class SurveyController {
         return ResponseEntity.ok(SurveyResponse.ok("정상적으로 설문조사가 등록되었습니다.", id));
     }
 
+    @GetMapping("/")
+    @Operation(summary = "설문조사 리스트 조회", description = "설문조사 리스트 조회 API")
+    public ResponseEntity<SurveyResponse> getSurvey() {
+
+        List<SurveyDto> surveys = surveyService.findBySurveys();
+
+        return ResponseEntity.ok(SurveyResponse.ok(surveys));
+    }
+
     @GetMapping("/{id}")
-    @Operation(summary = "설문조사 조회", description = "설문조사 조회 API")
+    @Operation(summary = "설문조사 단일 조회", description = "설문조사 단일 조회 API")
     public ResponseEntity<SurveyResponse> getSurvey(
             @PathVariable Long id
     ) {
