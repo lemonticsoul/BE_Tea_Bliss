@@ -23,6 +23,8 @@ public class RequestMatcherHolder {
             // re-issue
             new RequestInfo(HttpMethod.POST, "/api/member/re-issue", null),
 
+            // Ingredient
+            new RequestInfo(HttpMethod.GET, "/api/ingredient/**", null),
 
             // Tea
             new RequestInfo(HttpMethod.GET, "/api/tea/**", null),
