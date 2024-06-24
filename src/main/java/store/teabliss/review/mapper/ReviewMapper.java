@@ -23,4 +23,6 @@ public interface ReviewMapper {
 
     void updateReview(Review review);
 
+    boolean findByteaidandmember(Long tea_id,Long mem_id);
+
 }

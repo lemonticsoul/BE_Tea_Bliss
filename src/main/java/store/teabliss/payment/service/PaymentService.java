@@ -3,19 +3,24 @@ package store.teabliss.payment.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 import store.teabliss.basket.mapper.BasketMapper;
+import store.teabliss.payment.dto.PaymentRequestDto;
 import store.teabliss.payment.dto.PaymentResponseDto;
 import store.teabliss.payment.entity.*;
 import store.teabliss.payment.mapper.PaymentMapper;
+import store.teabliss.review.entity.Review;
+import store.teabliss.review.mapper.ReviewMapper;
 import store.teabliss.tea.mapper.TeaMapper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Slf4j
@@ -27,6 +32,7 @@ public class PaymentService {
     private final TeaMapper teaMapper;
     private final BasketMapper basketMapper;
     private final PaymentMapper paymentMapper;
+    private final ReviewMapper reviewMapper;
 
     //amount 설정
     PayAmount payAmount=new PayAmount();
@@ -38,12 +44,16 @@ public class PaymentService {
     //webclient 설정
     WebClient client=WebClient.create("https://api.portone.io/payments");
 
+    @Value("${portone.beartoken}")
+    private String token;
+    
     public PaymentResponseDto portone(String paymentId){
+
 
         // api 요청
         Mono<PaymentResponseDto> result=client.get()
                 .uri("/{paymentId}",paymentId)
-                .header("Authorization", "PortOne SMS7u8BYzRSw2qJzBaHnkUowNREOWJgkCBW13xRBFNixOOdZC5mKubNuADhwW0qMWLXZrUPM3H4Hb7je")
+                .header("Authorization", token)
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .bodyToMono(PaymentResponseDto.class);
@@ -94,7 +104,7 @@ public class PaymentService {
 
             //inventory 변경
             teaMapper.updateinventory(name, quantity);
-            //basket 변경
+            //판매수량 변경
             teaMapper.updatesale(name, quantity);
 
             String result=basketMapper.search(name,memId);
@@ -157,6 +167,50 @@ public class PaymentService {
         return true;
 
 
+
+
+
+
+    }
+
+
+    public List<PaymentRequestDto> getpayment(Long id){
+
+        //일단 payment의 고유 아이디 구해서
+        List<DBPayment> payment=paymentMapper.searchpayid(id);
+
+        List<PaymentRequestDto> paymentRequestDtos =new ArrayList<>();
+
+        for (DBPayment pay:payment) {
+            //그중에서 모든 구매 prodcut 구하고
+            Long paymentId= pay.getId();
+            List<DBProduct> products = paymentMapper.searchprodcut(pay.getId());
+            List<Object> finalproducts=new ArrayList<>();
+
+            for (DBProduct product : products){
+                Map<String,Object> response=new HashMap<>();
+
+                String name= product.getName();
+                Long findId=teaMapper.findByidandname(name);
+
+                boolean reviewok=reviewMapper.findByteaidandmember(findId,id);
+
+                response.put("review",reviewok);
+                response.put("product",product);
+
+                finalproducts.add(response);
+
+            }
+
+            //paid_at 도 구한다.
+
+            String paid_at = pay.getPaidAt();
+            paymentRequestDtos.add(PaymentRequestDto.of(paymentId,finalproducts,paid_at));
+
+
+        }
+
+        return paymentRequestDtos;
 
 
 

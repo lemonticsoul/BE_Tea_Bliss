@@ -30,6 +30,17 @@
         VALUES (#{payId},#{name})
     </insert>
 
+    <select id="searchpayid">
+        SELECT *
+        FROM PAYMENT
+        WHERE mem_id=#{id}
+    </select>
+
+    <select id="searchprodcut">
+        SELECT *
+        FROM PAYPRODUCT
+        WHERE pay_Id=#{payment_id}
+    </select>
 
 
 
