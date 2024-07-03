@@ -73,7 +73,10 @@ public class TeaService {
         int limitpage= (int) Math.ceil(all/limit);
         List<Tea> new_recommend=new ArrayList<>();
 
-        for (int i =limit*(page-1);i<(page*limit);i++){
+        int startpage=limit*(page-1);
+        int endpage=page*limit;
+
+        for (int i =startpage;i<endpage;i++){
             if (i==all) {
                 break;
             }
@@ -109,7 +112,10 @@ public class TeaService {
         int limitpage= (int) Math.ceil(all/limit);
         List<Tea> new_recommend=new ArrayList<>();
 
-        for (int i =limit*(page-1);i<(page*limit);i++){
+        int startpage=limit*(page-1);
+        int endpage=page*limit;
+
+        for (int i =startpage;i<endpage;i++){
             if (i==all) {
                 break;
             }
@@ -134,7 +140,10 @@ public class TeaService {
         int limitpage= (int) Math.ceil(all/limit);
         List<Tea> new_recommend=new ArrayList<>();
 
-        for (int i =limit*(page-1);i<(page*limit);i++){
+        int startpage=limit*(page-1);
+        int endpage=page*limit;
+
+        for (int i =startpage;i<endpage;i++){
             if (i==all) {
                 break;
             }
@@ -158,7 +167,10 @@ public class TeaService {
         int limitpage= (int) Math.ceil(all/limit);
         List<Tea> new_recommend=new ArrayList<>();
 
-        for (int i =limit*(page-1);i<(page*limit);i++){
+        int startpage=limit*(page-1);
+        int endpage=page*limit;
+
+        for (int i =startpage;i<endpage;i++){
             if (i==all) {
                 break;
             }
@@ -185,7 +197,10 @@ public class TeaService {
         int limitpage= (int) Math.ceil(all/limit);
         List<Tea> new_recommend=new ArrayList<>();
 
-        for (int i =limit*(page-1);i<(page*limit);i++){
+        int startpage=limit*(page-1);
+        int endpage=page*limit;
+
+        for (int i =startpage;i<endpage;i++){
             if (i==all) {
                 break;
             }
@@ -248,7 +263,10 @@ public class TeaService {
 
         List<Tea> new_recommend=new ArrayList<>();
 
-        for (int i =limit*(page-1);i<(page*limit);i++){
+        int startpage=limit*(page-1);
+        int endpage=page*limit;
+
+        for (int i =startpage;i<endpage;i++){
             if (i==all) {
                 break;
             }
@@ -285,7 +303,10 @@ public class TeaService {
 
         List<Tea> new_recommend=new ArrayList<>();
 
-        for (int i =limit*(page-1);i<(page*limit);i++){
+        int startpage=limit*(page-1);
+        int endpage=page*limit;
+
+        for (int i =startpage;i<endpage;i++){
             if (i==all) {
                 break;
             }
@@ -315,7 +336,10 @@ public class TeaService {
 
         List<Tea> new_recommend=new ArrayList<>();
 
-        for (int i =limit*(page-1);i<(page*limit);i++){
+        int startpage=limit*(page-1);
+        int endpage=page*limit;
+
+        for (int i =startpage;i<endpage;i++){
 
             if (i==all) {
                 break;
